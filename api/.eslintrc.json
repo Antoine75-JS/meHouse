@@ -23,6 +23,12 @@
     "no-multi-spaces": "error",
     "space-in-parens": "error",
     "no-multiple-empty-lines": "error",
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "comma-dangle": "off",
+    "brace-style": ["error", "stroustrup", { "allowSigneLine": true }],
+    "function-paren-newline": ["error", "consistent"],
+    "implicit-arrow-linebreak": ["error", "below"],
+
+    "@typescript-eslint/comma-dangle": ["error", "never"]
   }
 }
