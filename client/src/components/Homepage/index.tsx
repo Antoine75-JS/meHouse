@@ -1,11 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useFetch, TApiResponse } from '../../hooks/useFetch';
 
 const Homepage = () => {
+  const { data, loading, error } = useFetch(`${process.env.REACT_APP_API_URL}`);
+
   useEffect(() => {
-    console.log('env ?', process.env.REACT_APP_API_URL);
-    fetch(`${process.env.REACT_APP_API_URL}`).then((res) => console.log(res));
-  }, []);
-  return <div>Homepage</div>;
+    console.log(data);
+  }, [data]);
+
+  return (
+    <div>
+      Homepage
+      {loading && <div>Loading...</div>}
+    </div>
+  );
 };
 
 export default Homepage;

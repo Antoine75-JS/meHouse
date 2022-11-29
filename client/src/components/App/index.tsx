@@ -6,10 +6,12 @@ import Homepage from '../Homepage';
 const App = () => {
   return (
     <div className='App'>
-      <header className='App-header'>Welcome to Mehouse</header>
-      <Routes>
-        <Route path='/' element={<Homepage />} />
-      </Routes>
+      <header className='App-header'>
+        Welcome to Mehouse
+        <Routes>
+          <Route path='/' element={<Homepage />} />
+        </Routes>
+      </header>
     </div>
   );
 };

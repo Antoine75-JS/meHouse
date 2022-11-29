@@ -64,6 +64,7 @@ module.exports = {
       },
     ],
     // 'jsx-quotes': ['error', 'prefer-double'],
+    'react-hooks/exhaustive-deps': 'warn',
     'react/jsx-filename-extension': 'off',
     'react/forbid-prop-types': 'off',
     'react/no-access-state-in-setstate': 'warn',
