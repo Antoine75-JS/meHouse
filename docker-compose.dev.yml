@@ -1,0 +1,31 @@
+# COMPOSE DEV
+services:
+  # NGINX
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+
+  # API
+  api:
+    build:
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./api:/api
+      - /api/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+
+  # CLIENT
+  client:
+    build:
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - './client:/app'
+      - '/client/app/node_modules'

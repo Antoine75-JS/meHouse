@@ -15,7 +15,7 @@
     "outDir": "./dist",
     "strictPropertyInitialization": false,
     "paths": {
-      "~/*": ["./src/*"],
+      "~/*": ["./*"],
       "~~/*": ["./*"]
     }
   },

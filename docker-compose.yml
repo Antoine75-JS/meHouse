@@ -1,0 +1,40 @@
+services:
+  # NGINX
+  nginx:
+    ports:
+      - '80:80'
+    restart: always
+    image: nginx
+
+  # API
+  api:
+    restart: always
+    build:
+      context: ./api
+    env_file:
+      - ./api/.env
+    depends_on:
+      - mongodb
+
+  # CLIENT REACT
+  client:
+    restart: always
+    build:
+      context: ./client
+    env_file:
+      - ./client/.env
+
+  # DATABASE
+  mongodb:
+    restart: always
+    image: mongo
+    env_file:
+      - ./api/.env
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./mongodb:/data/db:cached
+      # - ./mongodb:/data/db
+
+volumes:
+  mongodb: null
