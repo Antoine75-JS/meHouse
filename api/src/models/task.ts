@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+import { TaskT } from 'tasksT';
 
 const { Schema } = mongoose;
 
-const tasksSchema = new Schema({
+const taskSchema = new Schema<TaskT>({
   taskName: {
     type: String,
     required: [true, 'Please enter a name for the task']
@@ -24,6 +25,6 @@ const tasksSchema = new Schema({
   }
 });
 
-const Task = mongoose.model('Task', tasksSchema);
+const Task = mongoose.model('Task', taskSchema);
 
 export default Task;

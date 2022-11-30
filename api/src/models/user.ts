@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { UserT } from 'usersT';
 
 const { Schema } = mongoose;
 
@@ -15,7 +16,13 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: [true, 'Please enter a password']
-  }
+  },
+  organizations: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Organisation'
+    }
+  ]
 });
 
 const User = mongoose.model('User', userSchema);

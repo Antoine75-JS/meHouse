@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { ObjectId } from 'mongoose';
 
-export interface userT {
+export interface UserT {
   id?: ObjectId;
   username: string;
   password: string;
@@ -9,5 +9,5 @@ export interface userT {
 }
 
 export type UserResponseT = Response & {
-  userFound: userT;
+  userFound: UserT;
 };

@@ -6,7 +6,7 @@ const { errors } = require('../utils/errors');
 // const Task = require('../models/task');
 import Task from '../models/task';
 
-import type { TaskResponseT } from '../types/tasksT';
+import type { TaskResponseT, TaskT } from '../types/tasksT';
 
 exports.getAllTasks = async (
   req: Request,
@@ -37,7 +37,7 @@ exports.createNewTask = async (
   next: NextFunction
 ) => {
   try {
-    const newTask = await Task.create(req.body);
+    const newTask: TaskT = await Task.create(req.body);
 
     if (!newTask) {
       throw new ErrorHandler(errors.notFound, 'Task was not created');
