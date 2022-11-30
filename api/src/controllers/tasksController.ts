@@ -16,7 +16,8 @@ exports.getAllTasks = async (
   try {
     const tasksFound = await Task.find();
 
-    if (!tasksFound) throw new ErrorHandler(errors.notFound, 'Task not found');
+    if (!tasksFound || tasksFound?.length < 1)
+      throw new ErrorHandler(errors.notFound, 'Task not found');
 
     res.status(200).json({
       status: 'success',

@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
+import type { UserResponseT } from '../types/usersT';
+
 import User from '../models/user';
 
 exports.getAllUsers = async (
@@ -15,7 +17,10 @@ exports.getAllUsers = async (
     console.log('getting users');
     const usersFound = await User.find();
 
-    if (!usersFound) throw new ErrorHandler(errors.notFound, 'No user found');
+    console.log('usersFounds', usersFound);
+
+    if (!usersFound || usersFound?.length < 1)
+      throw new ErrorHandler(errors.notFound, 'No user found');
 
     res.status(200).json({
       status: 'success',
@@ -61,6 +66,32 @@ exports.createNewUser = async (
       status: 'success',
       message: 'User created',
       newUser
+    });
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteUser = async (
+  req: Request,
+  res: UserResponseT,
+  next: NextFunction
+) => {
+  try {
+    console.log('user found ', res.userFound);
+    const deletedUser = await User.findOneAndDelete({
+      _id: res.userFound?.id
+    });
+
+    if (!deletedUser)
+      throw new ErrorHandler(errors.notModified, 'User was not deleted');
+
+    res.status(200).json({
+      status: 'success',
+      message: 'User deleted',
+      deletedUser
     });
 
     next();
