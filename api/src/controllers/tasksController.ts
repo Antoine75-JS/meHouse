@@ -1,8 +1,10 @@
 // eslint-disable-next-line import/no-import-module-exports
 import { Request, Response, NextFunction } from 'express';
-const { handleError } = require('../middlewares/errorMiddleware');
+const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 const Tasks = require('../models/task');
+
+import type { TaskResponseT } from '../types/tasksT';
 
 exports.getAllTasks = async (
   req: Request,
@@ -10,20 +12,18 @@ exports.getAllTasks = async (
   next: NextFunction
 ) => {
   try {
-    console.log('we get here');
     const tasksFound = await Tasks.find();
 
-    if (!tasksFound) throw new handleError(errors.notFound, 'Task not found');
-
-    console.log('We found tasks', tasksFound);
+    if (!tasksFound) throw new ErrorHandler(errors.notFound, 'Task not found');
 
     res.status(200).json({
       status: 'success',
       message: 'We found tasks',
       tasksFound
     });
+
+    next();
   } catch (error: any) {
-    console.trace('error', error);
     next(error);
   }
 };
@@ -33,14 +33,11 @@ exports.createNewTask = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log('we get here');
   try {
     const newTask = await Tasks.create(req.body);
 
-    console.log('newTask', newTask);
-
     if (!newTask) {
-      throw new handleError(errors.notFound, 'Task was not created');
+      throw new ErrorHandler(errors.notFound, 'Task was not created');
     }
 
     res.status(201).json({
@@ -48,6 +45,33 @@ exports.createNewTask = async (
       message: 'Task created',
       newTask
     });
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteTask = async (
+  req: Request,
+  res: TaskResponseT,
+  next: NextFunction
+) => {
+  try {
+    const deletedTask = await Tasks.findOneAndDelete({
+      _id: res.taskFound?._id
+    });
+
+    if (!deletedTask)
+      throw new ErrorHandler(errors.notModified, 'Task was not deleted');
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Task deleted',
+      deletedTask
+    });
+
+    next();
   } catch (error) {
     next(error);
   }

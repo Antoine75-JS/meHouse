@@ -13,8 +13,8 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 // Router
-const routers = require('./routers');
-const { handleError } = require('./middlewares/errorMiddleware');
+const routers = require('./src/routers');
+const { handleError } = require('./src/middlewares/errorMiddleware');
 
 // App
 const app = express();
