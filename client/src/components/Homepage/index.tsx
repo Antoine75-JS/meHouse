@@ -10,7 +10,7 @@ const Homepage = () => {
 
   return (
     <div>
-      Homepage
+      <h2 className='text-3xl font-bold underline text-red-600'>Homepage</h2>
       {loading && <div>Loading...</div>}
     </div>
   );

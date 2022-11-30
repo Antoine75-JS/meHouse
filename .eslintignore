@@ -3,3 +3,6 @@
 **/.prettierrc.js
 **/.eslintrc.js
 **/env.d.ts
+
+**/tailwind.config.js
+**/postcss.config.js
