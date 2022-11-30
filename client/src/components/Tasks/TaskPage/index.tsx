@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import type { TaskT } from '../../../types/tasksT';
+import type { TaskT } from '../../../types/components/tasksT';
 
 const TaskPage: React.FC = () => {
   const [details, setDetails] = useState<TaskT>();

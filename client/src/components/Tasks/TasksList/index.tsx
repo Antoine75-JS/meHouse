@@ -2,7 +2,7 @@
 import React from 'react';
 import TaskItem from '../TaskItem';
 
-import type { TaskT } from '../../../types/tasksT';
+import type { TaskT } from '../../../types/components/tasksT';
 
 interface PropsT {
   tasks: TaskT[];

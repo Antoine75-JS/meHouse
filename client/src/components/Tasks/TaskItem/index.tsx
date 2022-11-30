@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TaskT } from '../../../types/tasksT';
+import { TaskT } from '../../../types/components/tasksT';
 
 interface PropsT {
   task: TaskT;
