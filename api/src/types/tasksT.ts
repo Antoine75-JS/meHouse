@@ -1,11 +1,12 @@
 import { Response } from 'express';
+import { ObjectId } from 'mongoose';
 
 export interface TaskT {
-  _id: string;
+  id?: ObjectId;
   taskName: string;
   creationDate: Date;
-  expireDate: Date;
-  repeatFrequency: number;
+  expireDate?: Date;
+  repeatFrequency?: number;
   repeat: boolean;
 }
 

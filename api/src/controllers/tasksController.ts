@@ -1,8 +1,10 @@
-// eslint-disable-next-line import/no-import-module-exports
 import { Request, Response, NextFunction } from 'express';
+
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
-const Tasks = require('../models/task');
+
+// const Task = require('../models/task');
+import Task from '../models/task';
 
 import type { TaskResponseT } from '../types/tasksT';
 
@@ -12,7 +14,7 @@ exports.getAllTasks = async (
   next: NextFunction
 ) => {
   try {
-    const tasksFound = await Tasks.find();
+    const tasksFound = await Task.find();
 
     if (!tasksFound) throw new ErrorHandler(errors.notFound, 'Task not found');
 
@@ -34,7 +36,7 @@ exports.createNewTask = async (
   next: NextFunction
 ) => {
   try {
-    const newTask = await Tasks.create(req.body);
+    const newTask = await Task.create(req.body);
 
     if (!newTask) {
       throw new ErrorHandler(errors.notFound, 'Task was not created');
@@ -58,8 +60,8 @@ exports.deleteTask = async (
   next: NextFunction
 ) => {
   try {
-    const deletedTask = await Tasks.findOneAndDelete({
-      _id: res.taskFound?._id
+    const deletedTask = await Task.findOneAndDelete({
+      _id: res.taskFound?.id
     });
 
     if (!deletedTask)

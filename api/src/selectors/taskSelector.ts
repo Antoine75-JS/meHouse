@@ -1,11 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, NextFunction } from 'express';
 
-const Tasks = require('../models/task');
+import Task from '../models/task';
 
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
-import type { TaskT, TaskResponseT } from '../types/tasksT';
+import type { TaskResponseT } from '../types/tasksT';
 
 exports.findTaskById = async (
   req: Request,
@@ -15,7 +15,7 @@ exports.findTaskById = async (
   const id = req.params?.id;
 
   try {
-    const taskFound: TaskT = await Tasks.findById(id);
+    const taskFound = await Task.findById(id);
 
     if (!taskFound) throw new ErrorHandler(errors.notFound, 'No task found');
 

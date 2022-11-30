@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-import-module-exports
-const express = require('express');
+import express from 'express';
 
 const router = express.Router();
 
