@@ -4,6 +4,9 @@ import { UserT } from 'usersT';
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
+  id: {
+    type: String
+  },
   username: {
     type: String,
     required: [true, 'Please enter a username']

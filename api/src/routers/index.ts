@@ -6,6 +6,7 @@ import express from 'express';
 const tasksRouter = require('./tasksRouter');
 const userRouter = require('./userRouter');
 const organisationRouter = require('./organisationRouter');
+const authRouter = require('./authRouter');
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.get('/', (_, res: Response) => {
   });
 });
 
+router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/tasks', tasksRouter);
 router.use('/organisations', organisationRouter);
