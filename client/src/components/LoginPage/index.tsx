@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-import { type } from 'os';
 import React from 'react';
 import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
 import { useDispatch } from 'react-redux';

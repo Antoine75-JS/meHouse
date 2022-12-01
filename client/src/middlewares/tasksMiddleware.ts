@@ -1,11 +1,11 @@
 /* eslint-disable brace-style */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Dispatch } from 'react';
 import { AnyAction, Middleware } from '@reduxjs/toolkit';
-// import axios, { AxiosResponse } from 'axios';
-// import { AuthActionTypes, SUBMIT_LOGIN, setUserLogged } from '../actions/auth';
+import { AxiosResponse } from 'axios';
+
 import { startLoading, stopLoading } from '../actions/loading';
 import { GET_ALL_TASKS, setAllTasks } from '../actions/tasks';
+
 // import { openErrorSnackbar } from '../actions/errorSnackbar';
 
 import axiosInstance from '../services/axiosInstance';
@@ -17,7 +17,9 @@ const tasksMiddleware: Middleware =
         try {
           store.dispatch(startLoading());
 
-          const response = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/tasks`);
+          const response: AxiosResponse = await axiosInstance.get(
+            `${process.env.REACT_APP_API_URL}/tasks`,
+          );
 
           if (response.status === 200) {
             const { data } = response;

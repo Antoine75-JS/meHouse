@@ -19,16 +19,16 @@ const authMiddleWare: Middleware =
         store.dispatch(startLoading());
 
         try {
-          console.log('login action', action);
           const response: AxiosResponse = await axiosInstance.post(
             `${process.env.REACT_APP_API_URL}/auth/login`,
             action.payload,
           );
 
-          console.log(response);
-          if (response.status === 200) {
-            const { user } = response.data;
-            console.log('logged', user);
+          if (response.status === 200 && response.data?.auth_token) {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            const { user, auth_token } = response.data;
+
+            localStorage.setItem('auth_token', auth_token);
             store.dispatch(setUserLogged(user));
           }
           next(action);
