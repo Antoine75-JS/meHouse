@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Homepage from '../Homepage';
 import TaskEditPage from '../TaskEditPage';
 import TaskPage from '../Tasks/TaskPage';
-import LoginPage from '../Login';
+import LoginPage from '../LoginPage';
 // Redux components
 // import LoadingComponent from '../../containers/loadingContainer';
 import Loading from '../Utils/Loading';
