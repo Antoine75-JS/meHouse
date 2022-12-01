@@ -5,7 +5,7 @@ import { AnyAction, Middleware } from '@reduxjs/toolkit';
 
 import axios, { AxiosResponse } from 'axios';
 
-import { AuthActionTypes, SUBMIT_LOGIN } from '../actions/auth';
+import { AuthActionTypes, setUserLogged, SUBMIT_LOGIN } from '../actions/auth';
 import { startLoading, stopLoading } from '../actions/loading';
 
 // import { openErrorSnackbar } from '../actions/errorSnackbar';
@@ -27,7 +27,9 @@ const authMiddleWare: Middleware =
 
           console.log(response);
           if (response.status === 200) {
-            console.log('logged');
+            const { user } = response.data;
+            console.log('logged', user);
+            store.dispatch(setUserLogged(user));
           }
           next(action);
         } catch (error) {
