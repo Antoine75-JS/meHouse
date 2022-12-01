@@ -1,20 +1,27 @@
 import { useEffect, useMemo } from 'react';
-import { useFetch, TApiResponse } from '../../hooks/useFetch';
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getAllTasks } from '../../actions/tasks';
 
 import TasksList from '../Tasks/TasksList';
 
 const Homepage: React.FC = () => {
-  const { data, loading, error } = useFetch(`${process.env.REACT_APP_API_URL}/tasks`);
+  const tasksList = useSelector((state: IState) => state.tasks.tasksList);
+  const dispatch = useDispatch();
+
+  const tasks = useMemo(() => {
+    return tasksList;
+  }, [tasksList]);
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    dispatch(getAllTasks());
+  }, []);
 
   return (
     <div className='lg flex flex-col items-center justify-center'>
       <h2 className='text-3xl font-bold underline mb-8'>Homepage</h2>
-      {loading && <div>Loading...</div>}
-      <TasksList tasks={data?.tasksFound} />
+      {tasksList && <TasksList tasks={tasks} />}
     </div>
   );
 };

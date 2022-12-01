@@ -1,13 +1,11 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-// import userReducer from "./user";
 import loadingReducer from './loading';
-// import errSnackbarReducer from "./errSnackbar";
+import tasksReducer from './tasks';
 
 const rootReducer = combineReducers({
-  // user: userReducer,
   loading: loadingReducer,
-  // errSnacbar: errSnackbarReducer,
+  tasks: tasksReducer,
 });
 
 export default rootReducer;

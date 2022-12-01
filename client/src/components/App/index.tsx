@@ -7,14 +7,15 @@ import TaskEditPage from '../TaskEditPage';
 import TaskPage from '../Tasks/TaskPage';
 
 // Redux components
-import LoadingComponent from '../../containers/loadingContainer';
+// import LoadingComponent from '../../containers/loadingContainer';
+import Loading from '../Utils/Loading';
 
 const App: React.FC = () => {
   const isLoading = useSelector((state: IState) => state.loading.isLoading);
   return (
     <div className='bg-main text-white min-h-screen'>
       <header className='p-4'>Welcome to Mehouse</header>
-      {isLoading && <LoadingComponent />}
+      {isLoading && <Loading />}
       <Routes>
         <Route path='/' element={<Homepage />} />
         <Route path='/:id'>
