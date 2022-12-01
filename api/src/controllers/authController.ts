@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import User from '../models/user';
 const bcrypt = require('bcryptjs');
 
+const { createJwtToken } = require('../config/jwt-config');
+
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
@@ -24,10 +26,19 @@ exports.login = async (
     if (!passCorrect)
       throw new ErrorHandler(errors.notFound, 'Incorrect password');
 
+    const auth_token = createJwtToken(res.userFound);
+
+    if (!auth_token)
+      throw new ErrorHandler(
+        errors.failDependency,
+        'Could not create auth_token'
+      );
+
     console.log('pass correct', passCorrect);
     res.status(200).json({
       status: 'success',
       message: 'User logged',
+      auth_token,
       user: {
         email,
         id: res.userFound._id,
