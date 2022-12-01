@@ -1,5 +1,8 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { submitLogin } from '../../actions/auth';
 // Ts
 interface FormInputs {
   email: string;
@@ -7,6 +10,8 @@ interface FormInputs {
 }
 
 const LoginPage: React.FC = () => {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -16,6 +21,7 @@ const LoginPage: React.FC = () => {
 
   const handleLogin: SubmitHandler<FormInputs> = (data: FormInputs) => {
     console.log('data', data);
+    dispatch(submitLogin(data));
   };
 
   return (

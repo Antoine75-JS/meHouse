@@ -2,35 +2,67 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Dispatch } from 'react';
 import { AnyAction, Middleware } from '@reduxjs/toolkit';
-// import axios, { AxiosResponse } from 'axios';
-// import { AuthActionTypes, SUBMIT_LOGIN, setUserLogged } from '../actions/auth';
+
+import axios, { AxiosResponse } from 'axios';
+
+import { AuthActionTypes, SUBMIT_LOGIN } from '../actions/auth';
 import { startLoading, stopLoading } from '../actions/loading';
-import { GET_ALL_TASKS, setAllTasks } from '../actions/tasks';
+
 // import { openErrorSnackbar } from '../actions/errorSnackbar';
 
 import axiosInstance from '../services/axiosInstance';
 
 const authMiddleWare: Middleware =
-  (store) => (next: Dispatch<AnyAction>) => async (action: any) => {
+  (store) => (next: Dispatch<AnyAction>) => async (action: AuthActionTypes) => {
     switch (action.type) {
-      case GET_ALL_TASKS:
+      case SUBMIT_LOGIN:
+        store.dispatch(startLoading());
+
         try {
-          store.dispatch(startLoading());
+          console.log('login action', action);
+          const response: AxiosResponse = await axiosInstance.post(
+            `${process.env.REACT_APP_API_URL}/auth/login`,
+            action.payload,
+          );
 
-          const response = await axiosInstance.get(`${process.env.REACT_APP_API_URL}/tasks`);
-
+          console.log(response);
           if (response.status === 200) {
-            const { data } = response;
-            store.dispatch(setAllTasks(data?.tasksFound));
+            console.log('logged');
           }
-
           next(action);
         } catch (error) {
-          // next(error);
-          console.trace('Error from api', error);
+          if (axios.isAxiosError(error)) {
+            console.log('axios error:', error.response);
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // const { message, status } = err.response?.data;
+          } else {
+            console.log('not axios error', error);
+          }
         } finally {
           store.dispatch(stopLoading());
-          console.log('stop loading');
         }
         break;
 

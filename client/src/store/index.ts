@@ -5,13 +5,13 @@ import { configureStore, applyMiddleware } from '@reduxjs/toolkit';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 // Import middlewares
-import authMiddleWare from '../middlewares/authMiddleware';
+import authMiddleware from '../middlewares/authMiddleware';
+import tasksMiddleware from '../middlewares/tasksMiddleware';
 
 // Import reducers
 import reducer from '../reducers';
 
-const middlewares = applyMiddleware(authMiddleWare);
-// eslint-disable-next-line no-underscore-dangle
+const middlewares = applyMiddleware(authMiddleware, tasksMiddleware);
 
 const store = configureStore({
   reducer,
