@@ -20,7 +20,7 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Please enter a password']
   },
-  organizations: [
+  organisations: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Organisation'

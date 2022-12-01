@@ -29,9 +29,10 @@ exports.login = async (
       status: 'success',
       message: 'User logged',
       user: {
+        email,
         id: res.userFound._id,
         username: res.userFound.username,
-        email
+        organisations: res.userFound.organisations
       }
     });
 
