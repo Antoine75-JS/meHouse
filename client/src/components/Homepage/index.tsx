@@ -8,6 +8,7 @@ import TasksList from '../Tasks/TasksList';
 
 const Homepage: React.FC = () => {
   const tasksList = useSelector((state: IState) => state.tasks.tasksList);
+  const isLogged = useSelector((state: IState) => state.user.isLogged);
   const dispatch = useDispatch();
 
   const tasks = useMemo(() => {
@@ -21,7 +22,7 @@ const Homepage: React.FC = () => {
   return (
     <div className='lg flex flex-col items-center justify-center'>
       <h2 className='text-3xl font-bold underline mb-8'>Homepage</h2>
-      {tasksList && <TasksList tasks={tasks} />}
+      {tasksList && isLogged && <TasksList tasks={tasks} />}
     </div>
   );
 };

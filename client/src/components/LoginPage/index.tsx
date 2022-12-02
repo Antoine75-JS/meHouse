@@ -1,7 +1,8 @@
 /* eslint-disable max-len */
 import React from 'react';
 import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { submitLogin } from '../../actions/auth';
 // Ts
 interface FormInputs {
@@ -37,6 +38,8 @@ const InputField: React.FC<InputProps> = (props: InputProps) => {
 };
 
 const LoginPage: React.FC = () => {
+  const isLogged = useSelector((state: IState) => state.user.isLogged);
+
   const dispatch = useDispatch();
 
   const {
@@ -53,6 +56,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className='flex-col flex justify-center items-center'>
+      {isLogged && <Navigate to='/' />}
       LoginPage
       <form
         onSubmit={handleSubmit(handleLogin)}

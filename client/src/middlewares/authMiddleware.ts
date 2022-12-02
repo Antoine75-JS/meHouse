@@ -59,7 +59,8 @@ const authMiddleWare: Middleware =
           console.log(response);
 
           if (response.status === 200) {
-            console.log('check logged response', response);
+            store.dispatch(setUserLogged(response.data?.user));
+            console.log('user is logged');
           }
         } catch (error) {
           if (axios.isAxiosError(error)) {
