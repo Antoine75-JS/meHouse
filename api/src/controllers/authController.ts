@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import { OrganisationT } from 'organisationsT';
+import Organisation from '../models/organisation';
 import User from '../models/user';
 const bcrypt = require('bcryptjs');
 
@@ -7,7 +9,11 @@ const { createJwtToken } = require('../config/jwt-config');
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
-import type { UserFoundRequestT, UserLogginResponseT } from '../types/usersT';
+import type {
+  UserFoundRequestT,
+  UserLogginResponseT,
+  UserT
+} from '../types/usersT';
 
 exports.login = async (
   req: Request,
@@ -82,7 +88,7 @@ exports.checkLogged = async (
 
 exports.signup = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { username, password, repeat_password, email } = req.body;
+    const { username, password, repeat_password, email, orgName } = req.body;
 
     // If passwords do not match
     if (password !== repeat_password)
@@ -92,7 +98,7 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
     const hashpass = await bcrypt.hash(password, 12);
 
     // Creates user with hashed pass
-    const newUser = await User.create({
+    const newUser = await new User({
       username,
       email,
       password: hashpass
@@ -101,6 +107,32 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
     // If error throw error
     if (!newUser)
       throw new ErrorHandler(errors.notModified, 'User not created');
+
+    // If organisation name in request, creates organisation
+    if (orgName) {
+      const userOrga = await new Organisation({
+        orgName: req.body.orgName,
+        orgUsers: newUser
+      });
+
+      if (userOrga) {
+        newUser.organisations.push(userOrga);
+
+        userOrga.save().catch((err) => {
+          console.log('error when adding orga to user', err);
+          throw new ErrorHandler(
+            errors.notModified,
+            'Organisation not created'
+          );
+        });
+      }
+    }
+
+    newUser.save().catch((err) => {
+      throw new ErrorHandler(errors.notModified, 'User not created');
+    });
+
+    console.log('User :', newUser);
 
     // Ok
     res.status(201).json({

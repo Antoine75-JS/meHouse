@@ -3,14 +3,13 @@ import { ObjectId, Document } from 'mongoose';
 
 import type { UserT } from './usersT';
 import type { TaskT } from './tasksT';
-import { CategoriesT } from 'categoriesT';
 
 export interface OrganisationT {
   id?: ObjectId;
   orgName: string;
-  orgUsers?: UserT[];
+  orgUsers: UserT[];
   orgTasks?: TaskT[];
-  categories?: CategoriesT[];
+  categories?: string[];
 }
 
 export type OrganisationResponseT = Response & {

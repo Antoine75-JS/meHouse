@@ -7,7 +7,7 @@ export interface UserT {
   username: string;
   password: string;
   email: string;
-  organisations: OrganisationT[];
+  organisations?: OrganisationT[];
 }
 
 export interface UserDatabaseT {

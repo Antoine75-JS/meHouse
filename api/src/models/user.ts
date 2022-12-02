@@ -3,17 +3,14 @@ import { UserT } from 'usersT';
 
 const { Schema } = mongoose;
 
-const userSchema = new Schema({
-  id: {
-    type: String
-  },
+const userSchema = new Schema<UserT>({
   username: {
     type: String,
     required: [true, 'Please enter a username']
   },
   email: {
     type: String,
-    unique: [true, 'Email already exists'],
+    unique: true,
     required: [true, 'Please enter a username']
   },
   password: {
