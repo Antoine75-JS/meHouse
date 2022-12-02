@@ -11,10 +11,12 @@ import LoginPage from '../LoginPage';
 // import LoadingComponent from '../../containers/loadingContainer';
 import Loading from '../Utils/Loading';
 import { checkUserLogged } from '../../actions/auth';
+import Snackbar from '../Utils/Snackbar';
 
 const App: React.FC = () => {
   const isLogged = useSelector((state: IState) => state.user.isLogged);
   const isLoading = useSelector((state: IState) => state.loading.isLoading);
+  const isSnackbarOpen = useSelector((state: IState) => state.snackbar.isSnackbarOpen);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,6 +27,7 @@ const App: React.FC = () => {
     <div className='bg-main text-white min-h-screen'>
       <header className='p-4'>Welcome to Mehouse</header>
       {isLoading && <Loading />}
+      {isSnackbarOpen && <Snackbar />}
       <Routes>
         {isLogged && (
           <Route path='/task'>

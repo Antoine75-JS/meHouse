@@ -66,6 +66,7 @@ exports.checkLogged = async (
       const { username, email, _id } = req.user;
       res.status(200).json({
         status: 'success',
+        message: 'User is logged',
         user: {
           username,
           email,

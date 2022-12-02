@@ -9,7 +9,7 @@ import axios, { AxiosResponse } from 'axios';
 import { AuthActionTypes, setUserLogged, SUBMIT_LOGIN, CHECK_USER_LOGGED } from '../actions/auth';
 import { startLoading, stopLoading } from '../actions/loading';
 
-// import { openErrorSnackbar } from '../actions/errorSnackbar';
+import { openSnackbar } from '../actions/snackbar';
 
 import axiosInstance from '../services/axiosInstance';
 
@@ -31,6 +31,7 @@ const authMiddleWare: Middleware =
 
             localStorage.setItem('auth_token', auth_token);
             store.dispatch(setUserLogged(user));
+            store.dispatch(openSnackbar({ type: 'success', message: response.data.message }));
           }
           next(action);
         } catch (error) {
@@ -60,12 +61,15 @@ const authMiddleWare: Middleware =
 
           if (response.status === 200) {
             store.dispatch(setUserLogged(response.data?.user));
+            store.dispatch(openSnackbar({ type: 'success', message: response.data.message }));
             console.log('user is logged');
           }
         } catch (error) {
           if (axios.isAxiosError(error)) {
             console.log('axios error:', error.response);
-            // const { message, status } = err.response?.data;
+            const { message, status } = error?.response?.data || undefined;
+            console.log(message);
+            store.dispatch(openSnackbar({ type: status, message: message }));
             // HANDLE RESPONSE
             // HANDLE RESPONSE
             // HANDLE RESPONSE
