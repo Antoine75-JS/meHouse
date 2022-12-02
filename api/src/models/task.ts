@@ -22,6 +22,14 @@ const taskSchema = new Schema<TaskT>({
     type: Boolean,
     required: true,
     default: false
+  },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category'
+  },
+  orgaId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Organisation'
   }
 });
 

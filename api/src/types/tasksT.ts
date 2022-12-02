@@ -8,6 +8,8 @@ export interface TaskT {
   expireDate?: Date;
   repeatFrequency?: number;
   repeat: boolean;
+  category: ObjectId;
+  orgaId: ObjectId;
 }
 
 export type TaskResponseT = Response & {
