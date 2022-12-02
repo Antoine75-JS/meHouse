@@ -5,7 +5,7 @@ import User from '../models/user';
 
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.JWT_SECRET;
-const { findUserById } = require('../selectors/userSelector');
+
 const { checkExpirationToken } = require('../config/jwt-config');
 
 // Errors handling
@@ -27,30 +27,37 @@ exports.checkToken = async (
 
       if (auth_token !== 'null') {
         // Compare auth_token with SECRET_KEY
-        let decodedToken = jwt.verify(auth_token, SECRET_KEY, {
-          ignoreExpiration: false
-        });
+        let decodedToken;
+
+        jwt.verify(
+          auth_token,
+          SECRET_KEY,
+          {
+            ignoreExpiration: false
+          },
+          (err: any, decoded: any) => {
+            if (err)
+              throw new ErrorHandler(errors.unauthorized, 'Token non valide');
+
+            decodedToken = decoded;
+          }
+        );
 
         decodedToken = checkExpirationToken(decodedToken, res);
 
-        console.log('decoded token', decodedToken);
+        if (!decodedToken) {
+          throw new ErrorHandler(errors.unauthorized, 'Token non valide');
+        }
 
         // If no errors
-        // const user = await findUserById(decodedToken.sub);
         const userFound: UserT = await User.findById(decodedToken.sub);
 
         if (!userFound)
-          throw new ErrorHandler(errors.notFound, 'No user found');
-
-        console.log('user from token', userFound);
-
-        if (userFound && decodedToken) {
-          // Set up user in req.user
-          req.user = userFound;
-          next();
-        } else {
           throw new ErrorHandler(errors.unauthorized, 'Token non valide');
-        }
+
+        // Set up user in req.user
+        req.user = userFound;
+        next();
       } else {
         throw new ErrorHandler(errors.unauthorized, 'Token expiré');
       }

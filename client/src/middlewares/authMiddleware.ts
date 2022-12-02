@@ -62,7 +62,16 @@ const authMiddleWare: Middleware =
             console.log('check logged response', response);
           }
         } catch (error) {
-          console.log('error', error);
+          if (axios.isAxiosError(error)) {
+            console.log('axios error:', error.response);
+            // const { message, status } = err.response?.data;
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+          } else {
+            console.log('not axios error', error);
+          }
         } finally {
           store.dispatch(stopLoading());
         }

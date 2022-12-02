@@ -53,6 +53,7 @@ const options = {
       callback(null, true);
       // eslint-disable-next-line brace-style
     } else {
+      console.log('cors error');
       callback(new Error('Cors error'));
     }
   },

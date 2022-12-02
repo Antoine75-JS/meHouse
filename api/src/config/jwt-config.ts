@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.JWT_SECRET;
 
+import { Response } from 'express';
 import type { UserDatabaseT } from '../types/usersT';
 
 // Errors handling
@@ -24,14 +25,14 @@ const createJwtToken = (user: UserDatabaseT, _id: string = null) => {
     }
   );
 
-  console.log('new token', jwtToken);
   return jwtToken;
 };
 
 exports.createJwtToken = createJwtToken;
 
 // Check token expiration
-const checkExpirationToken = (token: TokenT, _: any) => {
+const checkExpirationToken = (token: TokenT, res: Response) => {
+  if (!token) throw new ErrorHandler(errors.unauthorized, 'No token in header');
   // Get token expiration date
   const tokenExp = parseFloat(token?.exp);
   const nowInSec = Math.floor(Date.now() / 1000);
