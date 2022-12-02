@@ -12,6 +12,7 @@ import LoginPage from '../LoginPage';
 import Loading from '../Utils/Loading';
 import { checkUserLogged } from '../../actions/auth';
 import Snackbar from '../Utils/Snackbar';
+import Navbar from '../Navbar';
 
 const App: React.FC = () => {
   const isLogged = useSelector((state: IState) => state.user.isLogged);
@@ -25,7 +26,9 @@ const App: React.FC = () => {
 
   return (
     <div className='bg-main text-white min-h-screen'>
-      <header className='p-4'>Welcome to Mehouse</header>
+      <header className='p-4'>
+        <Navbar />
+      </header>
       {isLoading && <Loading />}
       {isSnackbarOpen && <Snackbar />}
       <Routes>

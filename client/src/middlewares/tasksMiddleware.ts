@@ -4,7 +4,7 @@ import { AnyAction, Middleware } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 
 import { startLoading, stopLoading } from '../actions/loading';
-import { GET_ALL_TASKS, setAllTasks } from '../actions/tasks';
+import { GET_ALL_TASKS, setAllTasks, TasksActionTypes } from '../actions/tasks';
 
 // import { openErrorSnackbar } from '../actions/errorSnackbar';
 
@@ -12,7 +12,7 @@ import axiosInstance from '../services/axiosInstance';
 import { openSnackbar } from '../actions/snackbar';
 
 const tasksMiddleware: Middleware =
-  (store) => (next: Dispatch<AnyAction>) => async (action: any) => {
+  (store) => (next: Dispatch<AnyAction>) => async (action: TasksActionTypes) => {
     switch (action.type) {
       case GET_ALL_TASKS:
         try {
