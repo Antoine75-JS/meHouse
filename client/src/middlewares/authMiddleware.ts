@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable brace-style */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Dispatch } from 'react';
@@ -5,7 +6,7 @@ import { AnyAction, Middleware } from '@reduxjs/toolkit';
 
 import axios, { AxiosResponse } from 'axios';
 
-import { AuthActionTypes, setUserLogged, SUBMIT_LOGIN } from '../actions/auth';
+import { AuthActionTypes, setUserLogged, SUBMIT_LOGIN, CHECK_USER_LOGGED } from '../actions/auth';
 import { startLoading, stopLoading } from '../actions/loading';
 
 // import { openErrorSnackbar } from '../actions/errorSnackbar';
@@ -15,6 +16,7 @@ import axiosInstance from '../services/axiosInstance';
 const authMiddleWare: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: AuthActionTypes) => {
     switch (action.type) {
+      // LOGIN USER
       case SUBMIT_LOGIN:
         store.dispatch(startLoading());
 
@@ -25,7 +27,6 @@ const authMiddleWare: Middleware =
           );
 
           if (response.status === 200 && response.data?.auth_token) {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
             const { user, auth_token } = response.data;
 
             localStorage.setItem('auth_token', auth_token);
@@ -35,34 +36,33 @@ const authMiddleWare: Middleware =
         } catch (error) {
           if (axios.isAxiosError(error)) {
             console.log('axios error:', error.response);
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
             // const { message, status } = err.response?.data;
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
+            // HANDLE RESPONSE
           } else {
             console.log('not axios error', error);
           }
+        } finally {
+          store.dispatch(stopLoading());
+        }
+        break;
+      // CHECK USER LOGGED
+      case CHECK_USER_LOGGED:
+        store.dispatch(startLoading());
+
+        try {
+          const response: AxiosResponse = await axiosInstance.get(
+            `${process.env.REACT_APP_API_URL}/auth/checkauthtoken`,
+          );
+          console.log(response);
+
+          if (response.status === 200) {
+            console.log('check logged response', response);
+          }
+        } catch (error) {
+          console.log('error', error);
         } finally {
           store.dispatch(stopLoading());
         }

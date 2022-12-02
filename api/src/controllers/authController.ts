@@ -7,7 +7,7 @@ const { createJwtToken } = require('../config/jwt-config');
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
-import type { UserFoundResponseT, UserLogginResponseT } from '../types/usersT';
+import type { UserFoundRequestT, UserLogginResponseT } from '../types/usersT';
 
 exports.login = async (
   req: Request,
@@ -50,6 +50,32 @@ exports.login = async (
     next();
   } catch (error) {
     next(error);
+  }
+};
+
+// CHECK USER LOGGED
+exports.checkLogged = async (
+  req: UserFoundRequestT,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.user) {
+      throw new ErrorHandler(errors.notFound, "Vous n'êtes pas connecté");
+    } else {
+      const { username, email, _id } = req.user;
+      res.status(200).json({
+        status: 'success',
+        user: {
+          username,
+          email,
+          id: _id
+        }
+      });
+      next();
+    }
+  } catch (err) {
+    next(err);
   }
 };
 

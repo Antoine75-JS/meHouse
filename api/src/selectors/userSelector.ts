@@ -20,9 +20,13 @@ exports.findUserById = async (
   const id = req.params?.id;
 
   try {
+    if (!id) throw new ErrorHandler(errors.notFound, 'No id supplied');
+
     const userFound: UserT = await User.findById(id);
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
+
+    console.log('we found a user', userFound);
 
     res.userFound = userFound;
     next();
