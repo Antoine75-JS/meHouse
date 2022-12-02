@@ -1,7 +1,7 @@
 /* eslint-disable brace-style */
 import { Dispatch } from 'react';
 import { AnyAction, Middleware } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import { startLoading, stopLoading } from '../actions/loading';
 import { GET_ALL_TASKS, setAllTasks } from '../actions/tasks';
@@ -9,6 +9,7 @@ import { GET_ALL_TASKS, setAllTasks } from '../actions/tasks';
 // import { openErrorSnackbar } from '../actions/errorSnackbar';
 
 import axiosInstance from '../services/axiosInstance';
+import { openSnackbar } from '../actions/snackbar';
 
 const tasksMiddleware: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: any) => {
@@ -28,8 +29,12 @@ const tasksMiddleware: Middleware =
 
           next(action);
         } catch (error) {
-          // next(error);
-          console.trace('Error from api', error);
+          if (axios.isAxiosError(error)) {
+            const { message, status } = error?.response?.data || undefined;
+            store.dispatch(openSnackbar({ type: status, message: message }));
+          } else {
+            store.dispatch(openSnackbar({ type: 'error', message: 'An error occured' }));
+          }
         } finally {
           store.dispatch(stopLoading());
           console.log('stop loading');

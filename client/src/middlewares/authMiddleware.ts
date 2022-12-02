@@ -36,14 +36,10 @@ const authMiddleWare: Middleware =
           next(action);
         } catch (error) {
           if (axios.isAxiosError(error)) {
-            console.log('axios error:', error.response);
-            // const { message, status } = err.response?.data;
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
+            const { message, status } = error?.response?.data || undefined;
+            store.dispatch(openSnackbar({ type: status, message: message }));
           } else {
-            console.log('not axios error', error);
+            store.dispatch(openSnackbar({ type: 'error', message: 'An error occured' }));
           }
         } finally {
           store.dispatch(stopLoading());
@@ -66,16 +62,10 @@ const authMiddleWare: Middleware =
           }
         } catch (error) {
           if (axios.isAxiosError(error)) {
-            console.log('axios error:', error.response);
             const { message, status } = error?.response?.data || undefined;
-            console.log(message);
             store.dispatch(openSnackbar({ type: status, message: message }));
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
-            // HANDLE RESPONSE
           } else {
-            console.log('not axios error', error);
+            store.dispatch(openSnackbar({ type: 'error', message: 'An error occured' }));
           }
         } finally {
           store.dispatch(stopLoading());
