@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
@@ -14,6 +14,7 @@ import { checkUserLogged } from '../../actions/auth';
 import Snackbar from '../Utils/Snackbar';
 import Navbar from '../Navbar';
 import OrganisationDetailsPage from '../Organisations/OrgaDetailsPage';
+import NewTaskForm from '../Tasks/NewTaskForm';
 
 const App: React.FC = () => {
   const isLogged = useSelector((state: IState) => state.user.isLogged);
@@ -39,6 +40,7 @@ const App: React.FC = () => {
               <Route index element={<TaskPage />} />
               <Route path=':id' element={<TaskPage />} />
               <Route path=':id/edit' element={<TaskEditPage />} />
+              <Route path='new/:id' element={<NewTaskForm />} />
             </Route>
             <Route path='/orga'>
               <Route path=':id' element={<OrganisationDetailsPage />} />

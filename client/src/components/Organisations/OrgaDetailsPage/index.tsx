@@ -1,8 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
-import TaskItem from '../../Tasks/TaskItem';
+import { Link, useLocation } from 'react-router-dom';
+import TasksList from '../../Tasks/TasksList';
 
 const OrganisationDetailsPage: React.FC = () => {
   const [organisation, setOrganisation] = useState<IOrganisation>();
@@ -26,12 +26,13 @@ const OrganisationDetailsPage: React.FC = () => {
           </div>
         ))}
       </div>
-      <div>
-        <div className='flex flex-col font-bold mb-2'>Tasks :</div>
-        {organisation?.orgTasks?.map((task: Itask) => (
-          <TaskItem key={task?._id} task={task} />
-        ))}
-      </div>
+      <TasksList tasks={organisation?.orgTasks || []} />
+      <Link
+        to={`/task/new/${organisation?._id}`}
+        className='self-center border w-32 px-4 py-2 text-center rounded-md'
+      >
+        New task
+      </Link>
     </div>
   );
 };

@@ -8,7 +8,6 @@ interface PropsT {
 }
 
 const TasksList: React.FC<PropsT> = ({ tasks }) => {
-  console.log('tasks', tasks);
   return (
     <div>
       <div>{tasks && tasks.map((task) => <TaskItem key={task._id} task={task} />)}</div>

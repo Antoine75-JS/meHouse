@@ -19,7 +19,7 @@ interface Props {
 
 const PercentBar: React.FC<Props> = (props) => {
   const { creationDate, repeatFrequency = 0, expireDate } = props;
-  console.log(creationDate, repeatFrequency, expireDate);
+  // console.log(creationDate, repeatFrequency, expireDate);
 
   const today = dayjs().valueOf();
   const created = dayjs(creationDate).valueOf();
@@ -29,10 +29,10 @@ const PercentBar: React.FC<Props> = (props) => {
   const total = expire - created;
   const progress = today - created;
 
-  console.log(total, progress);
+  // console.log(total, progress);
 
   const percent = Math.round((progress / total) * 10000);
-  console.log('percent', percent);
+  // console.log('percent', percent);
 
   return (
     <div className='w-12 h-2 bg-white rounded-xl'>
