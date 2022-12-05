@@ -13,7 +13,7 @@ exports.findOrganisationById = async (
   next: NextFunction
 ) => {
   console.log('we here');
-  const id = req.params?.id;
+  const id = req.params?.id || req.body.orgaId;
 
   try {
     const orgFound = await Organisation.findById(id);

@@ -17,7 +17,9 @@ exports.getAllOrganisations = async (
   next: NextFunction
 ) => {
   try {
-    const orgFound = await Organisation.find();
+    const orgFound = await Organisation.find()
+      .populate('orgUsers')
+      .populate('orgTasks');
 
     if (!orgFound || orgFound?.length < 1)
       throw new ErrorHandler(errors.notFound, 'Organisation not found');

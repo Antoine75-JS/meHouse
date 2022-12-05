@@ -23,7 +23,16 @@ exports.findUserById = async (
   try {
     if (!id) throw new ErrorHandler(errors.notFound, 'No id supplied');
 
-    const userFound: UserT = await User.findById(id).populate('organisations');
+    const userFound: UserT = await User.findById(id).populate({
+      path: 'organisations',
+      model: 'Organisation',
+      populate: {
+        path: 'orgTasks orgUsers',
+        options: {
+          _recursed: true
+        }
+      }
+    });
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
 
@@ -44,9 +53,14 @@ exports.findUserByEmail = async (
   const email = req.body?.email;
 
   try {
-    const userFound: UserDatabaseT = await User.findOne({ email }).populate(
-      'organisations'
-    );
+    const userFound: UserDatabaseT = await User.findOne({ email }).populate({
+      path: 'organisations',
+      model: 'Organisation',
+      populate: {
+        path: 'orgTasks',
+        model: 'Task'
+      }
+    });
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
 

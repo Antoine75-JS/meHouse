@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import { OrganisationResponseT } from 'organisationsT';
+import Organisation from '../models/organisation';
 
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
@@ -33,20 +35,41 @@ exports.getAllTasks = async (
 
 exports.createNewTask = async (
   req: Request,
-  res: Response,
+  res: OrganisationResponseT,
   next: NextFunction
 ) => {
   try {
-    const newTask: TaskT = await Task.create(req.body);
+    console.log('Orga :', res.orgFound);
+
+    const newTask = new Task(req.body);
 
     if (!newTask) {
       throw new ErrorHandler(errors.notFound, 'Task was not created');
     }
 
+    const updatedOrga = await Organisation.findOneAndUpdate(
+      { _id: res.orgFound.id },
+      { $push: { orgTasks: newTask } }
+    );
+
+    if (!updatedOrga)
+      throw new ErrorHandler(
+        errors.notFound,
+        'Organisation could not be updated. Task was not created'
+      );
+
+    const savedTask: TaskT = await newTask.save().catch((err: any) => {
+      console.log('error when adding task to Orga', err);
+      throw new ErrorHandler(
+        errors.notModified,
+        'Could not save task, organisation not created'
+      );
+    });
+
     res.status(201).json({
       status: 'success',
       message: 'Task created',
-      newTask
+      savedTask
     });
 
     next();
