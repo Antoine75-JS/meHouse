@@ -69,14 +69,17 @@ exports.checkLogged = async (
     if (!req.user) {
       throw new ErrorHandler(errors.notFound, "Vous n'êtes pas connecté");
     } else {
-      const { username, email, _id } = req.user;
+      console.log(req.user);
+
+      const { username, email, _id, organisations } = req.user;
       res.status(200).json({
         status: 'success',
         message: 'User is logged',
         user: {
           username,
           email,
-          id: _id
+          id: _id,
+          organisations
         }
       });
       next();

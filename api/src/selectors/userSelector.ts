@@ -23,7 +23,7 @@ exports.findUserById = async (
   try {
     if (!id) throw new ErrorHandler(errors.notFound, 'No id supplied');
 
-    const userFound: UserT = await User.findById(id);
+    const userFound: UserT = await User.findById(id).populate('organisations');
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
 
