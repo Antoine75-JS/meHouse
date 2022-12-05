@@ -9,9 +9,10 @@ const {
 } = require('../controllers/organisationController');
 
 const { findOrganisationById } = require('../selectors/organisationSelector');
+const { findUserById } = require('../selectors/userSelector');
 
 router.get('/', getAllOrganisations);
-router.post('/', createOrganisation);
+router.post('/', findUserById, createOrganisation);
 router.delete('/:id', findOrganisationById, deleteOrganisation);
 
 module.exports = router;

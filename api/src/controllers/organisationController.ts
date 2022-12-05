@@ -1,13 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
+
+import User from '../models/user';
+
 import { OrganisationResponseT, OrganisationT } from 'organisationsT';
+import { UserFoundResponseT, UserT } from 'usersT';
 
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
 // const Task = require('../models/task');
 import Organisation from '../models/organisation';
-
-import type { TaskResponseT } from '../types/tasksT';
 
 exports.getAllOrganisations = async (
   req: Request,
@@ -34,19 +36,57 @@ exports.getAllOrganisations = async (
 
 exports.createOrganisation = async (
   req: Request,
-  res: Response,
+  res: UserFoundResponseT,
   next: NextFunction
 ) => {
   try {
-    const newOrga: OrganisationT = await Organisation.create(req.body);
+    console.log('USer for organisation', res.userFound);
+
+    const newOrga = new Organisation(req.body);
 
     if (!newOrga)
       throw new ErrorHandler(errors.notFound, 'Organisation was not created');
 
+    // const updatedUser = await User.findById({_id: res.userFound._id})
+
+    // Add user to orga then save organistion
+    newOrga.orgUsers.push(res.userFound);
+
+    // Update user organisations
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: res.userFound.id },
+      { $push: { organisations: newOrga } }
+    );
+
+    console.log('updated user', updatedUser);
+
+    if (!updatedUser)
+      throw new ErrorHandler(
+        errors.notModified,
+        'User not updated, organisation not created'
+      );
+
+    // // Save orga and user
+    const savedUser: UserT = await updatedUser.save().catch((err: any) => {
+      console.log('error when adding user to Orga', err);
+      throw new ErrorHandler(
+        errors.notModified,
+        'Could not save user, organisation not created'
+      );
+    });
+
+    const savedOrga: OrganisationT = await newOrga.save().catch((err) => {
+      console.log('error when adding user to Orga', err);
+      throw new ErrorHandler(errors.notModified, 'Organisation not created');
+    });
+
+    console.log('New orga created', savedOrga, 'updated user', savedUser);
+
     res.status(201).json({
       status: 'success',
       message: 'Organisation created',
-      newOrga
+      newOrga,
+      savedUser
     });
 
     next();

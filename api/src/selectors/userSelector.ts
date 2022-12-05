@@ -17,7 +17,8 @@ exports.findUserById = async (
   res: UserFoundResponseT,
   next: NextFunction
 ) => {
-  const id = req.params?.id;
+  // Get id from params or body
+  const id = req.params.id || req.body.userId;
 
   try {
     if (!id) throw new ErrorHandler(errors.notFound, 'No id supplied');
