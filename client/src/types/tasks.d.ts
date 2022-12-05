@@ -8,5 +8,5 @@ interface Itask {
   creationDate: Date | undefined;
   expireDate?: Date;
   repeat: boolean;
-  repeatFrequency?: number | null;
+  repeatFrequency: number;
 }

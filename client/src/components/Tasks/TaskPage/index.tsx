@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+// Dayjs
+import dayjs from 'dayjs';
+import 'dayjs/locale/fr';
+
+// Config dayjs
+dayjs.locale('fr');
+
 const TaskPage: React.FC = () => {
   const [details, setDetails] = useState<Itask>();
-  const [date, setDate] = useState<Date | undefined>(undefined);
   const location = useLocation();
   const { task } = location.state;
 
@@ -11,9 +17,7 @@ const TaskPage: React.FC = () => {
     setDetails(task);
   }, [task]);
 
-  useEffect(() => {
-    setDate(details?.creationDate);
-  }, [details]);
+  useEffect(() => {}, [details]);
 
   return (
     <div>
@@ -21,8 +25,18 @@ const TaskPage: React.FC = () => {
         <div>
           <h2>{details.taskName}</h2>
           <div>
-            Date : <span>{date?.toDateString()}</span>
+            Créée le : <span>{dayjs(details?.creationDate).format('DD/MM/YYYY')}</span>
           </div>
+          {details?.expireDate && <span>Expire dans {dayjs(task?.expireDate).from(dayjs())}</span>}
+          {details?.repeat && details?.repeatFrequency && (
+            <>
+              <div>Répété tous les {details.repeatFrequency} jours</div>
+              <span>
+                Prochaine échéance :{' '}
+                {dayjs(task.creationDate).add(task.repeatFrequency, 'days').format('DD/MM/YYYY')}
+              </span>
+            </>
+          )}
         </div>
       )}
     </div>

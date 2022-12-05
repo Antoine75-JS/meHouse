@@ -28,6 +28,7 @@ exports.findUserById = async (
       model: 'Organisation',
       populate: {
         path: 'orgTasks orgUsers',
+        select: '-password',
         options: {
           _recursed: true
         }
@@ -35,8 +36,6 @@ exports.findUserById = async (
     });
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
-
-    console.log('we found a user', userFound);
 
     res.userFound = userFound;
     next();
@@ -57,15 +56,17 @@ exports.findUserByEmail = async (
       path: 'organisations',
       model: 'Organisation',
       populate: {
-        path: 'orgTasks',
-        model: 'Task'
+        path: 'orgTasks orgUsers',
+        select: '-password',
+        options: {
+          _recursed: true
+        }
       }
     });
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
 
     res.userFound = userFound;
-    console.log('userFound :', userFound);
     next();
   } catch (error) {
     next(error);
