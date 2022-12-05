@@ -44,7 +44,9 @@ exports.findUserByEmail = async (
   const email = req.body?.email;
 
   try {
-    const userFound: UserDatabaseT = await User.findOne({ email });
+    const userFound: UserDatabaseT = await User.findOne({ email }).populate(
+      'organisations'
+    );
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
 

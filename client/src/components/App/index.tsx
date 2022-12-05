@@ -13,6 +13,7 @@ import Loading from '../Utils/Loading';
 import { checkUserLogged } from '../../actions/auth';
 import Snackbar from '../Utils/Snackbar';
 import Navbar from '../Navbar';
+import OrganisationDetailsPage from '../Organisations/OrgaDetailsPage';
 
 const App: React.FC = () => {
   const isLogged = useSelector((state: IState) => state.user.isLogged);
@@ -33,11 +34,16 @@ const App: React.FC = () => {
       {isSnackbarOpen && <Snackbar />}
       <Routes>
         {isLogged && (
-          <Route path='/task'>
-            <Route index element={<TaskPage />} />
-            <Route path=':id' element={<TaskPage />} />
-            <Route path=':id/edit' element={<TaskEditPage />} />
-          </Route>
+          <>
+            <Route path='/task'>
+              <Route index element={<TaskPage />} />
+              <Route path=':id' element={<TaskPage />} />
+              <Route path=':id/edit' element={<TaskEditPage />} />
+            </Route>
+            <Route path='/orga'>
+              <Route path=':id' element={<OrganisationDetailsPage />} />
+            </Route>
+          </>
         )}
         <Route path='/' element={<Homepage />} />
         <Route path='/login' element={<LoginPage />} />

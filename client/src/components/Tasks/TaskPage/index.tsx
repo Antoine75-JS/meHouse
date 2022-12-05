@@ -12,9 +12,7 @@ const TaskPage: React.FC = () => {
   }, [task]);
 
   useEffect(() => {
-    console.log('task from page', details);
     setDate(details?.creationDate);
-    console.log('date', date);
   }, [details]);
 
   return (
@@ -22,7 +20,9 @@ const TaskPage: React.FC = () => {
       {details && (
         <div>
           <h2>{details.taskName}</h2>
-          <div>Date :</div>
+          <div>
+            Date : <span>{date?.toDateString()}</span>
+          </div>
         </div>
       )}
     </div>
