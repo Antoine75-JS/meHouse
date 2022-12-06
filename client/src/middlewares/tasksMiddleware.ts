@@ -5,12 +5,12 @@ import axios, { AxiosResponse } from 'axios';
 
 import { startLoading, stopLoading } from '../actions/loading';
 import {
-  GET_ALL_TASKS,
+  GET_TASKS_FROM_ORGANISATION,
   CREATE_NEW_TASK,
   setAllTasks,
   TasksActionTypes,
-  getAllTasks,
   DELETE_TASK,
+  getTasksFromOrganisation,
 } from '../actions/tasks';
 
 // import { openErrorSnackbar } from '../actions/errorSnackbar';
@@ -23,8 +23,7 @@ import { openSnackbar } from '../actions/snackbar';
 const tasksMiddleware: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: TasksActionTypes) => {
     switch (action.type) {
-      case GET_ALL_TASKS: {
-        console.log('getting all tasks');
+      case GET_TASKS_FROM_ORGANISATION: {
         try {
           store.dispatch(startLoading());
 
@@ -34,7 +33,6 @@ const tasksMiddleware: Middleware =
 
           if (response.status === 200) {
             const { data } = response;
-            console.log('New tasks', data);
             store.dispatch(setAllTasks(data?.tasksFound));
           }
 
@@ -48,27 +46,23 @@ const tasksMiddleware: Middleware =
           }
         } finally {
           store.dispatch(stopLoading());
-          console.log('stop loading');
         }
         break;
       }
       case CREATE_NEW_TASK: {
         try {
           store.dispatch(startLoading());
-          console.log(action.payload);
+          console.log('creating task', action.payload);
 
           const response: AxiosResponse = await axiosInstance.post(
             `${process.env.REACT_APP_API_URL}/tasks`,
             action.payload,
           );
 
-          console.log('response from creating task', response);
-
           if (response.status === 201) {
-            const { message, status } = response.data;
-            console.log('success');
+            const { message, status, createdTask } = response.data;
+            store.dispatch(getTasksFromOrganisation(createdTask.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
-            store.dispatch(getAllTasks());
           }
 
           next(action);
@@ -87,19 +81,15 @@ const tasksMiddleware: Middleware =
       case DELETE_TASK: {
         try {
           store.dispatch(startLoading());
-          console.log(action.payload);
 
           const response: AxiosResponse = await axiosInstance.delete(
             `${process.env.REACT_APP_API_URL}/tasks/${action.payload}`,
           );
 
-          console.log('response from deleting task', response);
-
           if (response.status === 200) {
-            const { message, status } = response.data;
-            console.log('success');
+            const { message, status, deletedTask } = response.data;
+            store.dispatch(getTasksFromOrganisation(deletedTask?.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
-            store.dispatch(getAllTasks());
           }
 
           next(action);

@@ -39,7 +39,7 @@ const Snackbar: React.FC<ISnackbar> = () => {
 
   return (
     <div
-      className='flex absolute bottom-4 left-4 items-center p-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800'
+      className='flex fixed bottom-4 left-4 items-center p-4 w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800'
       role='alert'
     >
       {renderIcon(type || 'error')}
