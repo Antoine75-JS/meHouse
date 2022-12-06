@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 const tokenAuth = localStorage.getItem('auth_token');
 
@@ -10,5 +10,16 @@ const axiosInstance = axios.create({
     Authorization: `Bearer ${tokenAuth}`,
   },
 });
+
+// axiosInstance.interceptors.request.use(
+//   (config) => {
+//     console.log('intercepting request', config);
+
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   },
+// );
 
 export default axiosInstance;

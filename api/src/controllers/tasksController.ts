@@ -33,6 +33,29 @@ exports.getAllTasks = async (
   }
 };
 
+exports.getOrganisationsTasks = async (
+  req: Request,
+  res: OrganisationResponseT,
+  next: NextFunction
+) => {
+  try {
+    const tasksFound = await Task.find({ orgaId: res.orgFound.id });
+
+    if (!tasksFound || tasksFound?.length < 1)
+      throw new ErrorHandler(errors.notFound, 'No task found');
+
+    res.status(200).json({
+      status: 'success',
+      message: 'We found tasks in organisation',
+      tasksFound
+    });
+
+    next();
+  } catch (error: any) {
+    next(error);
+  }
+};
+
 exports.createNewTask = async (
   req: Request,
   res: OrganisationResponseT,
