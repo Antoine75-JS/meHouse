@@ -33,16 +33,15 @@ const NewTaskForm = () => {
   const watchRepeat = watch('taskRepeat');
 
   // TODO
-  // submitNewTask middleware
+  // Handle redirect when task created
   // yup validation
+  // Handle errors on form
   const handleSubmitNewTask: SubmitHandler<FormInputs> = (formData: FormInputs) => {
     const data = {
       ...formData,
       expireDate: expire,
       orgaId: id,
     };
-    console.log('data', data);
-    // dispatch(submitLogin(data));
     dispatch(createNewTask(data));
   };
 

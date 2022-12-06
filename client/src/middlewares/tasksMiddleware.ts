@@ -16,6 +16,7 @@ import {
 
 import axiosInstance from '../services/axiosInstance';
 import { openSnackbar } from '../actions/snackbar';
+import useNavigate from '../hooks/useNavigate';
 
 const tasksMiddleware: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: TasksActionTypes) => {
