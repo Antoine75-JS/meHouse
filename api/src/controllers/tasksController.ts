@@ -101,6 +101,36 @@ exports.createNewTask = async (
   }
 };
 
+// TODO
+// Check for missing fields
+exports.updateTask = async (
+  req: Request,
+  res: TaskResponseT,
+  next: NextFunction
+) => {
+  try {
+    const filter = { _id: res.taskFound?.id };
+    const update = { ...req.body };
+
+    console.log(filter, update);
+
+    const updatedTask = await Task.findOneAndUpdate(filter, update, {
+      new: true
+    });
+
+    if (!updatedTask)
+      throw new ErrorHandler(errors.notModified, 'Task was not deleted');
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Task updated',
+      updatedTask
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.deleteTask = async (
   req: Request,
   res: TaskResponseT,

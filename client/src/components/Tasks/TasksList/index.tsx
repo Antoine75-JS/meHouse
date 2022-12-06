@@ -19,7 +19,20 @@ const TasksList: React.FC<Props> = ({ orgaId }) => {
 
   return (
     <div>
-      <div>{taskList && taskList.map((task) => <TaskItem key={task._id} task={task} />)}</div>
+      <div>
+        <div>Tâches en cours: </div>
+        {taskList &&
+          taskList
+            .filter((task) => !task.isDone)
+            .map((task) => <TaskItem key={task._id} task={task} />)}
+      </div>
+      <div>
+        <div>Tâches terminées: </div>
+        {taskList &&
+          taskList
+            .filter((task) => task.isDone)
+            .map((task) => <TaskItem key={task._id} task={task} />)}
+      </div>
     </div>
   );
 };
