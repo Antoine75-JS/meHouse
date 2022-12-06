@@ -10,3 +10,11 @@ interface Itask {
   repeat: boolean;
   repeatFrequency: number;
 }
+
+interface INewTaskPayload {
+  taskName: string;
+  creationDate?: Date;
+  expireDate?: Date;
+  repeat?: boolean;
+  repeatFrequency?: number;
+}

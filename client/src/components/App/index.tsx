@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import Homepage from '../Homepage';
-import TaskEditPage from '../TaskEditPage';
+import TaskEditPage from '../Tasks/EditTaskForm';
 import TaskPage from '../Tasks/TaskPage';
 import LoginPage from '../LoginPage';
 // Redux components

@@ -1,6 +1,7 @@
 // GETTERS
 export const GET_ALL_TASKS = 'GET_ALL_TASKS';
 export const GET_TASK_DETAILS = 'GET_TASK_DETAILS';
+export const CREATE_NEW_TASK = 'CREATE_NEW_TASK';
 
 // SETTERS
 export const SET_ALL_TASKS = 'SET_ALL_TASKS';
@@ -11,7 +12,8 @@ export type TasksActionTypes =
   | { type: typeof GET_ALL_TASKS }
   | { type: typeof GET_TASK_DETAILS }
   // SETTERS
-  | { type: typeof SET_ALL_TASKS; payload: ITasksList };
+  | { type: typeof SET_ALL_TASKS; payload: ITasksList }
+  | { type: typeof CREATE_NEW_TASK; payload: INewTaskPayload };
 
 // GETTERS DISPATCH
 export const getAllTasks = (): TasksActionTypes => ({
@@ -25,5 +27,10 @@ export const getTaskDetails = (): TasksActionTypes => ({
 // SETTERS DISPATCH
 export const setAllTasks = (payload: ITasksList): TasksActionTypes => ({
   type: SET_ALL_TASKS,
+  payload,
+});
+
+export const createNewTask = (payload: INewTaskPayload): TasksActionTypes => ({
+  type: CREATE_NEW_TASK,
   payload,
 });

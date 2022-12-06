@@ -7,6 +7,8 @@ interface PropsT {
   tasks: Itask[];
 }
 
+// TODO ?
+// Remove props + manage organisations state from component
 const TasksList: React.FC<PropsT> = ({ tasks }) => {
   return (
     <div>

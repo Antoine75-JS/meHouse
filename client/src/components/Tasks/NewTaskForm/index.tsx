@@ -2,10 +2,12 @@
 /* eslint-disable max-len */
 import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm, UseFormRegister } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 
 import DatePicker from 'react-datepicker';
+
+import { createNewTask } from '../../../actions/tasks';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -16,6 +18,10 @@ interface FormInputs {
 }
 
 const NewTaskForm = () => {
+  const [expire, setExpire] = useState<Date>();
+  const isLogged = useSelector((state: IState) => state.user.isLogged);
+  const dispatch = useDispatch();
+
   const { id } = useParams();
 
   const {
@@ -24,10 +30,7 @@ const NewTaskForm = () => {
     watch,
     formState: { errors },
   } = useForm<FormInputs>();
-
   const watchRepeat = watch('taskRepeat');
-  const [expire, setExpire] = useState<Date>();
-  const isLogged = useSelector((state: IState) => state.user.isLogged);
 
   // TODO
   // submitNewTask middleware
@@ -40,11 +43,8 @@ const NewTaskForm = () => {
     };
     console.log('data', data);
     // dispatch(submitLogin(data));
+    dispatch(createNewTask(data));
   };
-
-  useEffect(() => {
-    console.log(watchRepeat);
-  }, [watchRepeat]);
 
   return (
     <div className='flex-col flex justify-center items-center'>
