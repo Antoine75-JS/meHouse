@@ -1,16 +1,10 @@
-import { useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
-import { useDispatch, useSelector } from 'react-redux';
-
-import { getAllTasks } from '../../actions/tasks';
 import OrgasList from '../Organisations/OrgasList';
-
-import TasksList from '../Tasks/TasksList';
 
 const Homepage: React.FC = () => {
   const isLogged = useSelector((state: IState) => state.user.isLogged);
   const organisations = useSelector((state: IState) => state.user.organisations);
-  const dispatch = useDispatch();
 
   return (
     <div className='lg flex flex-col items-center justify-center'>

@@ -25,7 +25,7 @@ const OrganisationDetailsPage: React.FC = () => {
           </div>
         ))}
       </div>
-      <TasksList tasks={organisation?.orgTasks || []} />
+      <TasksList />
       <Link
         to={`/task/new/${organisation?._id}`}
         className='self-center border w-32 px-4 py-2 text-center rounded-md'

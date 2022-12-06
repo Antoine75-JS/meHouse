@@ -1,18 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import React from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 import TaskItem from '../TaskItem';
 
-interface PropsT {
-  tasks: Itask[];
-}
+const TasksList: React.FC = () => {
+  const taskList = useSelector((state: IState) => state.tasks.tasksList);
 
-// TODO ?
-// Remove props + manage organisations state from component
-const TasksList: React.FC<PropsT> = ({ tasks }) => {
   return (
     <div>
-      <div>{tasks && tasks.map((task) => <TaskItem key={task._id} task={task} />)}</div>
+      <div>{taskList && taskList.map((task) => <TaskItem key={task._id} task={task} />)}</div>
     </div>
   );
 };

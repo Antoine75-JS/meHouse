@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import {
   CheckCircleIcon,
@@ -17,6 +18,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import duration from 'dayjs/plugin/duration';
 
 import PercentBar from '../../Utils/PercentBar';
+import { deleteTask } from '../../../actions/tasks';
 
 // Config dayjs
 dayjs.extend(relativeTime);
@@ -32,6 +34,7 @@ interface PropsT {
 // Handle repeat / done / delete task
 const TaskItem: React.FC<PropsT> = ({ task }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const handleOpenDropdown = () => {
     setIsDropDownOpen(!isDropDownOpen);
@@ -40,6 +43,7 @@ const TaskItem: React.FC<PropsT> = ({ task }) => {
   const handleDeleteTask = (id: string) => {
     console.log('delete task', id);
     setIsDropDownOpen(false);
+    dispatch(deleteTask(id));
   };
 
   const handleTaskDone = (id: string) => {
