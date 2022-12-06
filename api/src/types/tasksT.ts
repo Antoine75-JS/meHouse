@@ -7,6 +7,7 @@ export interface TaskT {
   creationDate: Date;
   expireDate?: Date;
   repeatFrequency?: number;
+  isDone: boolean;
   repeat: boolean;
   category: ObjectId;
   orgaId: ObjectId;

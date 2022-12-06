@@ -10,13 +10,9 @@ const Navbar = () => {
     <div className='flex gap-2 text-end p-4'>
       <NavLink to='/'>Home</NavLink>
       {isLogged ? (
-        <>
-          <NavLink to='/orga'>Organisation</NavLink>
-          <NavLink to='/tasks'>Tasks</NavLink>
-          <NavLink to='/logout' className='grow'>
-            Logout
-          </NavLink>
-        </>
+        <NavLink to='/logout' className='grow'>
+          Logout
+        </NavLink>
       ) : (
         <NavLink to='/login'>Login</NavLink>
       )}

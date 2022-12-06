@@ -18,6 +18,11 @@ const taskSchema = new Schema<TaskT>({
   repeatFrequency: {
     type: Number
   },
+  isDone: {
+    type: Boolean,
+    default: false,
+    required: true
+  },
   repeat: {
     type: Boolean,
     required: true,
