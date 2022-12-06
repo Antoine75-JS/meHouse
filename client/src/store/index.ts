@@ -13,6 +13,8 @@ import reducer from '../reducers';
 
 const middlewares = applyMiddleware(authMiddleware, tasksMiddleware);
 
+// TODO
+// Handle serialized errors with dates
 const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(),

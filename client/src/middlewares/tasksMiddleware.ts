@@ -28,7 +28,7 @@ const tasksMiddleware: Middleware =
           store.dispatch(startLoading());
 
           const response: AxiosResponse = await axiosInstance.get(
-            `${process.env.REACT_APP_API_URL}/tasks`,
+            `${process.env.REACT_APP_API_URL}/tasks/${action.payload}`,
           );
 
           if (response.status === 200) {

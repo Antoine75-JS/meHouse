@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable max-len */
-import { useEffect, useState } from 'react';
-import { SubmitHandler, useForm, UseFormRegister } from 'react-hook-form';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 
