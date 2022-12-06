@@ -11,11 +11,10 @@ const OrganisationDetailsPage: React.FC = () => {
 
   useEffect(() => {
     setOrganisation(orga);
-    console.log('organisation', orga);
   }, [orga]);
 
   return (
-    <div className='m-4 flex flex-col gap-4'>
+    <div className='p-4 flex flex-col gap-4'>
       <h2 className='text-4xl font-bold pb-4'>{organisation?.orgName} :</h2>
       <div>
         <div className='flex flex-col font-bold mb-2'>Members :</div>

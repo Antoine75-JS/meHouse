@@ -27,8 +27,8 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className='bg-main text-white min-h-screen'>
-      <header className='p-4'>
+    <div className='bg-main text-white min-h-screen h-full'>
+      <header>
         <Navbar />
       </header>
       {isLoading && <Loading />}

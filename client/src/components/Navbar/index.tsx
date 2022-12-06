@@ -7,7 +7,7 @@ const Navbar = () => {
   const isLogged = useSelector((state: IState) => state.user.isLogged);
 
   return (
-    <div className='flex gap-2 text-end'>
+    <div className='flex gap-2 text-end p-4'>
       <NavLink to='/'>Home</NavLink>
       {isLogged ? (
         <>

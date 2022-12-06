@@ -19,7 +19,6 @@ interface Props {
 
 const PercentBar: React.FC<Props> = (props) => {
   const { creationDate, repeatFrequency = 0, expireDate } = props;
-  console.log(creationDate, repeatFrequency, expireDate);
 
   const today = dayjs();
   const created = dayjs(creationDate);
@@ -28,15 +27,13 @@ const PercentBar: React.FC<Props> = (props) => {
   const repeat = dayjs(created).add(repeatFrequency, 'day');
 
   // Use expireDate if provided, repeat if not
-  const expire = dayjs(expireDate || repeat);
+  // Remove current day by substracting 1 day
+  const expire = dayjs(expireDate || repeat).subtract(1, 'day');
 
+  // Calculate total percentage left
   const total = expire.diff(created);
   const progress = today.diff(created);
-
-  console.log(expire);
-
   const percent = Math.round((progress / total) * 100);
-  console.log('percent', percent);
 
   return (
     <div className='w-12 h-2 bg-white rounded-xl overflow-hidden'>
