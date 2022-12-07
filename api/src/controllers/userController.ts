@@ -5,14 +5,15 @@ const { errors } = require('../utils/errors');
 
 import User from '../models/user';
 
+const selectOptions = '-__v -password';
+
 exports.getAllUsers = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    console.log('getting users');
-    const usersFound = await User.find();
+    const usersFound = await User.find().select(selectOptions);
 
     console.log('usersFounds', usersFound);
 

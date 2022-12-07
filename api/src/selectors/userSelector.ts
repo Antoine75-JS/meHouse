@@ -12,6 +12,8 @@ import type {
   UserT
 } from '../types/usersT';
 
+const selectOptions = '-__v -password';
+
 exports.findUserById = async (
   req: Request,
   res: UserFoundResponseT,
@@ -28,7 +30,7 @@ exports.findUserById = async (
       model: 'Organisation',
       populate: {
         path: 'orgTasks orgUsers',
-        select: '-password',
+        select: selectOptions,
         options: {
           _recursed: true
         }
@@ -57,7 +59,7 @@ exports.findUserByEmail = async (
       model: 'Organisation',
       populate: {
         path: 'orgTasks orgUsers',
-        select: '-password',
+        select: selectOptions,
         options: {
           _recursed: true
         }

@@ -11,12 +11,7 @@ const categorySchema = new Schema<CategoryT>({
   organisationId: {
     type: String,
     required: true
-  },
-  categoriesTasks: [
-    {
-      type: Schema.Types.ObjectId
-    }
-  ]
+  }
 });
 
 const Category = mongoose.model('Category', categorySchema);

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTasksFromOrganisation } from '../../../actions/tasks';
 
-import TaskItem from '../TaskItem';
+import TaskListItem from '../TaskListItem';
 
 interface Props {
   orgaId: string;
@@ -24,14 +24,14 @@ const TasksList: React.FC<Props> = ({ orgaId }) => {
         {taskList &&
           taskList
             .filter((task) => !task.isDone)
-            .map((task) => <TaskItem key={task._id} task={task} />)}
+            .map((task) => <TaskListItem key={task._id} task={task} />)}
       </div>
       <div>
         <div>Tâches terminées: </div>
         {taskList &&
           taskList
             .filter((task) => task.isDone)
-            .map((task) => <TaskItem key={task._id} task={task} />)}
+            .map((task) => <TaskListItem key={task._id} task={task} />)}
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ interface PropsT {
 // TODO
 // Handle passed dates
 // Handle repeat / done / delete task
-const TaskItem: React.FC<PropsT> = ({ task }) => {
+const TaskListItem: React.FC<PropsT> = ({ task }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
 
@@ -64,7 +64,7 @@ const TaskItem: React.FC<PropsT> = ({ task }) => {
     >
       <div className='grow '>{task && <div>{task.taskName}</div>}</div>
       {task?.expireDate ? (
-        <span>Dans {dayjs(task?.expireDate).from(dayjs())}</span>
+        <span>{dayjs(task?.expireDate).from(dayjs())}</span>
       ) : (
         <PercentBar
           creationDate={task?.creationDate}
@@ -140,4 +140,4 @@ const TaskItem: React.FC<PropsT> = ({ task }) => {
   );
 };
 
-export default TaskItem;
+export default TaskListItem;
