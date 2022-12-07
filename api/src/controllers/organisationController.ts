@@ -95,6 +95,8 @@ exports.createOrganisation = async (
   }
 };
 
+// TODO
+// Remove organisation from users
 exports.deleteOrganisation = async (
   req: Request,
   res: OrganisationResponseT,

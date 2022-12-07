@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { OrganisationResponseT, OrganisationT } from 'organisationsT';
 import Organisation from '../models/organisation';
 import Category from '../models/categorie';
-import { CategoryT } from 'categoriesT';
+import { CategoryResponseT, CategoryT } from 'categoriesT';
 
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
@@ -97,3 +97,57 @@ exports.createOrganisationCategory = async (
     next(error);
   }
 };
+
+// 1 - Update orga to remove category
+// 2 - Update all tasks with category
+// 3 - Delete category
+exports.deleteCategory = async (
+  req: Request,
+  res: CategoryResponseT,
+  next: NextFunction
+) => {
+  try {
+    console.log(res.catFound);
+
+    // 1 - Update orga to remove category
+    const updatedOrga = await Organisation.findOneAndUpdate(
+      {
+        _id: res.catFound.orgaId
+      },
+      { $pull: { categories: res.catFound._id } },
+      { new: true }
+    );
+
+    if (!updatedOrga)
+      throw new ErrorHandler(
+        errors.notModified,
+        'Could not remove category from orga. Category not deleted'
+      );
+
+    console.log('updated orga', updatedOrga);
+    // TODO
+    // 2 - Update all tasks with category
+
+    // 3 - Delete category
+    const deletedCategory = await Category.findOneAndDelete({
+      _id: res.catFound._id
+    });
+
+    if (!deletedCategory)
+      throw new ErrorHandler(errors.notModified, 'Category was not deleted');
+
+    console.log('deleted category', deletedCategory);
+    res.status(200).json({
+      status: 'success',
+      message: 'Category deleted',
+      deletedCategory
+    });
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+// TODO
+// Update category

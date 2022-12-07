@@ -160,6 +160,8 @@ exports.updateTask = async (
   }
 };
 
+// TODO
+// Remove task from organisation
 exports.deleteTask = async (
   req: Request,
   res: TaskResponseT,

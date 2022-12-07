@@ -4,7 +4,7 @@ import User from '../models/user';
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
-exports.findUserById = async (id: string) => {
+exports.getUserById = async (id: string) => {
   const user: UserT = await User.findById(id).populate({
     path: 'organisations',
     model: 'Organisation',

@@ -3,7 +3,7 @@ import { UserT } from 'usersT';
 
 import User from '../models/user';
 
-const { findUserById } = require('../dataMappers/userDatamapper');
+const { getUserById } = require('../dataMappers/userDatamapper');
 
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.JWT_SECRET;
@@ -53,7 +53,7 @@ exports.checkToken = async (
 
         // If no errors
         // const userFound: UserT = await User.findById(decodedToken.sub);
-        const userFound: UserT = await findUserById(decodedToken.sub);
+        const userFound: UserT = await getUserById(decodedToken.sub);
 
         if (!userFound)
           throw new ErrorHandler(errors.unauthorized, 'Token non valide');
