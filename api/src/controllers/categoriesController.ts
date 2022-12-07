@@ -3,6 +3,7 @@ import { OrganisationResponseT, OrganisationT } from 'organisationsT';
 import Organisation from '../models/organisation';
 import Category from '../models/categorie';
 import { CategoryResponseT, CategoryT } from 'categoriesT';
+import Task from '../models/task';
 
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
@@ -127,6 +128,25 @@ exports.deleteCategory = async (
     console.log('updated orga', updatedOrga);
     // TODO
     // 2 - Update all tasks with category
+    const updatedTasks = await Task.updateMany(
+      {
+        category: res.catFound._id
+      },
+      {
+        $unset: { category: 1 }
+      },
+      {
+        new: true
+      }
+    );
+
+    console.log('updated tasks : ', updatedTasks);
+
+    if (!updatedTasks)
+      throw new ErrorHandler(
+        errors.notModified,
+        'Category was not deleted from tasks'
+      );
 
     // 3 - Delete category
     const deletedCategory = await Category.findOneAndDelete({

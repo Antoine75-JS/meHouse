@@ -134,7 +134,6 @@ exports.resetTaskDate = async (
   } catch (error) {}
 };
 
-// Update Task with category
 // If category in req is already in task, removes it
 // Otherwhise, replace category
 exports.toggleCategoryFromTask = async (
