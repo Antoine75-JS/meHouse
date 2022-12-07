@@ -1,15 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { OrganisationResponseT } from 'organisationsT';
-import Organisation from '../models/organisation';
+// TYPES
+import type { OrganisationResponseT } from 'organisationsT';
+import type { TaskResponseT, TaskT } from 'tasksT';
 
+// MODELS
+import Organisation from '../models/organisation';
+import Category from '../models/categorie';
+
+// ERROR
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
+// Datamapper
+const { getCategoryById } = require('../dataMappers/categoryDatamapper');
+
 // const Task = require('../models/task');
 import Task from '../models/task';
-
-import type { TaskResponseT, TaskT } from '../types/tasksT';
 
 exports.getAllTasks = async (
   req: Request,
@@ -124,6 +131,44 @@ exports.resetTaskDate = async (
 
     next();
   } catch (error) {}
+};
+
+// Update Task with category
+exports.addCategoryToTask = async (
+  req: Request,
+  res: TaskResponseT,
+  next: NextFunction
+) => {
+  try {
+    console.log(res.taskFound, req.body);
+
+    const catFound = await getCategoryById(req.body.catId);
+
+    if (!catFound) throw new ErrorHandler(errors.notFound, 'No category found');
+
+    // Update task
+    const updatedTask = await Task.findOneAndUpdate(
+      {
+        _id: res.taskFound.id
+      },
+      {
+        category: catFound
+      },
+      { new: true }
+    );
+
+    if (!updatedTask)
+      throw new ErrorHandler(errors.notModified, 'Category not added to task');
+
+    res.status(200).json({
+      status: 'success',
+      message: 'success',
+      updatedTask
+    });
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
 
 // TODO

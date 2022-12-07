@@ -12,7 +12,7 @@ exports.findTaskById = async (
   res: TaskResponseT,
   next: NextFunction
 ) => {
-  const id = req.params?.id;
+  const id = req.params?.id || req.body.taskId;
 
   try {
     const taskFound = await Task.findById(id);

@@ -1,3 +1,4 @@
+import { CategoryT } from 'categoriesT';
 import { Response } from 'express';
 import { ObjectId } from 'mongoose';
 
