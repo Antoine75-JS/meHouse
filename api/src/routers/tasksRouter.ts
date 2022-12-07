@@ -7,7 +7,8 @@ const {
   createNewTask,
   updateTask,
   deleteTask,
-  getOrganisationsTasks
+  getOrganisationsTasks,
+  resetTaskDate
 } = require('../controllers/tasksController');
 
 const { findTaskById } = require('../selectors/taskSelector');
@@ -17,6 +18,7 @@ router.get('/', getAllTasks);
 router.post('/', findOrganisationById, createNewTask);
 router.get('/:id', findOrganisationById, getOrganisationsTasks);
 router.patch('/:id', findTaskById, updateTask);
+router.patch('/:id/reset', findTaskById, resetTaskDate, updateTask);
 router.delete('/:id', findTaskById, deleteTask);
 
 module.exports = router;

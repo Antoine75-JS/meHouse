@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+
 import { OrganisationResponseT } from 'organisationsT';
 import Organisation from '../models/organisation';
 
@@ -101,6 +102,30 @@ exports.createNewTask = async (
   }
 };
 
+exports.resetTaskDate = async (
+  req: Request,
+  res: TaskResponseT,
+  next: NextFunction
+) => {
+  try {
+    console.log('reseting date', res.taskFound);
+
+    const newDate = new Date();
+    const expireDate = new Date();
+
+    expireDate.setDate(newDate.getDate() + res.taskFound.repeatFrequency);
+
+    // Update creation date + expireDate
+    res.taskFound.creationDate = newDate;
+    res.taskFound.expireDate = expireDate;
+
+    // Send req.body as updated task
+    req.body = res.taskFound;
+
+    next();
+  } catch (error) {}
+};
+
 // TODO
 // Check for missing fields
 exports.updateTask = async (
@@ -112,6 +137,10 @@ exports.updateTask = async (
     const filter = { _id: res.taskFound?.id };
     const update = { ...req.body };
 
+    // If empty body returns 304
+    if (Object.keys(update).length === 0 && update.constructor === Object)
+      throw new ErrorHandler(errors.notModified, 'Task was not updated');
+
     console.log(filter, update);
 
     const updatedTask = await Task.findOneAndUpdate(filter, update, {
@@ -119,7 +148,7 @@ exports.updateTask = async (
     });
 
     if (!updatedTask)
-      throw new ErrorHandler(errors.notModified, 'Task was not deleted');
+      throw new ErrorHandler(errors.notModified, 'Task was not updated');
 
     res.status(200).json({
       status: 'success',
