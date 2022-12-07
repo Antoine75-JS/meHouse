@@ -21,7 +21,6 @@ exports.login = async (
   next: NextFunction
 ) => {
   try {
-    console.log('loggin with', res.userFound);
     if (!res.userFound)
       throw new ErrorHandler(errors.notFound, 'User not found');
 
@@ -40,7 +39,6 @@ exports.login = async (
         'Could not create auth_token'
       );
 
-    console.log('pass correct', passCorrect);
     res.status(200).json({
       status: 'success',
       message: 'User logged',
@@ -153,6 +151,24 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
         message: "L'adresse email renseignée existe déjà"
       });
     }
+    next(error);
+  }
+};
+
+exports.logout = async (req: Request, res: Response, next: NextFunction) => {
+  const auth_token = req.headers.authorization?.split(' ')[1];
+
+  try {
+    if (auth_token !== undefined) {
+      throw new ErrorHandler(errors.forbidden, 'Token found');
+    } else {
+      res.status(200).json({
+        status: 'success',
+        message: 'No token found, User is logged out'
+      });
+      next();
+    }
+  } catch (error) {
     next(error);
   }
 };

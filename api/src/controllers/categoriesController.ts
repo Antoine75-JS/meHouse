@@ -99,6 +99,36 @@ exports.createOrganisationCategory = async (
   }
 };
 
+// Update category
+exports.updateCategory = async (
+  req: Request,
+  res: CategoryResponseT,
+  next: NextFunction
+) => {
+  try {
+    const updatedCategory = await Category.findOneAndUpdate(
+      {
+        _id: res.catFound?._id
+      },
+      {
+        ...req.body
+      },
+      { new: true }
+    );
+
+    if (!updatedCategory)
+      throw new ErrorHandler(errors.notModified, 'Category was not updated');
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Category updated',
+      updatedCategory
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // 1 - Update orga to remove category
 // 2 - Update all tasks with category
 // 3 - Delete category
@@ -108,8 +138,6 @@ exports.deleteCategory = async (
   next: NextFunction
 ) => {
   try {
-    console.log(res.catFound);
-
     // 1 - Update orga to remove category
     const updatedOrga = await Organisation.findOneAndUpdate(
       {
@@ -125,8 +153,6 @@ exports.deleteCategory = async (
         'Could not remove category from orga. Category not deleted'
       );
 
-    console.log('updated orga', updatedOrga);
-    // TODO
     // 2 - Update all tasks with category
     const updatedTasks = await Task.updateMany(
       {
@@ -139,8 +165,6 @@ exports.deleteCategory = async (
         new: true
       }
     );
-
-    console.log('updated tasks : ', updatedTasks);
 
     if (!updatedTasks)
       throw new ErrorHandler(
@@ -156,7 +180,6 @@ exports.deleteCategory = async (
     if (!deletedCategory)
       throw new ErrorHandler(errors.notModified, 'Category was not deleted');
 
-    console.log('deleted category', deletedCategory);
     res.status(200).json({
       status: 'success',
       message: 'Category deleted',
@@ -168,6 +191,3 @@ exports.deleteCategory = async (
     next(error);
   }
 };
-
-// TODO
-// Update category

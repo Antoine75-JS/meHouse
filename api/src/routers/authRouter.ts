@@ -7,6 +7,7 @@ const { findUserByEmail } = require('../selectors/userSelector');
 
 const {
   login,
+  logout,
   checkLogged,
   signup,
   deleteUser
@@ -14,17 +15,10 @@ const {
 
 const { checkToken } = require('../middlewares/checkAuthMiddleware');
 
+router.get('/logout', logout);
 router.post('/login', findUserByEmail, login);
 router.post('/signup', signup);
 router.delete('/:id', findUserById, deleteUser);
-
-// router.get('/checkauthtoken', checkToken, (req, res) => {
-//   console.log('final res', res);
-//   res.status(200).json({
-//     message: 'izoké'
-//   });
-// });
-
 router.get('/checkauthtoken', checkToken, checkLogged);
 
 module.exports = router;
