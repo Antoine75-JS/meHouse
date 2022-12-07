@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { OrganisationT } from 'organisationsT';
 import Organisation from '../models/organisation';
 import User from '../models/user';
 const bcrypt = require('bcryptjs');
@@ -9,11 +8,7 @@ const { createJwtToken } = require('../config/jwt-config');
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
-import type {
-  UserFoundRequestT,
-  UserLogginResponseT,
-  UserT
-} from '../types/usersT';
+import type { UserFoundRequestT, UserLogginResponseT } from '../types/usersT';
 
 exports.login = async (
   req: Request,
@@ -133,8 +128,6 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
       throw new ErrorHandler(errors.notModified, 'User not created');
     });
 
-    console.log('User :', newUser);
-
     // Ok
     res.status(201).json({
       status: 'success',
@@ -164,7 +157,7 @@ exports.logout = async (req: Request, res: Response, next: NextFunction) => {
     } else {
       res.status(200).json({
         status: 'success',
-        message: 'No token found, User is logged out'
+        message: 'Logged out successfully'
       });
       next();
     }
@@ -179,7 +172,6 @@ exports.deleteUser = async (
   next: NextFunction
 ) => {
   try {
-    console.log('user found ', res.userFound);
     const deletedUser = await User.findOneAndDelete({
       _id: res.userFound?._id
     });

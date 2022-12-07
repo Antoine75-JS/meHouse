@@ -6,7 +6,14 @@ import { AnyAction, Middleware } from '@reduxjs/toolkit';
 
 import axios, { AxiosResponse } from 'axios';
 
-import { AuthActionTypes, setUserLogged, SUBMIT_LOGIN, CHECK_USER_LOGGED } from '../actions/auth';
+import {
+  AuthActionTypes,
+  setUserLogged,
+  SUBMIT_LOGIN,
+  CHECK_USER_LOGGED,
+  SUBMIT_LOGOUT,
+  logoutUser,
+} from '../actions/auth';
 import { startLoading, stopLoading } from '../actions/loading';
 
 import { openSnackbar } from '../actions/snackbar';
@@ -17,7 +24,7 @@ const authMiddleWare: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: AuthActionTypes) => {
     switch (action.type) {
       // LOGIN USER
-      case SUBMIT_LOGIN:
+      case SUBMIT_LOGIN: {
         store.dispatch(startLoading());
 
         try {
@@ -45,15 +52,15 @@ const authMiddleWare: Middleware =
           store.dispatch(stopLoading());
         }
         break;
+      }
       // CHECK USER LOGGED
-      case CHECK_USER_LOGGED:
+      case CHECK_USER_LOGGED: {
         store.dispatch(startLoading());
 
         try {
           const response: AxiosResponse = await axiosInstance.get(
             `${process.env.REACT_APP_API_URL}/auth/checkauthtoken`,
           );
-          console.log(response);
 
           if (response.status === 200) {
             store.dispatch(setUserLogged(response.data?.user));
@@ -71,7 +78,36 @@ const authMiddleWare: Middleware =
           store.dispatch(stopLoading());
         }
         break;
+      }
+      // REMOVE TOKEN THEN LOG USER OUT
+      case SUBMIT_LOGOUT: {
+        store.dispatch(startLoading());
+        try {
+          localStorage.removeItem('auth_token');
 
+          const response: AxiosResponse = await axios.get(
+            `${process.env.REACT_APP_API_URL}/auth/logout`,
+            {
+              withCredentials: true,
+            },
+          );
+
+          if (response.status === 200) {
+            store.dispatch(logoutUser());
+            store.dispatch(openSnackbar({ type: 'success', message: response.data.message }));
+          }
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            const { message, status } = error?.response?.data || undefined;
+            store.dispatch(openSnackbar({ type: status, message: message }));
+          } else {
+            store.dispatch(openSnackbar({ type: 'error', message: 'An error occured' }));
+          }
+        } finally {
+          store.dispatch(stopLoading());
+        }
+        break;
+      }
       default:
         next(action);
     }

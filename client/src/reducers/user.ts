@@ -1,4 +1,4 @@
-import { AuthActionTypes, SET_USER_LOGGED } from '../actions/auth';
+import { AuthActionTypes, LOGOUT_USER, SET_USER_LOGGED } from '../actions/auth';
 
 const initialState: IUser = {
   isLogged: false,
@@ -11,7 +11,7 @@ const initialState: IUser = {
 // eslint-disable-next-line @typescript-eslint/default-param-last
 const reducer = (state: IUser = initialState, action: AuthActionTypes) => {
   switch (action.type) {
-    case SET_USER_LOGGED:
+    case SET_USER_LOGGED: {
       return {
         ...state,
         isLogged: true,
@@ -20,7 +20,12 @@ const reducer = (state: IUser = initialState, action: AuthActionTypes) => {
         email: action.payload.email,
         organisations: action.payload.organisations,
       };
-
+    }
+    case LOGOUT_USER: {
+      return {
+        ...initialState,
+      };
+    }
     default:
       return state;
   }
