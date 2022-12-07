@@ -8,8 +8,8 @@ const categorySchema = new Schema<CategoryT>({
     type: String,
     required: [true, 'Please enter a name for your category']
   },
-  organisationId: {
-    type: String,
+  orgaId: {
+    type: Schema.Types.ObjectId,
     required: true
   }
 });

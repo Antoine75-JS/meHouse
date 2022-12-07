@@ -2,7 +2,7 @@ import { ObjectId } from 'mongoose';
 
 export interface CategoryT {
   catName: string;
-  organisationId: ObjectId;
+  orgaId: ObjectId;
 }
 
 export interface CategoriesT {

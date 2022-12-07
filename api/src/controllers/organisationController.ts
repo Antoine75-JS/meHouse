@@ -82,12 +82,10 @@ exports.createOrganisation = async (
       throw new ErrorHandler(errors.notModified, 'Organisation not created');
     });
 
-    console.log('New orga created', savedOrga, 'updated user', savedUser);
-
     res.status(201).json({
       status: 'success',
       message: 'Organisation created',
-      newOrga,
+      savedOrga,
       savedUser
     });
 

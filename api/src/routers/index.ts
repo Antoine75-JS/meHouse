@@ -7,6 +7,7 @@ const tasksRouter = require('./tasksRouter');
 const userRouter = require('./userRouter');
 const organisationRouter = require('./organisationRouter');
 const authRouter = require('./authRouter');
+const categoriesRouter = require('./categoriesRouter');
 
 const router = express.Router();
 
@@ -20,6 +21,7 @@ router.get('/', (_, res: Response) => {
 router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/tasks', tasksRouter);
+router.use('/categories', categoriesRouter);
 router.use('/organisations', organisationRouter);
 
 module.exports = router;
