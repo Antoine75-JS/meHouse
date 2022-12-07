@@ -17,6 +17,7 @@ const { getCategoryById } = require('../dataMappers/categoryDatamapper');
 
 // const Task = require('../models/task');
 import Task from '../models/task';
+import { CategoryT } from 'categoriesT';
 
 exports.getAllTasks = async (
   req: Request,
@@ -134,37 +135,29 @@ exports.resetTaskDate = async (
 };
 
 // Update Task with category
-exports.addCategoryToTask = async (
+// If category in req is already in task, removes it
+// Otherwhise, replace category
+exports.toggleCategoryFromTask = async (
   req: Request,
   res: TaskResponseT,
   next: NextFunction
 ) => {
   try {
-    console.log(res.taskFound, req.body);
+    const { category } = req.body;
 
-    const catFound = await getCategoryById(req.body.catId);
+    const catFound: CategoryT = await getCategoryById(category);
 
     if (!catFound) throw new ErrorHandler(errors.notFound, 'No category found');
 
-    // Update task
-    const updatedTask = await Task.findOneAndUpdate(
-      {
-        _id: res.taskFound.id
-      },
-      {
-        category: catFound
-      },
-      { new: true }
-    );
+    let payload;
 
-    if (!updatedTask)
-      throw new ErrorHandler(errors.notModified, 'Category not added to task');
+    if (res.taskFound.category?.toString() === catFound._id.toString()) {
+      payload = { $unset: { category: 1 } };
+    } else {
+      payload = { category: catFound };
+    }
 
-    res.status(200).json({
-      status: 'success',
-      message: 'success',
-      updatedTask
-    });
+    req.body = payload;
     next();
   } catch (error) {
     next(error);

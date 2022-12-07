@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserT } from 'usersT';
 
-import User from '../models/user';
-
 const { getUserById } = require('../dataMappers/userDatamapper');
 
 const jwt = require('jsonwebtoken');
