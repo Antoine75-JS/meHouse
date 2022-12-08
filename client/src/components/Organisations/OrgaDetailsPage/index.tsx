@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Link, useLocation } from 'react-router-dom';
 import TasksList from '../../Tasks/TasksList';
+import CategoryChip from '../../Utils/CategoryChip';
 
 const OrganisationDetailsPage: React.FC = () => {
   const [organisation, setOrganisation] = useState<IOrganisation>();
@@ -28,13 +29,13 @@ const OrganisationDetailsPage: React.FC = () => {
               </div>
             ))}
             {/* CATEGORIES */}
-            <div className='flex flex-col font-bold my-2'>Categories :</div>
-            {/* {organisation?.categories?.map((category: ICategory, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <div className='pl-4' key={i}>
-                User
-              </div>
-            ))} */}
+            <div className='flex flex-col font-bold my-2 pb-1'>Categories :</div>
+            {organisation?.categories &&
+              organisation?.categories?.length > 0 &&
+              organisation?.categories?.map((category: ICategory, i) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <CategoryChip key={category._id} catName={category?.catName} />
+              ))}
           </div>
           <TasksList orgaId={organisation?._id} />
           <Link

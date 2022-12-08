@@ -2,6 +2,6 @@ interface IOrganisation {
   _id: string;
   orgName: string;
   orgUsers: IUser[];
-  categories?: string[];
+  categories?: ICategory[];
   orgTasks: ITask[];
 }
