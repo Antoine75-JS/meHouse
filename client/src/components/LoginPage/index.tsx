@@ -73,7 +73,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className='flex-col flex justify-center items-center pt-24'>
       {isLogged && <Navigate to='/' />}
-      LoginPage
+      Se connecter
       <form
         onSubmit={handleSubmit(handleLogin)}
         className='flex flex-col justify-center items-center gap-4'
