@@ -10,6 +10,7 @@ interface Itask {
   repeat: boolean;
   isDone: boolean;
   repeatFrequency: number;
+  category: string;
 }
 
 interface INewTaskPayload {

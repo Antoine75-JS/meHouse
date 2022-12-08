@@ -19,6 +19,7 @@ import duration from 'dayjs/plugin/duration';
 
 import PercentBar from '../../Utils/PercentBar';
 import { deleteTask } from '../../../actions/tasks';
+import CategoryChip from '../../Utils/CategoryChip';
 
 // Config dayjs
 dayjs.extend(relativeTime);
@@ -57,12 +58,15 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
   };
 
   return (
-    <div
-      className='flex w-600 mb-4 border p-4 rounded-xl items-center'
-      // to={`/task/${task?._id}`}
-      // state={{ task }}
-    >
-      <div className='grow '>{task && <div>{task.taskName}</div>}</div>
+    <div className='flex w-600 mb-4 border p-4 rounded-xl items-center'>
+      <div className='grow '>
+        {task && (
+          <div className='flex gap-2 items-center'>
+            <Link to={`/task/${task._id}`}>{task.taskName}</Link>
+            {task?.category && <CategoryChip catName={task.category} />}
+          </div>
+        )}
+      </div>
       {task?.expireDate ? (
         <span>{dayjs(task?.expireDate).from(dayjs())}</span>
       ) : (
