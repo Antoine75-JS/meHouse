@@ -3,6 +3,13 @@ import { Dispatch } from 'react';
 import { AnyAction, Middleware } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 
+// Axios instance
+import axiosInstance from '../services/axiosInstance';
+
+// Component
+import { openSnackbar } from '../actions/snackbar';
+
+// Actions
 import { startLoading, stopLoading } from '../actions/loading';
 import {
   GET_TASKS_FROM_ORGANISATION,
@@ -12,11 +19,6 @@ import {
   DELETE_TASK,
   getTasksFromOrganisation,
 } from '../actions/tasks';
-
-// import { openErrorSnackbar } from '../actions/errorSnackbar';
-
-import axiosInstance from '../services/axiosInstance';
-import { openSnackbar } from '../actions/snackbar';
 
 // TODO
 // Handle redirection when creating new task

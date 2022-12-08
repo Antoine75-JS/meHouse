@@ -5,3 +5,8 @@ interface IOrganisation {
   categories?: ICategory[];
   orgTasks: ITask[];
 }
+
+interface INewOrganisationPayload {
+  orgName: string;
+  userId?: string;
+}

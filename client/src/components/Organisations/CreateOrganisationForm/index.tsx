@@ -1,11 +1,12 @@
 /* eslint-disable max-len */
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { useForm, UseFormRegister, FieldError } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { createNewOrganisation } from '../../../actions/organisation';
 
 interface FormInputs {
   orgName: string;
@@ -50,6 +51,7 @@ const InputField: React.FC<InputProps> = (props: InputProps) => {
 
 const CreateOrganisationForm: React.FC = () => {
   const user = useSelector((state: IState) => state.user);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -63,6 +65,10 @@ const CreateOrganisationForm: React.FC = () => {
 
   const handleNewOrga = (data: FormInputs) => {
     console.log(data, id);
+    if (data && id) {
+      const payload = { ...data, userId: id };
+      dispatch(createNewOrganisation(payload));
+    }
   };
 
   if (!user) {
@@ -72,7 +78,7 @@ const CreateOrganisationForm: React.FC = () => {
   return (
     <div className='flex-col flex justify-center items-center pt-24'>
       {!isLogged && <Navigate to='/login' />}
-      Créer un groupe
+      Créer une nouvelle organisation
       <form
         onSubmit={handleSubmit(handleNewOrga)}
         className='flex flex-col justify-center items-center gap-4'
@@ -82,7 +88,7 @@ const CreateOrganisationForm: React.FC = () => {
             errors={errors.orgName}
             label='Name'
             type='text'
-            placeholder='Group name'
+            placeholder="Nom de l'organisation"
             required
             registerLabel='orgName'
             register={register}
