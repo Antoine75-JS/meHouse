@@ -15,7 +15,8 @@ import Snackbar from '../Utils/Snackbar';
 import Navbar from '../Navbar';
 import OrganisationDetailsPage from '../Organisations/OrgaDetailsPage';
 import NewTaskForm from '../Tasks/NewTaskForm';
-import SignupPage from '../Signup';
+import SignupPage from '../SignupPage';
+import CreateOrganisationForm from '../Organisations/CreateOrganisationForm';
 
 const App: React.FC = () => {
   const isLogged = useSelector((state: IState) => state.user.isLogged);
@@ -45,6 +46,7 @@ const App: React.FC = () => {
             </Route>
             <Route path='/orga'>
               <Route path=':id' element={<OrganisationDetailsPage />} />
+              <Route path='new' element={<CreateOrganisationForm />} />
             </Route>
           </>
         )}
