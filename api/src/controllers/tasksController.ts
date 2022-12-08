@@ -48,7 +48,9 @@ exports.getOrganisationsTasks = async (
   next: NextFunction
 ) => {
   try {
-    const tasksFound = await Task.find({ orgaId: res.orgFound.id });
+    const tasksFound = await Task.find({ orgaId: res.orgFound.id }).populate(
+      'category'
+    );
 
     if (!tasksFound || tasksFound?.length < 1)
       throw new ErrorHandler(errors.notFound, 'No task found');

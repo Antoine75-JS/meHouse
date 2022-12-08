@@ -10,7 +10,7 @@ export interface TaskT {
   repeatFrequency?: number;
   isDone: boolean;
   repeat: boolean;
-  category?: ObjectId;
+  category?: CategoryT;
   orgaId: ObjectId;
 }
 

@@ -15,7 +15,7 @@ exports.findTaskById = async (
   const id = req.params?.id || req.body.taskId;
 
   try {
-    const taskFound = await Task.findById(id);
+    const taskFound = await (await Task.findById(id)).populate('category');
 
     if (!taskFound) throw new ErrorHandler(errors.notFound, 'No task found');
 
