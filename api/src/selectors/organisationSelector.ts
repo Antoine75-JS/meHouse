@@ -16,7 +16,9 @@ exports.findOrganisationById = async (
   const id = req.params?.id || req.body.orgaId;
 
   try {
-    const orgFound = await Organisation.findById(id);
+    const orgFound = await (
+      await Organisation.findById(id)
+    ).populate('orgUsers orgTasks categories');
 
     if (!orgFound)
       throw new ErrorHandler(errors.notFound, 'No organisation found');

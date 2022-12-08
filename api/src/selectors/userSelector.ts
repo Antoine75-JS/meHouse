@@ -29,7 +29,7 @@ exports.findUserById = async (
       path: 'organisations',
       model: 'Organisation',
       populate: {
-        path: 'orgTasks orgUsers',
+        path: 'orgTasks orgUsers categories',
         select: selectOptions,
         options: {
           _recursed: true
@@ -58,13 +58,15 @@ exports.findUserByEmail = async (
       path: 'organisations',
       model: 'Organisation',
       populate: {
-        path: 'orgTasks orgUsers',
+        path: 'orgTasks orgUsers categories',
         select: selectOptions,
         options: {
           _recursed: true
         }
       }
     });
+
+    console.log('logged user :', userFound);
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
 

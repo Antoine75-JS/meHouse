@@ -9,8 +9,8 @@ exports.getUserById = async (id: string) => {
     path: 'organisations',
     model: 'Organisation',
     populate: {
-      path: 'orgTasks',
-      model: 'Task'
+      path: 'orgTasks orgUsers categories',
+      select: '-__v -password'
     }
   });
 
