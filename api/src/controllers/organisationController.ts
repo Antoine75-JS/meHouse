@@ -57,8 +57,19 @@ exports.createOrganisation = async (
     // Update user organisations
     const updatedUser = await User.findOneAndUpdate(
       { _id: res.userFound.id },
-      { $push: { organisations: newOrga } }
-    );
+      { $push: { organisations: newOrga } },
+      { new: true }
+    ).populate({
+      path: 'organisations',
+      model: 'Organisation',
+      populate: {
+        path: 'orgTasks orgUsers categories',
+        select: '-__v -password',
+        options: {
+          _recursed: true
+        }
+      }
+    });
 
     console.log('updated user', updatedUser);
 

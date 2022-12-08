@@ -12,6 +12,7 @@ import { openSnackbar } from '../actions/snackbar';
 // Actions
 import { startLoading, stopLoading } from '../actions/loading';
 import { OrganisationsActionTypes, CREATE_NEW_ORGANISATION } from '../actions/organisation';
+import { checkUserLogged } from '../actions/auth';
 
 // TODO
 // Handle redirection when creating new task
@@ -21,6 +22,21 @@ const organisationsMiddleware: Middleware =
       case CREATE_NEW_ORGANISATION: {
         try {
           store.dispatch(startLoading());
+
+          const response: AxiosResponse = await axiosInstance.post(
+            `${process.env.REACT_APP_API_URL}/organisations`,
+            action.payload,
+          );
+
+          if (response.status === 201) {
+            const { message, status } = response.data;
+
+            // TODO
+            // Redirect user
+            store.dispatch(checkUserLogged());
+            store.dispatch(openSnackbar({ type: status, message: message }));
+          }
+
           console.log(action.payload);
           next(action);
         } catch (error) {
