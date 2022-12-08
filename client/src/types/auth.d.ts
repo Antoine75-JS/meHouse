@@ -7,5 +7,5 @@ interface ISubmitSignupFormFields {
   username: string;
   email: string;
   password: string;
-  repeatPassword: string;
+  repeat_password: string;
 }

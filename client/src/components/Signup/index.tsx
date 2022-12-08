@@ -20,7 +20,7 @@ import { openSnackbar } from '../../actions/snackbar';
 interface FormInputs {
   username: string;
   email: string;
-  repeatPassword: string;
+  repeat_password: string;
   password: string;
 }
 
@@ -30,7 +30,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   type: 'email' | 'password' | 'text';
   required: boolean;
   placeholder: string;
-  registerLabel: 'email' | 'password' | 'repeatPassword' | 'username';
+  registerLabel: 'email' | 'password' | 'repeat_password' | 'username';
   register: UseFormRegister<FormInputs>;
 }
 
@@ -50,7 +50,7 @@ const signupSchema = yup.object().shape({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,30}$/,
       'Le mot de passe doit contenir entre 8 et 30 caractères, contenir une lettre Majuscule et un chiffre',
     ),
-  repeatPassword: yup
+  repeat_password: yup
     .string()
     .min(8)
     .max(30)
@@ -97,10 +97,11 @@ const SignupPage: React.FC = () => {
   });
 
   const handleSignup: SubmitHandler<FormInputs> = (data: FormInputs) => {
-    const { password, repeatPassword } = data;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { password, repeat_password } = data;
 
     if (
-      password !== repeatPassword
+      password !== repeat_password
     ) {
       dispatch(openSnackbar({type: 'error', message: 'Les mots de passe ne concordent pas'}));
     }
@@ -148,9 +149,9 @@ const SignupPage: React.FC = () => {
             placeholder=''
           />
           <InputField
-            errors={errors.repeatPassword}
+            errors={errors.repeat_password}
             label='Répétez le mot de passe'
-            registerLabel='repeatPassword'
+            registerLabel='repeat_password'
             type='password'
             required
             register={register}

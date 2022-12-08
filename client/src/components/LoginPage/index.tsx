@@ -4,6 +4,7 @@ import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { submitLogin } from '../../actions/auth';
+
 // Ts
 interface FormInputs {
   email: string;

@@ -13,6 +13,8 @@ import {
   CHECK_USER_LOGGED,
   SUBMIT_LOGOUT,
   logoutUser,
+  SUBMIT_SIGNUP,
+  submitLogin,
 } from '../actions/auth';
 import { startLoading, stopLoading } from '../actions/loading';
 
@@ -23,6 +25,33 @@ import axiosInstance from '../services/axiosInstance';
 const authMiddleWare: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: AuthActionTypes) => {
     switch (action.type) {
+      // SIGNUP USER
+      case SUBMIT_SIGNUP: {
+        store.dispatch(startLoading());
+
+        try {
+          const response: AxiosResponse = await axiosInstance.post(
+            `${process.env.REACT_APP_API_URL}/auth/signup`,
+            action.payload,
+          );
+
+          if (response.status === 201 && response.data?.newUser) {
+            store.dispatch(submitLogin(action.payload));
+            store.dispatch(openSnackbar({ type: 'success', message: response.data.message }));
+          }
+          next(action);
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            const { message, status } = error?.response?.data || undefined;
+            store.dispatch(openSnackbar({ type: status, message: message }));
+          } else {
+            store.dispatch(openSnackbar({ type: 'error', message: 'An error occured' }));
+          }
+        } finally {
+          store.dispatch(stopLoading());
+        }
+        break;
+      }
       // LOGIN USER
       case SUBMIT_LOGIN: {
         store.dispatch(startLoading());

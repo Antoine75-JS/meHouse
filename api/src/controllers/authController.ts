@@ -85,6 +85,7 @@ exports.checkLogged = async (
 exports.signup = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password, repeat_password, email, orgName } = req.body;
+    console.log('signup', req.body);
 
     // If passwords do not match
     if (password !== repeat_password)
@@ -94,7 +95,7 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
     const hashpass = await bcrypt.hash(password, 12);
 
     // Creates user with hashed pass
-    const newUser = await new User({
+    const newUser = new User({
       username,
       email,
       password: hashpass
@@ -106,7 +107,7 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
 
     // If organisation name in request, creates organisation
     if (orgName) {
-      const userOrga = await new Organisation({
+      const userOrga = new Organisation({
         orgName: req.body.orgName,
         orgUsers: newUser
       });
@@ -114,7 +115,7 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
       if (userOrga) {
         newUser.organisations.push(userOrga);
 
-        userOrga.save().catch((err) => {
+        await userOrga.save().catch((err) => {
           console.log('error when adding orga to user', err);
           throw new ErrorHandler(
             errors.notModified,
@@ -124,8 +125,12 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
       }
     }
 
-    newUser.save().catch((err) => {
-      throw new ErrorHandler(errors.notModified, 'User not created');
+    await newUser.save().catch((err) => {
+      if (err.code === 11000) {
+        throw new ErrorHandler(errors.conflict, 'User not created');
+      } else {
+        throw new ErrorHandler(errors.notModified, 'User not created');
+      }
     });
 
     // Ok
@@ -138,12 +143,7 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
     next();
   } catch (error) {
     // Returns if error already exists
-    if (error.code === 11000) {
-      return res.status(422).json({
-        status: 'warning',
-        message: "L'adresse email renseignée existe déjà"
-      });
-    }
+
     next(error);
   }
 };
