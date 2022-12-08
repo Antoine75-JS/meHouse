@@ -14,7 +14,6 @@ interface TokenT {
 
 // Create token
 const createJwtToken = (user: UserDatabaseT, _id: string = null) => {
-  console.log('user from token', user);
   const jwtToken = jwt.sign(
     {
       sub: _id || user._id

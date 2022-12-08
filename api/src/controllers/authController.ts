@@ -62,8 +62,6 @@ exports.checkLogged = async (
     if (!req.user) {
       throw new ErrorHandler(errors.notFound, "Vous n'êtes pas connecté");
     } else {
-      console.log(req.user);
-
       const { username, email, _id, organisations } = req.user;
       res.status(200).json({
         status: 'success',
@@ -85,7 +83,6 @@ exports.checkLogged = async (
 exports.signup = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password, repeat_password, email, orgName } = req.body;
-    console.log('signup', req.body);
 
     // If passwords do not match
     if (password !== repeat_password)
