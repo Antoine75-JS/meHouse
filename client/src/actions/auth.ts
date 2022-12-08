@@ -3,15 +3,17 @@ export const SUBMIT_LOGOUT = 'SUBMIT_LOGOUT';
 export const SET_USER_LOGGED = 'SET_USER_LOGGED';
 export const CHECK_USER_LOGGED = 'CHECK_USER_LOGGED';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const SUBMIT_SIGNUP = 'SUBMIT_SIGNUP';
 
 export type AuthActionTypes =
-  | { type: typeof SUBMIT_LOGIN; payload: ISubmitFormFields }
+  | { type: typeof SUBMIT_SIGNUP; payload: ISubmitSignupFormFields }
+  | { type: typeof SUBMIT_LOGIN; payload: ISubmitLoginFormFields }
   | { type: typeof SET_USER_LOGGED; payload: IUser }
   | { type: typeof CHECK_USER_LOGGED }
   | { type: typeof SUBMIT_LOGOUT }
   | { type: typeof LOGOUT_USER };
 
-export const submitLogin = (payload: ISubmitFormFields): AuthActionTypes => ({
+export const submitLogin = (payload: ISubmitLoginFormFields): AuthActionTypes => ({
   type: SUBMIT_LOGIN,
   payload,
 });
@@ -31,4 +33,9 @@ export const logoutUser = (): AuthActionTypes => ({
 
 export const checkUserLogged = (): AuthActionTypes => ({
   type: CHECK_USER_LOGGED,
+});
+
+export const submitSignup = (payload: ISubmitSignupFormFields): AuthActionTypes => ({
+  type: SUBMIT_SIGNUP,
+  payload,
 });

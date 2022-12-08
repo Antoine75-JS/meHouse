@@ -12,23 +12,23 @@ interface FormInputs {
 
 interface InputProps {
   label: string;
-  inputType: string;
+  type: 'email' | 'password';
   required: boolean;
   placeholder: string;
   register: UseFormRegister<FormInputs>;
 }
 
 const InputField: React.FC<InputProps> = (props: InputProps) => {
-  const { label, inputType, required, placeholder, register } = props;
+  const { label, type, required, placeholder, register } = props;
 
   return (
     <label htmlFor={label} className='block mb-4 text-sm font-medium text-gray-900 dark:text-white'>
       {label}
       <input
-        type={inputType}
+        type={type}
         id={label}
         // Find how to improve register
-        {...register(label === 'email' ? 'email' : 'password')}
+        {...register(type)}
         className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-2'
         placeholder={placeholder}
         required={required}
@@ -65,14 +65,14 @@ const LoginPage: React.FC = () => {
         <div className='w-600'>
           <InputField
             label='email'
-            inputType='string'
+            type='email'
             placeholder='your@email.com'
             required
             register={register}
           />
           <InputField
             label='password'
-            inputType='password'
+            type='password'
             required
             register={register}
             placeholder=''

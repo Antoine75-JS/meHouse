@@ -58,12 +58,14 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
   };
 
   return (
-    <div className='flex w-600 mb-4 border p-4 rounded-xl items-center'>
+    <div className='flex w-600 mb-4 border-2 p-4 rounded-3xl items-center'>
       <div className='grow '>
         {task && (
           <div className='flex gap-2 items-center'>
-            <Link to={`/task/${task._id}`}>{task.taskName}</Link>
-            {task?.category && <CategoryChip catName={task.category.catName} />}
+            <Link className='font-bold' to={`/task/${task._id}`}>
+              {task.taskName}
+            </Link>
+            {task?.category && <CategoryChip catName={task.category?.catName} />}
           </div>
         )}
       </div>

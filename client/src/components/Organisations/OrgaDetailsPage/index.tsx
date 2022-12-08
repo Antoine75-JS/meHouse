@@ -21,7 +21,7 @@ const OrganisationDetailsPage: React.FC = () => {
           <h2 className='text-4xl font-bold pb-4'>{organisation?.orgName} :</h2>
           <div>
             {/* MEMBERS */}
-            <div className='flex flex-col font-bold my-2'>Members :</div>
+            <div className='font-bold my-2'>Members :</div>
             {organisation?.orgUsers?.map((user: IUser, i) => (
               // eslint-disable-next-line react/no-array-index-key
               <div className='pl-4' key={i}>
@@ -29,7 +29,7 @@ const OrganisationDetailsPage: React.FC = () => {
               </div>
             ))}
             {/* CATEGORIES */}
-            <div className='flex flex-col font-bold my-2 pb-1'>Categories :</div>
+            <div className='font-bold my-2 pb-1'>Categories :</div>
             {organisation?.categories &&
               organisation?.categories?.length > 0 &&
               organisation?.categories?.map((category: ICategory, i) => (
