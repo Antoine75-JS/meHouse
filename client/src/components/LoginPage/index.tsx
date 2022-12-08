@@ -1,8 +1,12 @@
 /* eslint-disable max-len */
 import React from 'react';
-import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
+import { useForm, SubmitHandler, UseFormRegister, FieldError } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
 import { submitLogin } from '../../actions/auth';
 
 // Ts
@@ -13,14 +17,21 @@ interface FormInputs {
 
 interface InputProps {
   label: string;
+  errors?: FieldError;
   type: 'email' | 'password';
   required: boolean;
   placeholder: string;
   register: UseFormRegister<FormInputs>;
 }
 
+// Yup schema validation
+const loginSchema = yup.object().shape({
+  email: yup.string().email('Une adresse mail au format valide est requise').required(),
+  password: yup.string().required('Merci de renseigner votre mot de passe'),
+});
+
 const InputField: React.FC<InputProps> = (props: InputProps) => {
-  const { label, type, required, placeholder, register } = props;
+  const { label, type, required, placeholder, register, errors } = props;
 
   return (
     <label htmlFor={label} className='block mb-4 text-sm font-medium text-gray-900 dark:text-white'>
@@ -34,10 +45,13 @@ const InputField: React.FC<InputProps> = (props: InputProps) => {
         placeholder={placeholder}
         required={required}
       />
+      {errors && <p className='mt-2 font-thin text-red-600'>{errors.message}</p>}
     </label>
   );
 };
 
+// TODO
+// setup yup validation
 const LoginPage: React.FC = () => {
   const isLogged = useSelector((state: IState) => state.user.isLogged);
 
@@ -48,15 +62,16 @@ const LoginPage: React.FC = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormInputs>();
+  } = useForm<FormInputs>({
+    resolver: yupResolver(loginSchema),
+  });
 
   const handleLogin: SubmitHandler<FormInputs> = (data: FormInputs) => {
-    console.log('data', data);
     dispatch(submitLogin(data));
   };
 
   return (
-    <div className='flex-col flex justify-center items-center'>
+    <div className='flex-col flex justify-center items-center pt-24'>
       {isLogged && <Navigate to='/' />}
       LoginPage
       <form
@@ -65,6 +80,7 @@ const LoginPage: React.FC = () => {
       >
         <div className='w-600'>
           <InputField
+            errors={errors.email}
             label='email'
             type='email'
             placeholder='your@email.com'
@@ -72,6 +88,7 @@ const LoginPage: React.FC = () => {
             register={register}
           />
           <InputField
+            errors={errors.password}
             label='password'
             type='password'
             required

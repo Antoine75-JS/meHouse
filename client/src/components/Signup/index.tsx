@@ -1,12 +1,6 @@
 /* eslint-disable max-len */
 import React, { InputHTMLAttributes } from 'react';
-import {
-  useForm,
-  SubmitHandler,
-  UseFormRegister,
-  FieldError,
-  UseFormSetError,
-} from 'react-hook-form';
+import { useForm, SubmitHandler, UseFormRegister, FieldError } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
@@ -81,6 +75,8 @@ const InputField: React.FC<InputProps> = (props: InputProps) => {
   );
 };
 
+// TODO
+// Handle showPassword to check password
 const SignupPage: React.FC = () => {
   const isLogged = useSelector((state: IState) => state.user.isLogged);
 
@@ -113,9 +109,9 @@ const SignupPage: React.FC = () => {
   };
 
   return (
-    <div className='flex-col flex justify-center items-center'>
+    <div className='flex-col flex justify-center items-center pt-24'>
       {isLogged && <Navigate to='/' />}
-      LoginPage
+      Vous inscrire
       <form
         onSubmit={handleSubmit(handleSignup)}
         className='flex flex-col justify-center items-center gap-4'
