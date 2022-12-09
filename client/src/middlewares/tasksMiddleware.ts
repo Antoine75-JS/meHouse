@@ -19,6 +19,7 @@ import {
   DELETE_TASK,
   getTasksFromOrganisation,
 } from '../actions/tasks';
+import { getOrganisationDetails } from '../actions/organisation';
 
 // TODO
 // Handle redirection when creating new task
@@ -90,7 +91,7 @@ const tasksMiddleware: Middleware =
 
           if (response.status === 200) {
             const { message, status, deletedTask } = response.data;
-            store.dispatch(getTasksFromOrganisation(deletedTask?.orgaId));
+            store.dispatch(getOrganisationDetails(deletedTask?.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
           }
 
