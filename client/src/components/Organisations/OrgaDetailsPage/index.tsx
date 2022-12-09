@@ -14,18 +14,15 @@ const OrganisationDetailsPage: React.FC = () => {
   const dispatch = useDispatch();
 
   const filteredTasks = useMemo(() => {
-    console.log(selectedCategory);
-    if (selectedCategory && selectedCategory)
+    if (organisation?.orgTasks?.length > 0 && selectedCategory)
       return organisation?.orgTasks?.filter((task: Itask) => {
-        console.log(task);
         return task?.category?._id === selectedCategory;
       });
 
     return organisation?.orgTasks;
-  }, [selectedCategory]);
+  }, [selectedCategory, organisation]);
 
   const handleSelecteCategory = (category: string) => {
-    console.log('category', category);
     if (category !== selectedCategory) {
       setSelectedCategory(category);
     }

@@ -62,8 +62,8 @@ const tasksMiddleware: Middleware =
           );
 
           if (response.status === 201) {
-            const { message, status, createdTask } = response.data;
-            store.dispatch(getTasksFromOrganisation(createdTask.orgaId));
+            const { message, status, savedTask } = response.data;
+            store.dispatch(getTasksFromOrganisation(savedTask.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
           }
 
