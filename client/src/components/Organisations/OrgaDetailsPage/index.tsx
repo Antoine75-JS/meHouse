@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Link, useParams } from 'react-router-dom';
@@ -8,9 +8,32 @@ import TasksList from '../../Tasks/TasksList';
 import CategoryChip from '../../Utils/CategoryChip';
 
 const OrganisationDetailsPage: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>();
   const { id } = useParams();
   const organisation = useSelector((state: IState) => state.organisation);
   const dispatch = useDispatch();
+
+  const filteredTasks = useMemo(() => {
+    console.log(selectedCategory);
+    if (selectedCategory && selectedCategory)
+      return organisation?.orgTasks?.filter((task: Itask) => {
+        console.log(task);
+        return task?.category?._id === selectedCategory;
+      });
+
+    return organisation?.orgTasks;
+  }, [selectedCategory]);
+
+  const handleSelecteCategory = (category: string) => {
+    console.log('category', category);
+    if (category !== selectedCategory) {
+      setSelectedCategory(category);
+    }
+    // prettier-ignore
+    else {
+      setSelectedCategory('');
+    }
+  };
 
   useEffect(() => {
     if (id) dispatch(getOrganisationDetails(id));
@@ -35,12 +58,22 @@ const OrganisationDetailsPage: React.FC = () => {
             {organisation?.categories &&
               organisation?.categories?.length > 0 &&
               organisation?.categories?.map((category: ICategory, i) => (
-                // eslint-disable-next-line react/no-array-index-key
-                <CategoryChip key={category._id} catName={category?.catName} />
+                <button
+                  key={category._id}
+                  type='button'
+                  onClick={() => handleSelecteCategory(category?._id)}
+                >
+                  <CategoryChip
+                    catName={category?.catName}
+                    style={{
+                      border: `${category?._id === selectedCategory ? '2px solid white' : 'none'}`,
+                    }}
+                  />
+                </button>
               ))}
           </div>
-          {organisation?.orgTasks?.length > 0 ? (
-            <TasksList orgTasks={organisation?.orgTasks} />
+          {filteredTasks?.length > 0 ? (
+            <TasksList orgTasks={filteredTasks} />
           ) : (
             <p className='text-center'>Pas de tâches pour le moment</p>
           )}
