@@ -67,8 +67,14 @@ const authMiddleWare: Middleware =
 
             localStorage.setItem('auth_token', auth_token);
             store.dispatch(setUserLogged(user));
-            store.dispatch(openSnackbar({ type: 'success', message: response.data.message }));
+            store.dispatch(
+              openSnackbar({
+                type: 'success',
+                message: `Welcome back ${response.data?.user?.username}`,
+              }),
+            );
           }
+
           next(action);
         } catch (error) {
           if (axios.isAxiosError(error)) {
@@ -93,8 +99,12 @@ const authMiddleWare: Middleware =
 
           if (response.status === 200) {
             store.dispatch(setUserLogged(response.data?.user));
-            store.dispatch(openSnackbar({ type: 'success', message: response.data.message }));
-            console.log('user is logged');
+            store.dispatch(
+              openSnackbar({
+                type: 'success',
+                message: `Welcome back ${response.data?.user?.username}`,
+              }),
+            );
           }
         } catch (error) {
           if (axios.isAxiosError(error)) {

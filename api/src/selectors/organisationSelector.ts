@@ -12,17 +12,27 @@ exports.findOrganisationById = async (
   res: OrganisationResponseT,
   next: NextFunction
 ) => {
-  console.log('we here');
   const id = req.params?.id || req.body.orgaId;
 
   try {
-    const orgFound = await (
-      await Organisation.findById(id)
-    ).populate('orgUsers orgTasks categories');
+    const orgFound = await Organisation.findById(id)
+      .populate({
+        path: 'orgUsers categories',
+        select: '-__v -password -organisations'
+      })
+      .populate({
+        path: 'orgTasks',
+        populate: {
+          path: 'category',
+          model: 'Category',
+          options: {
+            _recursed: true
+          }
+        }
+      });
 
     if (!orgFound)
       throw new ErrorHandler(errors.notFound, 'No organisation found');
-    console.log('orgFound :', orgFound);
 
     res.orgFound = orgFound;
     next();

@@ -3,4 +3,5 @@ interface IState {
   tasks: ITasksList;
   snackbar: ISnackbar;
   user: IUser;
+  organisation: IOrganisation;
 }

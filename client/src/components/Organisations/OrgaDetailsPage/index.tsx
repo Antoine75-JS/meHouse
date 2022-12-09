@@ -1,18 +1,20 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { getOrganisationDetails } from '../../../actions/organisation';
 import TasksList from '../../Tasks/TasksList';
 import CategoryChip from '../../Utils/CategoryChip';
 
 const OrganisationDetailsPage: React.FC = () => {
-  const [organisation, setOrganisation] = useState<IOrganisation>();
-  const location = useLocation();
-  const { orga } = location.state;
+  const { id } = useParams();
+  const organisation = useSelector((state: IState) => state.organisation);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setOrganisation(orga);
-  }, [orga]);
+    if (id) dispatch(getOrganisationDetails(id));
+  }, [id]);
 
   return (
     <div>
@@ -37,10 +39,14 @@ const OrganisationDetailsPage: React.FC = () => {
                 <CategoryChip key={category._id} catName={category?.catName} />
               ))}
           </div>
-          <TasksList orgaId={organisation?._id} />
+          {organisation?.orgTasks?.length > 0 ? (
+            <TasksList orgTasks={organisation?.orgTasks} />
+          ) : (
+            <p className='text-center'>Pas de tâches pour le moment</p>
+          )}
           <Link
             to={`/task/new/${organisation?._id}`}
-            className='self-center border w-32 px-4 py-2 text-center rounded-md'
+            className='self-center border w-32 px-4 py-2 text-center rounded-full'
           >
             New task
           </Link>

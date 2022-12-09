@@ -2,8 +2,6 @@ import axios, { AxiosResponse } from 'axios';
 
 const tokenAuth = localStorage.getItem('auth_token');
 
-console.log('token', tokenAuth);
-
 // Axios instance
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,

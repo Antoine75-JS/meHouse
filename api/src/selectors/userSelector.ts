@@ -12,8 +12,6 @@ import type {
   UserT
 } from '../types/usersT';
 
-const selectOptions = '-__v -password';
-
 exports.findUserById = async (
   req: Request,
   res: UserFoundResponseT,
@@ -27,14 +25,7 @@ exports.findUserById = async (
 
     const userFound: UserT = await User.findById(id).populate({
       path: 'organisations',
-      model: 'Organisation',
-      populate: {
-        path: 'orgTasks orgUsers categories',
-        select: selectOptions,
-        options: {
-          _recursed: true
-        }
-      }
+      model: 'Organisation'
     });
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
@@ -56,14 +47,7 @@ exports.findUserByEmail = async (
   try {
     const userFound: UserDatabaseT = await User.findOne({ email }).populate({
       path: 'organisations',
-      model: 'Organisation',
-      populate: {
-        path: 'orgTasks orgUsers categories',
-        select: selectOptions,
-        options: {
-          _recursed: true
-        }
-      }
+      model: 'Organisation'
     });
 
     console.log('logged user :', userFound);

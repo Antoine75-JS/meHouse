@@ -62,7 +62,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
       <div className='grow '>
         {task && (
           <div className='flex gap-2 items-center'>
-            <Link className='font-bold' to={`/task/${task._id}`}>
+            <Link className='font-bold' to={`/task/${task._id}`} state={{ task }}>
               {task.taskName}
             </Link>
             {task?.category && <CategoryChip catName={task.category?.catName} />}

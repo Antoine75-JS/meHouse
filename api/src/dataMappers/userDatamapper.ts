@@ -7,11 +7,7 @@ const { errors } = require('../utils/errors');
 exports.getUserById = async (id: string) => {
   const user: UserT = await User.findById(id).populate({
     path: 'organisations',
-    model: 'Organisation',
-    populate: {
-      path: 'orgTasks orgUsers categories',
-      select: '-__v -password'
-    }
+    model: 'Organisation'
   });
 
   if (!user) throw new ErrorHandler(errors.notFound, 'No user found');

@@ -24,7 +24,6 @@ const Snackbar: React.FC<ISnackbar> = () => {
   }, []);
 
   const renderIcon = (err: string) => {
-    console.log(err);
     switch (err) {
       case 'success':
         return <SuccessIcon />;

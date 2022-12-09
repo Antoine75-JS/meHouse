@@ -36,6 +36,29 @@ exports.getAllOrganisations = async (
   }
 };
 
+exports.getOrganisationDetails = async (
+  req: Request,
+  res: OrganisationResponseT,
+  next: NextFunction
+) => {
+  try {
+    console.log(res.orgFound);
+
+    if (!res.orgFound)
+      throw new ErrorHandler(errors.notFound, 'Organisation not found');
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Organisation found',
+      orgFound: res.orgFound
+    });
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.createOrganisation = async (
   req: Request,
   res: UserFoundResponseT,
