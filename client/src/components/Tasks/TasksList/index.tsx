@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
+import Loading from '../../Utils/Loading';
 
-import TaskListItem from '../TaskListItem';
+const TaskListItem = lazy(() => import('../TaskListItem'));
 
 interface Props {
   orgTasks: Itask[];
@@ -15,14 +16,22 @@ const TasksList: React.FC<Props> = ({ orgTasks }) => {
         {orgTasks &&
           orgTasks
             .filter((task) => !task.isDone)
-            .map((task) => <TaskListItem key={task._id} task={task} />)}
+            .map((task) => (
+              <Suspense fallback={<Loading />} key={task._id}>
+                <TaskListItem task={task} />
+              </Suspense>
+            ))}
       </div>
       <div>
         <div className='font-bold my-2'>Tâches terminées :</div>
         {orgTasks &&
           orgTasks
             .filter((task) => task.isDone)
-            .map((task) => <TaskListItem key={task._id} task={task} />)}
+            .map((task) => (
+              <Suspense fallback={<Loading />} key={task._id}>
+                <TaskListItem task={task} />
+              </Suspense>
+            ))}
       </div>
     </div>
   );
