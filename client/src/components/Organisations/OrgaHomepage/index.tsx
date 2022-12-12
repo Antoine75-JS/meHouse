@@ -7,7 +7,7 @@ import { getOrganisationDetails } from '../../../actions/organisation';
 import CategoriesList from '../../Categories/CategoriesList';
 import TasksList from '../../Tasks/TasksList';
 
-const OrganisationDetailsPage: React.FC = () => {
+const OrganisationHomepage: React.FC = () => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -62,4 +62,4 @@ const OrganisationDetailsPage: React.FC = () => {
   );
 };
 
-export default OrganisationDetailsPage;
+export default OrganisationHomepage;

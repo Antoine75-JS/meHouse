@@ -19,6 +19,7 @@ import {
   TasksActionTypes,
   DELETE_TASK,
   getTasksFromOrganisation,
+  REPEAT_TASK,
 } from '../actions/tasks';
 import { getOrganisationDetails } from '../actions/organisation';
 
@@ -53,6 +54,9 @@ const tasksMiddleware: Middleware =
         }
         break;
       }
+      // --------------------------------------------------------------------------------
+      // ------------------------------  NEW  -------------------------------------------
+      // --------------------------------------------------------------------------------
       case CREATE_NEW_TASK: {
         try {
           store.dispatch(startLoading());
@@ -82,6 +86,9 @@ const tasksMiddleware: Middleware =
         }
         break;
       }
+      // --------------------------------------------------------------------------------
+      // ------------------------------  DELETE  ----------------------------------------
+      // --------------------------------------------------------------------------------
       case DELETE_TASK: {
         try {
           store.dispatch(startLoading());
@@ -93,6 +100,36 @@ const tasksMiddleware: Middleware =
           if (response.status === 200) {
             const { message, status, deletedTask } = response.data;
             store.dispatch(getOrganisationDetails(deletedTask?.orgaId));
+            store.dispatch(openSnackbar({ type: status, message: message }));
+          }
+
+          next(action);
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            const { message, status } = error?.response?.data || undefined;
+            store.dispatch(openSnackbar({ type: status, message: message }));
+          } else {
+            store.dispatch(openSnackbar({ type: 'error', message: 'An error occured' }));
+          }
+        } finally {
+          store.dispatch(stopLoading());
+        }
+        break;
+      }
+      // --------------------------------------------------------------------------------
+      // ------------------------------  RESET  ----------------------------------------
+      // --------------------------------------------------------------------------------
+      case REPEAT_TASK: {
+        try {
+          store.dispatch(startLoading());
+
+          const response: AxiosResponse = await axiosInstance.patch(
+            `${process.env.REACT_APP_API_URL}/tasks/${action.payload}/reset`,
+          );
+
+          if (response.status === 200) {
+            const { message, status, updatedTask } = response.data;
+            store.dispatch(getOrganisationDetails(updatedTask?.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
           }
 

@@ -120,6 +120,9 @@ exports.resetTaskDate = async (
   try {
     console.log('reseting date', res.taskFound);
 
+    if (!res.taskFound?.repeatFrequency)
+      throw new ErrorHandler(errors.notModified, 'Could not reset task date');
+
     const newDate = new Date();
     const expireDate = new Date();
 
@@ -133,7 +136,9 @@ exports.resetTaskDate = async (
     req.body = res.taskFound;
 
     next();
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 };
 
 // If category in req is already in task, removes it
@@ -180,7 +185,7 @@ exports.updateTask = async (
     if (Object.keys(update).length === 0 && update.constructor === Object)
       throw new ErrorHandler(errors.notModified, 'Task was not updated');
 
-    console.log(filter, update);
+    // console.log(filter, update);
 
     const updatedTask = await Task.findOneAndUpdate(filter, update, {
       new: true

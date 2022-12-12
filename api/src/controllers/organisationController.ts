@@ -42,8 +42,6 @@ exports.getOrganisationDetails = async (
   next: NextFunction
 ) => {
   try {
-    console.log(res.orgFound);
-
     if (!res.orgFound)
       throw new ErrorHandler(errors.notFound, 'Organisation not found');
 

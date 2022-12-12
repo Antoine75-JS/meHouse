@@ -13,7 +13,7 @@ import Loading from '../Utils/Loading';
 import { checkUserLogged } from '../../actions/auth';
 import Snackbar from '../Utils/Snackbar';
 import Navbar from '../Navbar';
-import OrganisationDetailsPage from '../Organisations/OrgaDetailsPage';
+import OrganisationHomepage from '../Organisations/OrgaHomepage';
 import NewTaskForm from '../Tasks/NewTaskForm';
 import SignupPage from '../SignupPage';
 import CreateOrganisationForm from '../Organisations/CreateOrganisationForm';
@@ -45,7 +45,7 @@ const App: React.FC = () => {
               <Route path='new/:id' element={<NewTaskForm />} />
             </Route>
             <Route path='/orga'>
-              <Route path=':id' element={<OrganisationDetailsPage />} />
+              <Route path=':id' element={<OrganisationHomepage />} />
               <Route path='new' element={<CreateOrganisationForm />} />
             </Route>
           </>

@@ -19,7 +19,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import duration from 'dayjs/plugin/duration';
 
 import PercentBar from '../../Utils/PercentBar';
-import { deleteTask } from '../../../actions/tasks';
+import { deleteTask, repeatTask } from '../../../actions/tasks';
 import CategoryChip from '../../Utils/CategoryChip';
 
 // Config dayjs
@@ -55,6 +55,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
 
   const handleRepeatTask = (id: string) => {
     console.log('repeating task', id);
+    dispatch(repeatTask(id));
     setIsDropDownOpen(false);
   };
 
