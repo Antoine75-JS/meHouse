@@ -5,6 +5,7 @@ import axios, { AxiosResponse } from 'axios';
 
 // Axios instance
 import axiosInstance from '../services/axiosInstance';
+import useAxiosInstance from '../services/useAxiosInstance';
 
 // Component
 import { openSnackbar } from '../actions/snackbar';

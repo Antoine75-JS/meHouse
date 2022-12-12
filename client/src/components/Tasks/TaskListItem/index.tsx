@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
@@ -58,7 +59,17 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
   };
 
   return (
-    <div className='flex w-600 mb-4 border-2 p-4 rounded-3xl items-center'>
+    <div
+      className='flex w-600 mb-4 border-2 p-4 rounded-3xl items-center'
+      style={
+        task?.isDone
+          ? {
+              borderColor: '#aaa',
+              color: '#aaa',
+            }
+          : {}
+      }
+    >
       <div className='grow '>
         {task && (
           <div className='flex gap-2 items-center'>
@@ -71,6 +82,8 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
       </div>
       {task?.expireDate ? (
         <span>{dayjs(task?.expireDate).from(dayjs())}</span>
+      ) : task?.isDone ? (
+        <CheckCircleIcon className='h-6 w-6' />
       ) : (
         <PercentBar
           creationDate={task?.creationDate}
@@ -106,13 +119,23 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
               aria-labelledby='dropdownMenuIconButton'
             >
               <li>
-                <button
-                  type='button'
-                  onClick={() => handleTaskDone(task?._id)}
-                  className='flex w-full items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
-                >
-                  Mark as done ! <CheckCircleIcon className='h-6 w-6' />
-                </button>
+                {task?.isDone ? (
+                  <button
+                    type='button'
+                    onClick={() => handleTaskDone(task?._id)}
+                    className='flex w-full items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
+                  >
+                    Cancel undone <CheckCircleIcon className='h-6 w-6' />
+                  </button>
+                ) : (
+                  <button
+                    type='button'
+                    onClick={() => handleTaskDone(task?._id)}
+                    className='flex w-full items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
+                  >
+                    Mark as done ! <CheckCircleIcon className='h-6 w-6' />
+                  </button>
+                )}
                 <button
                   type='button'
                   onClick={() => handleRepeatTask(task?._id)}
