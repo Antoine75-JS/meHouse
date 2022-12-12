@@ -7,3 +7,8 @@ interface ICategory {
 interface ICategories {
   categories: ICategory[];
 }
+
+interface INewCategoryPayload {
+  catName: string;
+  orgaId: string;
+}

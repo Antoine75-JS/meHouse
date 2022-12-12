@@ -83,7 +83,7 @@ const OrganisationDetailsPage: React.FC = () => {
             >
               +
             </button>
-            {isNewCategoryFormOpen && <NewCategoryForm />}
+            {isNewCategoryFormOpen && <NewCategoryForm orgaId={organisation?._id} />}
           </div>
           {filteredTasks?.length > 0 ? (
             <TasksList orgTasks={filteredTasks} />

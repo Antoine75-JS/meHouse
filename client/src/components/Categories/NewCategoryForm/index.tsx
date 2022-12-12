@@ -1,19 +1,24 @@
 /* eslint-disable max-len */
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { createNewCategory } from '../../../actions/category';
 
 // Ts
+interface Props {
+  orgaId: string;
+}
+
 interface FormInputs {
-  category: string;
+  catName: string;
 }
 
 // Yup schema validation
 const newCategorySchema = yup.object().shape({
-  category: yup
+  catName: yup
     .string()
     .required()
     .matches(
@@ -22,7 +27,7 @@ const newCategorySchema = yup.object().shape({
     ),
 });
 
-const NewCategoryForm: React.FC = () => {
+const NewCategoryForm: React.FC<Props> = ({ orgaId }) => {
   const dispatch = useDispatch();
 
   const {
@@ -34,8 +39,9 @@ const NewCategoryForm: React.FC = () => {
     resolver: yupResolver(newCategorySchema),
   });
 
-  const handleCreateNewTask = () => {
-    console.log('new task');
+  const handleCreateNewTask: SubmitHandler<FormInputs> = (data: FormInputs) => {
+    const payload = { orgaId, ...data };
+    dispatch(createNewCategory(payload));
   };
 
   return (
@@ -45,7 +51,7 @@ const NewCategoryForm: React.FC = () => {
     >
       <div className='w-600'>
         <label
-          htmlFor='category'
+          htmlFor='catName'
           className='block mb-4 text-sm font-medium text-gray-900 dark:text-white'
         >
           Nouvelle catégorie
@@ -53,12 +59,12 @@ const NewCategoryForm: React.FC = () => {
             type='text'
             id='category'
             // Find how to improve register
-            {...register('category')}
+            {...register('catName')}
             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-2'
             placeholder='Nouvelle catégorie'
             required
           />
-          {errors && <p className='mt-2 font-thin text-red-600'>{errors.category?.message}</p>}
+          {errors && <p className='mt-2 font-thin text-red-600'>{errors.catName?.message}</p>}
         </label>
       </div>
       {/* {errors && <span>This field is required</span>} */}

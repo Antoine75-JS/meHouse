@@ -8,11 +8,17 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import authMiddleware from '../middlewares/authMiddleware';
 import tasksMiddleware from '../middlewares/tasksMiddleware';
 import organisationsMiddleware from '../middlewares/organisationsMiddleware';
+import categoriesMiddleware from '../middlewares/categoriesMiddleware';
 
 // Import reducers
 import reducer from '../reducers';
 
-const middlewares = applyMiddleware(authMiddleware, tasksMiddleware, organisationsMiddleware);
+const middlewares = applyMiddleware(
+  authMiddleware,
+  tasksMiddleware,
+  organisationsMiddleware,
+  categoriesMiddleware,
+);
 
 // TODO
 // Handle serialized errors with dates
