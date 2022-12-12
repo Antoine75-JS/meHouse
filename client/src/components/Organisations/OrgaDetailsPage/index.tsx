@@ -4,40 +4,23 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Link, useParams } from 'react-router-dom';
 import { getOrganisationDetails } from '../../../actions/organisation';
-import NewCategoryForm from '../../Categories/NewCategoryForm';
+import CategoriesList from '../../Categories/CategoriesList';
 import TasksList from '../../Tasks/TasksList';
-import CategoryChip from '../../Utils/CategoryChip';
 
 const OrganisationDetailsPage: React.FC = () => {
-  const [isNewCategoryFormOpen, setIsNewCategoryFormOpen] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>();
-  const { id } = useParams();
-  const organisation = useSelector((state: IState) => state.organisation);
   const dispatch = useDispatch();
 
+  const { id } = useParams();
+  const selectedCategory = useSelector((state: IState) => state.categories.selectedCategory);
+  const organisation = useSelector((state: IState) => state.organisation);
+
   const filteredTasks = useMemo(() => {
-    if (organisation?.orgTasks?.length > 0 && selectedCategory)
+    if (organisation?.orgTasks?.length > 0 && selectedCategory !== null)
       return organisation?.orgTasks?.filter((task: Itask) => {
         return task?.category?._id === selectedCategory;
       });
-
     return organisation?.orgTasks;
-  }, [selectedCategory, organisation]);
-
-  const handleSelecteCategory = (category: string) => {
-    if (category !== selectedCategory) {
-      setSelectedCategory(category);
-    }
-    // prettier-ignore
-    else {
-      setSelectedCategory('');
-    }
-  };
-
-  const handleAddcategory = () => {
-    console.log('adding category');
-    setIsNewCategoryFormOpen(!isNewCategoryFormOpen);
-  };
+  }, [organisation, selectedCategory]);
 
   useEffect(() => {
     if (id) dispatch(getOrganisationDetails(id));
@@ -58,32 +41,9 @@ const OrganisationDetailsPage: React.FC = () => {
               </div>
             ))}
             {/* CATEGORIES */}
-            <div className='font-bold my-2 pb-1 '>Categories :</div>
-            {organisation?.categories &&
-              organisation?.categories?.length > 0 &&
-              organisation?.categories?.map((category: ICategory) => (
-                <button
-                  key={category._id}
-                  type='button'
-                  onClick={() => handleSelecteCategory(category?._id)}
-                >
-                  <CategoryChip
-                    catName={category?.catName}
-                    style={{
-                      border: `${category?._id === selectedCategory ? '2px solid white' : 'none'}`,
-                    }}
-                  />
-                </button>
-              ))}
-            <button
-              className='ml-4 h-8 w-8 rounded-full bg-slate-400 font-white text-center pb-0.5'
-              type='button'
-              style={{ rotate: `${isNewCategoryFormOpen ? '45deg' : '0deg'}` }}
-              onClick={handleAddcategory}
-            >
-              +
-            </button>
-            {isNewCategoryFormOpen && <NewCategoryForm orgaId={organisation?._id} />}
+            {organisation?.categories && organisation?.categories?.length > 0 && (
+              <CategoriesList categories={organisation?.categories} />
+            )}
           </div>
           {filteredTasks?.length > 0 ? (
             <TasksList orgTasks={filteredTasks} />

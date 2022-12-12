@@ -4,6 +4,10 @@ interface ICategory {
   orgaId: string;
 }
 
+interface ICategoryState extends ICategories {
+  selectedCategory: string | null;
+}
+
 interface ICategories {
   categories: ICategory[];
 }

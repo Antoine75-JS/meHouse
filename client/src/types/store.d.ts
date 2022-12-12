@@ -4,4 +4,5 @@ interface IState {
   snackbar: ISnackbar;
   user: IUser;
   organisation: IOrganisation;
+  categories: ICategoryState;
 }

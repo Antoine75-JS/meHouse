@@ -5,6 +5,7 @@ import tasksReducer from './tasks';
 import userReducer from './user';
 import snackbarReducer from './snackbar';
 import organisationReducer from './organisations';
+import categoriesReducer from './categories';
 
 const rootReducer = combineReducers({
   loading: loadingReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   snackbar: snackbarReducer,
   organisation: organisationReducer,
+  categories: categoriesReducer,
 });
 
 export default rootReducer;
