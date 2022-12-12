@@ -4,10 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Link, useParams } from 'react-router-dom';
 import { getOrganisationDetails } from '../../../actions/organisation';
+import NewCategoryForm from '../../Categories/NewCategoryForm';
 import TasksList from '../../Tasks/TasksList';
 import CategoryChip from '../../Utils/CategoryChip';
 
 const OrganisationDetailsPage: React.FC = () => {
+  const [isNewCategoryFormOpen, setIsNewCategoryFormOpen] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string>();
   const { id } = useParams();
   const organisation = useSelector((state: IState) => state.organisation);
@@ -32,6 +34,11 @@ const OrganisationDetailsPage: React.FC = () => {
     }
   };
 
+  const handleAddcategory = () => {
+    console.log('adding category');
+    setIsNewCategoryFormOpen(!isNewCategoryFormOpen);
+  };
+
   useEffect(() => {
     if (id) dispatch(getOrganisationDetails(id));
   }, [id]);
@@ -51,10 +58,10 @@ const OrganisationDetailsPage: React.FC = () => {
               </div>
             ))}
             {/* CATEGORIES */}
-            <div className='font-bold my-2 pb-1'>Categories :</div>
+            <div className='font-bold my-2 pb-1 '>Categories :</div>
             {organisation?.categories &&
               organisation?.categories?.length > 0 &&
-              organisation?.categories?.map((category: ICategory, i) => (
+              organisation?.categories?.map((category: ICategory) => (
                 <button
                   key={category._id}
                   type='button'
@@ -68,6 +75,15 @@ const OrganisationDetailsPage: React.FC = () => {
                   />
                 </button>
               ))}
+            <button
+              className='ml-4 h-8 w-8 rounded-full bg-slate-400 font-white text-center pb-0.5'
+              type='button'
+              style={{ rotate: `${isNewCategoryFormOpen ? '45deg' : '0deg'}` }}
+              onClick={handleAddcategory}
+            >
+              +
+            </button>
+            {isNewCategoryFormOpen && <NewCategoryForm />}
           </div>
           {filteredTasks?.length > 0 ? (
             <TasksList orgTasks={filteredTasks} />
