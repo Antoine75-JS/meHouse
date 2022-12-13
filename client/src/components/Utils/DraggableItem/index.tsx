@@ -8,7 +8,7 @@ interface Props {
 }
 
 const DraggableItem: React.FC<Props> = ({ id, children }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [, drag] = useDrag(() => ({
     type: DraggableItemTypes.CATEGORY,
     item: {
       type: DraggableItemTypes.CATEGORY,
@@ -18,11 +18,6 @@ const DraggableItem: React.FC<Props> = ({ id, children }) => {
       isDragging: !!monitor.isDragging(),
     }),
   }));
-
-  useEffect(() => {
-    console.log('isDraggin', isDragging);
-  }, [isDragging]);
-
   return <span ref={drag}>{children}</span>;
 };
 

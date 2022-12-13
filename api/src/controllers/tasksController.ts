@@ -178,8 +178,6 @@ exports.updateTask = async (
   next: NextFunction
 ) => {
   try {
-    console.log('body update', req.body);
-
     const filter = { _id: res.taskFound?.id };
     const update = { ...req.body };
 

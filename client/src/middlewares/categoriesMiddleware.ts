@@ -54,7 +54,6 @@ const tasksMiddleware: Middleware =
       case ADD_CATEGORY_TO_TASK: {
         try {
           store.dispatch(startLoading());
-          console.log('adding category', action.payload, action);
           const response: AxiosResponse = await axiosInstance.patch(
             `${process.env.REACT_APP_API_URL}/tasks/${action.payload?.taskId}/toggle-category`,
             {
