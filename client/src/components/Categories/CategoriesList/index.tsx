@@ -51,7 +51,7 @@ const CategoriesList: React.FC<Props> = ({ categories }) => {
 
       {categories &&
         categories?.map((category: ICategory) => (
-          <DraggableItem key={category?._id}>
+          <DraggableItem id={category?._id} key={category?._id}>
             <CategoryItem key={category?._id} category={category} />
           </DraggableItem>
         ))}

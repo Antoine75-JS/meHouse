@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
-import React, { useState } from 'react';
+import React, { lazy, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -22,6 +22,8 @@ import PercentBar from '../../Utils/PercentBar';
 import { deleteTask, editTask, repeatTask } from '../../../actions/tasks';
 import CategoryChip from '../../Utils/CategoryChip';
 
+const DroppableContainer = lazy(() => import('../../Utils/DroppableContainer'));
+
 // Config dayjs
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
@@ -30,6 +32,20 @@ dayjs.locale('fr');
 interface PropsT {
   task: Itask;
 }
+
+const CategoryContainer: React.FC<PropsT> = ({ task }) => {
+  return (
+    <div className='grow w-8'>
+      <DroppableContainer targetId={task?._id} helperText='Ajouter une catégorie'>
+        {task?.category ? (
+          <CategoryChip catName={task.category?.catName} />
+        ) : (
+          <div className='grow w-full h-8' />
+        )}
+      </DroppableContainer>
+    </div>
+  );
+};
 
 // TODO
 // Handle passed dates
@@ -69,13 +85,17 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
           : {}
       }
     >
-      <div className='grow '>
+      <div className='grow'>
         {task && (
           <div className='flex gap-2 items-center'>
             <Link className='font-bold' to={`/task/${task._id}`} state={{ task }}>
               {task.taskName}
             </Link>
-            {task?.category && <CategoryChip catName={task.category?.catName} />}
+            {/* Categories */}
+            <CategoryContainer task={task} />
+            {/* <DroppableContainer>
+              <CategoryChip catName={task.category?.catName} />
+            </DroppableContainer> */}
           </div>
         )}
       </div>
