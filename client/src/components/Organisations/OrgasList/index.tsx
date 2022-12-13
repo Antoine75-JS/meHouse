@@ -9,12 +9,7 @@ interface ItemProps {
 
 const OrgasListItem: React.FC<ItemProps> = ({ orga }) => {
   return (
-    <Link
-      to={`/orga/${orga._id}`}
-      state={{ orga }}
-      className='w-600 mb-4 border p-4 rounded-xl flex'
-      key={orga._id}
-    >
+    <Link to={`/orga/${orga._id}`} className='w-600 mb-4 border p-4 rounded-xl flex' key={orga._id}>
       <div className='grow'>{orga.orgName}</div>
       <div>{'>'}</div>
     </Link>
