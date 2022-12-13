@@ -127,6 +127,24 @@ exports.createOrganisation = async (
   }
 };
 
+exports.inviteUserToOrganisation = async (
+  req: Request,
+  res: OrganisationResponseT,
+  next: NextFunction
+) => {
+  try {
+    console.log('inviting user', res.orgFound, req.body);
+
+    res.status(200).json({
+      status: 'success',
+      message: 'User invited'
+    });
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 // TODO
 // Remove organisation from users
 exports.deleteOrganisation = async (

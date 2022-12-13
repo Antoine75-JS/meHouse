@@ -86,19 +86,17 @@ const organisationsMiddleware: Middleware =
 
           console.log('inviting user action', action);
 
-          // const response: AxiosResponse = await axiosInstance.post(
-          //   `${process.env.REACT_APP_API_URL}/organisations`,
-          //   action.payload,
-          // );
+          const response: AxiosResponse = await axiosInstance.post(
+            `${process.env.REACT_APP_API_URL}/organisations/${action?.payload?.orgaId}/invite`,
+            action.payload,
+          );
 
-          // if (response.status === 201) {
-          //   const { message, status } = response.data;
-
-          //   // TODO
-          //   // Redirect user
-          //   store.dispatch(checkUserLogged());
-          //   store.dispatch(openSnackbar({ type: status, message: message }));
-          // }
+          if (response.status === 200) {
+            const { message, status } = response.data;
+            // TODO
+            // Redirect user
+            store.dispatch(openSnackbar({ type: status, message: message }));
+          }
 
           next(action);
         } catch (error) {
