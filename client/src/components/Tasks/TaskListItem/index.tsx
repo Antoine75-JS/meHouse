@@ -116,6 +116,8 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
           expireDate={task?.expireDate}
         />
       )}
+      {/* TODO */}
+      {/* Handle positionning menu */}
       {/* DROPDOWN MENU */}
       <div>
         <button

@@ -1,0 +1,78 @@
+/* eslint-disable max-len */
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { createNewCategory } from '../../../actions/category';
+import { inviteUserToOrganisation } from '../../../actions/organisation';
+
+// Ts
+interface Props {
+  orgaId: string;
+  setIsInviteUserFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface FormInputs {
+  email: string;
+}
+
+// Yup schema validation
+const inviteUserSchema = yup.object().shape({
+  email: yup.string().email('Une adresse mail au format valide est requise').required(),
+});
+
+const InviteUserForm: React.FC<Props> = ({ orgaId, setIsInviteUserFormOpen }) => {
+  const dispatch = useDispatch();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormInputs>({
+    resolver: yupResolver(inviteUserSchema),
+  });
+
+  const handleCreateNewTask: SubmitHandler<FormInputs> = (data: FormInputs) => {
+    const payload = { orgaId, ...data };
+    console.log(payload);
+    dispatch(inviteUserToOrganisation(payload));
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit(handleCreateNewTask)}
+      className='flex justify-start items-center gap-4 m-4'
+    >
+      <div className='w-600'>
+        <label
+          htmlFor='catName'
+          className='block mb-4 text-sm font-medium text-gray-900 dark:text-white'
+        >
+          Adresse mail pour l'invitation :
+          <input
+            type='text'
+            id='category'
+            // Find how to improve register
+            {...register('email')}
+            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-2'
+            placeholder='user@email.com'
+            required
+          />
+          {errors && <p className='mt-2 font-thin text-red-600'>{errors.email?.message}</p>}
+        </label>
+      </div>
+      {/* {errors && <span>This field is required</span>} */}
+      <button
+        type='submit'
+        className='mt-3 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800'
+      >
+        Submit
+      </button>
+    </form>
+  );
+};
+
+export default InviteUserForm;

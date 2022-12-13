@@ -10,3 +10,8 @@ interface INewOrganisationPayload {
   orgName: string;
   userId?: string;
 }
+
+interface IInviteUserActionPayload {
+  email: string;
+  orgaId: string;
+}

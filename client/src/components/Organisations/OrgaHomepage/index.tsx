@@ -6,8 +6,10 @@ import { Link, useParams } from 'react-router-dom';
 import { getOrganisationDetails } from '../../../actions/organisation';
 import CategoriesList from '../../Categories/CategoriesList';
 import TasksList from '../../Tasks/TasksList';
+import InviteUserForm from '../../User/InviteUserForm';
 
 const OrganisationHomepage: React.FC = () => {
+  const [isInviteUserFormOpen, setIsInviteUserFormOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -26,6 +28,10 @@ const OrganisationHomepage: React.FC = () => {
     if (id) dispatch(getOrganisationDetails(id));
   }, [id]);
 
+  const handleInviteUser = () => {
+    setIsInviteUserFormOpen(!isInviteUserFormOpen);
+  };
+
   return (
     <div>
       {organisation && (
@@ -33,13 +39,31 @@ const OrganisationHomepage: React.FC = () => {
           <h2 className='text-4xl font-bold pb-4'>{organisation?.orgName} :</h2>
           <div>
             {/* MEMBERS */}
-            <div className='font-bold my-2'>Members :</div>
-            {organisation?.orgUsers?.map((user: IUser, i) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <div className='pl-4' key={i}>
-                {user?.username}
+            <div>
+              <div className='font-bold my-2'>Members :</div>
+              <div className='flex gap-2 items-center'>
+                {organisation?.orgUsers?.map((user: IUser, i) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <div className='pl-4' key={i}>
+                    {user?.username}
+                  </div>
+                ))}
+                <button
+                  className='ml-4 h-8 w-8 rounded-full bg-slate-400 font-white text-center pb-0.5'
+                  type='button'
+                  style={{ rotate: `${isInviteUserFormOpen ? '45deg' : '0deg'}` }}
+                  onClick={handleInviteUser}
+                >
+                  +
+                </button>
               </div>
-            ))}
+              {isInviteUserFormOpen && (
+                <InviteUserForm
+                  setIsInviteUserFormOpen={setIsInviteUserFormOpen}
+                  orgaId={organisation?._id}
+                />
+              )}
+            </div>
             {/* CATEGORIES */}
             {organisation?.categories && organisation?.categories?.length > 0 && (
               <CategoriesList categories={organisation?.categories} />

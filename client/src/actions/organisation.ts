@@ -1,6 +1,7 @@
 export const CREATE_NEW_ORGANISATION = 'CREATE_NEW_ORGANISATION';
 export const SET_ORGANISATION_DETAILS = 'SET_ORGANISATION_DETAILS';
 export const GET_ORGANISATION_DETAILS = 'GET_ORGANISATION_DETAILS';
+export const INVITE_USER_TO_ORGANISATION = 'INVITE_USER_TO_ORGANISATION';
 
 export type OrganisationsActionTypes =
   | {
@@ -14,6 +15,10 @@ export type OrganisationsActionTypes =
   | {
       type: typeof SET_ORGANISATION_DETAILS;
       payload: IOrganisation;
+    }
+  | {
+      type: typeof INVITE_USER_TO_ORGANISATION;
+      payload: IInviteUserActionPayload;
     };
 
 export const createNewOrganisation = (
@@ -30,5 +35,12 @@ export const getOrganisationDetails = (payload: string): OrganisationsActionType
 
 export const setOrganisationDetails = (payload: IOrganisation): OrganisationsActionTypes => ({
   type: SET_ORGANISATION_DETAILS,
+  payload,
+});
+
+export const inviteUserToOrganisation = (
+  payload: IInviteUserActionPayload,
+): OrganisationsActionTypes => ({
+  type: INVITE_USER_TO_ORGANISATION,
   payload,
 });
