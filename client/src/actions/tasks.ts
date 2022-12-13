@@ -6,6 +6,7 @@ export const GET_TASK_DETAILS = 'GET_TASK_DETAILS';
 export const CREATE_NEW_TASK = 'CREATE_NEW_TASK';
 export const SET_ALL_TASKS = 'SET_ALL_TASKS';
 export const DELETE_TASK = 'DELETE_TASK';
+export const EDIT_TASK = 'EDIT_TASK';
 export const REPEAT_TASK = 'REPEAT_TASK';
 
 // TYPES
@@ -16,6 +17,7 @@ export type TasksActionTypes =
   // SETTERS
   | { type: typeof SET_ALL_TASKS; payload: ITasksList }
   | { type: typeof CREATE_NEW_TASK; payload: INewTaskPayload }
+  | { type: typeof EDIT_TASK; payload: Itask }
   | { type: typeof DELETE_TASK; payload: string }
   | { type: typeof REPEAT_TASK; payload: string };
 
@@ -37,6 +39,11 @@ export const setAllTasks = (payload: ITasksList): TasksActionTypes => ({
 
 export const createNewTask = (payload: INewTaskPayload): TasksActionTypes => ({
   type: CREATE_NEW_TASK,
+  payload,
+});
+
+export const editTask = (payload: Itask): TasksActionTypes => ({
+  type: EDIT_TASK,
   payload,
 });
 

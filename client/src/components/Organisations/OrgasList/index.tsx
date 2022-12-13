@@ -1,10 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-interface Props {
-  organisations: IOrganisation[];
-}
 
 interface ItemProps {
   orga: IOrganisation;
@@ -24,12 +21,20 @@ const OrgasListItem: React.FC<ItemProps> = ({ orga }) => {
   );
 };
 
-const OrgasList: React.FC<Props> = ({ organisations }) => {
+const OrgasList: React.FC = () => {
+  const organisations = useSelector((state: IState) => state.user.organisations);
+
+  const memoedOrgas = useMemo(() => {
+    console.log('organisations changed', organisations);
+    return organisations;
+  }, [organisations]);
+
   return (
     <>
       <h2 className='font-bold mb-4'>Organisations :</h2>
-      {organisations.length > 0 &&
-        organisations.map((orga) => <OrgasListItem key={orga?._id} orga={orga} />)}
+      {memoedOrgas &&
+        memoedOrgas?.length > 0 &&
+        memoedOrgas?.map((orga: IOrganisation) => <OrgasListItem key={orga?._id} orga={orga} />)}
     </>
   );
 };

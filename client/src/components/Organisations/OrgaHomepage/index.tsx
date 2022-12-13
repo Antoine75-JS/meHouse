@@ -9,8 +9,8 @@ import TasksList from '../../Tasks/TasksList';
 
 const OrganisationHomepage: React.FC = () => {
   const dispatch = useDispatch();
-
   const { id } = useParams();
+
   const selectedCategory = useSelector((state: IState) => state.categories.selectedCategory);
   const organisation = useSelector((state: IState) => state.organisation);
 

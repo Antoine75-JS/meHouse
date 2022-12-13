@@ -20,6 +20,7 @@ import {
   DELETE_TASK,
   getTasksFromOrganisation,
   REPEAT_TASK,
+  EDIT_TASK,
 } from '../actions/tasks';
 import { getOrganisationDetails } from '../actions/organisation';
 
@@ -38,6 +39,7 @@ const tasksMiddleware: Middleware =
 
           if (response.status === 200) {
             const { data } = response;
+            console.log('dispatching tasks');
             store.dispatch(setAllTasks(data?.tasksFound));
           }
 
@@ -60,7 +62,6 @@ const tasksMiddleware: Middleware =
       case CREATE_NEW_TASK: {
         try {
           store.dispatch(startLoading());
-          console.log('creating task', action.payload);
 
           const response: AxiosResponse = await axiosInstance.post(
             `${process.env.REACT_APP_API_URL}/tasks`,
@@ -70,6 +71,39 @@ const tasksMiddleware: Middleware =
           if (response.status === 201) {
             const { message, status, savedTask } = response.data;
             store.dispatch(getTasksFromOrganisation(savedTask.orgaId));
+            store.dispatch(openSnackbar({ type: status, message: message }));
+          }
+
+          next(action);
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            const { message, status } = error?.response?.data || undefined;
+            store.dispatch(openSnackbar({ type: status, message: message }));
+          } else {
+            store.dispatch(openSnackbar({ type: 'error', message: 'An error occured' }));
+          }
+        } finally {
+          store.dispatch(stopLoading());
+        }
+        break;
+      }
+      // --------------------------------------------------------------------------------
+      // ------------------------------  EDIT  ------------------------------------------
+      // --------------------------------------------------------------------------------
+      case EDIT_TASK: {
+        try {
+          store.dispatch(startLoading());
+          console.log('updating task', action.payload);
+
+          const response: AxiosResponse = await axiosInstance.patch(
+            // eslint-disable-next-line no-underscore-dangle
+            `${process.env.REACT_APP_API_URL}/tasks/${action.payload._id}`,
+            action.payload,
+          );
+
+          if (response.status === 200) {
+            const { message, status, updatedTask } = response.data;
+            store.dispatch(getOrganisationDetails(updatedTask?.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
           }
 

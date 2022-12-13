@@ -19,7 +19,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import duration from 'dayjs/plugin/duration';
 
 import PercentBar from '../../Utils/PercentBar';
-import { deleteTask, repeatTask } from '../../../actions/tasks';
+import { deleteTask, editTask, repeatTask } from '../../../actions/tasks';
 import CategoryChip from '../../Utils/CategoryChip';
 
 // Config dayjs
@@ -48,8 +48,9 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
     dispatch(deleteTask(id));
   };
 
-  const handleTaskDone = (id: string) => {
-    console.log('task is done', id);
+  const handleTaskDone = (isDone: boolean) => {
+    console.log('task is done', task);
+    dispatch(editTask({ ...task, isDone }));
     setIsDropDownOpen(false);
   };
 
@@ -123,7 +124,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
                 {task?.isDone ? (
                   <button
                     type='button'
-                    onClick={() => handleTaskDone(task?._id)}
+                    onClick={() => handleTaskDone(false)}
                     className='flex w-full items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
                   >
                     Cancel undone <CheckCircleIcon className='h-6 w-6' />
@@ -131,7 +132,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
                 ) : (
                   <button
                     type='button'
-                    onClick={() => handleTaskDone(task?._id)}
+                    onClick={() => handleTaskDone(true)}
                     className='flex w-full items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
                   >
                     Mark as done ! <CheckCircleIcon className='h-6 w-6' />
