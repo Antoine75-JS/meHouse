@@ -43,19 +43,16 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
   };
 
   const handleDeleteTask = (id: string) => {
-    console.log('delete task', id);
-    setIsDropDownOpen(false);
     dispatch(deleteTask(id));
+    setIsDropDownOpen(false);
   };
 
   const handleTaskDone = (isDone: boolean) => {
-    console.log('task is done', task);
     dispatch(editTask({ ...task, isDone }));
     setIsDropDownOpen(false);
   };
 
   const handleRepeatTask = (id: string) => {
-    console.log('repeating task', id);
     dispatch(repeatTask(id));
     setIsDropDownOpen(false);
   };
@@ -82,10 +79,10 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
           </div>
         )}
       </div>
-      {task?.expireDate ? (
-        <span>{dayjs(task?.expireDate).from(dayjs())}</span>
-      ) : task?.isDone ? (
+      {task?.isDone ? (
         <CheckCircleIcon className='h-6 w-6' />
+      ) : task?.expireDate ? (
+        <span>{dayjs(task?.expireDate).from(dayjs())}</span>
       ) : (
         <PercentBar
           creationDate={task?.creationDate}
@@ -93,6 +90,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
           expireDate={task?.expireDate}
         />
       )}
+      {/* DROPDOWN MENU */}
       <div>
         <button
           id='dropdownMenuIconButton'
