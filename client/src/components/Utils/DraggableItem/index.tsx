@@ -1,24 +1,31 @@
-import React, { useEffect } from 'react';
+import { AnyAction } from '@reduxjs/toolkit';
+import React from 'react';
 import { useDrag } from 'react-dnd';
-import DraggableItemTypes from '../../../types/draggableItemTypes';
 
 interface Props {
+  action?: AnyAction;
+  type: string;
   id: string;
   children: JSX.Element;
 }
 
-const DraggableItem: React.FC<Props> = ({ id, children }) => {
+const DraggableItem: React.FC<Props> = ({ type, id, children, action }) => {
   const [, drag] = useDrag(() => ({
-    type: DraggableItemTypes.CATEGORY,
+    type: type,
     item: {
-      type: DraggableItemTypes.CATEGORY,
+      type: type,
       id: id,
+      action: action,
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
-  return <span ref={drag}>{children}</span>;
+  return (
+    <span ref={drag} className='hover:cursor-grab active:cursor-grabbing'>
+      {children}
+    </span>
+  );
 };
 
 export default DraggableItem;

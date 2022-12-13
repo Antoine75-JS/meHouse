@@ -22,6 +22,7 @@ import PercentBar from '../../Utils/PercentBar';
 import { deleteTask, editTask, repeatTask } from '../../../actions/tasks';
 import CategoryChip from '../../Utils/CategoryChip';
 import { addCategoryToTask } from '../../../actions/category';
+import draggableItemTypes from '../../../types/draggableItemTypes';
 
 const DroppableContainer = lazy(() => import('../../Utils/DroppableContainer'));
 
@@ -38,6 +39,7 @@ const CategoryContainer: React.FC<PropsT> = ({ task }) => {
   return (
     <div className='grow w-8'>
       <DroppableContainer
+        accepts={draggableItemTypes.CATEGORY}
         helperText='Ajouter une catégorie'
         action={addCategoryToTask({
           taskId: task?._id,
@@ -100,9 +102,6 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
             </Link>
             {/* Categories */}
             <CategoryContainer task={task} />
-            {/* <DroppableContainer>
-              <CategoryChip catName={task.category?.catName} />
-            </DroppableContainer> */}
           </div>
         )}
       </div>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { setSelectedCategory } from '../../../actions/category';
+import draggableItemTypes from '../../../types/draggableItemTypes';
 
 import CategoryChip from '../../Utils/CategoryChip';
 import NewCategoryForm from '../NewCategoryForm';
@@ -51,7 +52,7 @@ const CategoriesList: React.FC<Props> = ({ categories }) => {
 
       {categories &&
         categories?.map((category: ICategory) => (
-          <DraggableItem id={category?._id} key={category?._id}>
+          <DraggableItem type={draggableItemTypes.CATEGORY} id={category?._id} key={category?._id}>
             <CategoryItem key={category?._id} category={category} />
           </DraggableItem>
         ))}

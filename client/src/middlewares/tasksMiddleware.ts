@@ -93,7 +93,6 @@ const tasksMiddleware: Middleware =
       case EDIT_TASK: {
         try {
           store.dispatch(startLoading());
-          console.log('updating task', action.payload);
 
           const response: AxiosResponse = await axiosInstance.patch(
             // eslint-disable-next-line no-underscore-dangle
