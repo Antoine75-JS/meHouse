@@ -37,7 +37,7 @@ const OrganisationHomepage: React.FC = () => {
             {organisation?.orgUsers?.map((user: IUser, i) => (
               // eslint-disable-next-line react/no-array-index-key
               <div className='pl-4' key={i}>
-                User
+                {user?.username}
               </div>
             ))}
             {/* CATEGORIES */}
