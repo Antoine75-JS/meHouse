@@ -31,6 +31,7 @@ const NewTaskForm = () => {
     formState: { errors },
   } = useForm<FormInputs>();
   const watchRepeat = watch('taskRepeat');
+  // const watchExpire = watch('');
 
   // TODO
   // Handle redirect when task created
@@ -105,15 +106,19 @@ const NewTaskForm = () => {
               />
             </label>
           )}
-          {/* REPEAT FREQUENCY */}
-          <div className='mb-2'>Expiration date :</div>
-          <DatePicker
-            selected={expire}
-            onChange={(date: Date) => setExpire(date)}
-            placeholderText='Select a date'
-            minDate={new Date()}
-            className='px-4 py-2 bg-gray-700 rounded-lg font-bold text-sm text-gray-400'
-          />
+          {/* EXPIRATION */}
+          {!watchRepeat && (
+            <>
+              <div className='mb-2'>Expiration date :</div>
+              <DatePicker
+                selected={expire}
+                onChange={(date: Date) => setExpire(date)}
+                placeholderText='Select a date'
+                minDate={new Date()}
+                className='px-4 py-2 bg-gray-700 rounded-lg font-bold text-sm text-gray-400'
+              />
+            </>
+          )}
         </div>
         {/* {errors && <span>This field is required</span>} */}
         <button
