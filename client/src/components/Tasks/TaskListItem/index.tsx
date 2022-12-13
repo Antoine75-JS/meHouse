@@ -21,6 +21,7 @@ import duration from 'dayjs/plugin/duration';
 import PercentBar from '../../Utils/PercentBar';
 import { deleteTask, editTask, repeatTask } from '../../../actions/tasks';
 import CategoryChip from '../../Utils/CategoryChip';
+import { addCategoryToTask } from '../../../actions/category';
 
 const DroppableContainer = lazy(() => import('../../Utils/DroppableContainer'));
 
@@ -36,7 +37,13 @@ interface PropsT {
 const CategoryContainer: React.FC<PropsT> = ({ task }) => {
   return (
     <div className='grow w-8'>
-      <DroppableContainer targetId={task?._id} helperText='Ajouter une catégorie'>
+      <DroppableContainer
+        helperText='Ajouter une catégorie'
+        action={addCategoryToTask({
+          taskId: task?._id,
+          catId: '',
+        })}
+      >
         {task?.category ? (
           <CategoryChip catName={task.category?.catName} />
         ) : (

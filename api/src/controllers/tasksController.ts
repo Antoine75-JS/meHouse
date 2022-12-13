@@ -157,7 +157,7 @@ exports.toggleCategoryFromTask = async (
 
     let payload;
 
-    if (res.taskFound.category?.toString() === catFound._id.toString()) {
+    if (res.taskFound.category?._id?.toString() === catFound._id.toString()) {
       payload = { $unset: { category: 1 } };
     } else {
       payload = { category: catFound };
@@ -178,6 +178,8 @@ exports.updateTask = async (
   next: NextFunction
 ) => {
   try {
+    console.log('body update', req.body);
+
     const filter = { _id: res.taskFound?.id };
     const update = { ...req.body };
 

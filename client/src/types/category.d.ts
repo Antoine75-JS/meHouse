@@ -16,3 +16,8 @@ interface INewCategoryPayload {
   catName: string;
   orgaId: string;
 }
+
+interface IAddCatToTaskPayload {
+  taskId: string;
+  catId: string;
+}

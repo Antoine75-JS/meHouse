@@ -1,24 +1,28 @@
+import { AnyAction } from '@reduxjs/toolkit';
 import { useDrop } from 'react-dnd';
+import { useDispatch } from 'react-redux';
 import DraggableItemTypes from '../../../types/draggableItemTypes';
 
 interface DroppableContainerPropsT {
-  targetId: string;
   helperText: string;
+  action: AnyAction;
   children: JSX.Element;
 }
 
 const DroppableContainer: React.FC<DroppableContainerPropsT> = ({
-  targetId,
-  children,
   helperText,
+  action,
+  children,
 }) => {
+  const dispatch = useDispatch();
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: DraggableItemTypes.CATEGORY,
-      drop: (_item: unknown, monitor) => {
-        const dropped = monitor.didDrop();
+      drop: (item: any) => {
+        const { id } = item;
+        action.payload.catId = id;
 
-        console.log('dropped', dropped, 'item', _item, 'target', targetId);
+        dispatch(action);
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
