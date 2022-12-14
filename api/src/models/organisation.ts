@@ -20,6 +20,12 @@ const organisationSchema = new Schema<OrganisationT>({
       ref: 'User'
     }
   ],
+  invitedUsers: [
+    {
+      type: String,
+      unique: true
+    }
+  ],
   orgTasks: [
     {
       type: Schema.Types.ObjectId,

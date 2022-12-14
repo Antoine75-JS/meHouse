@@ -10,6 +10,7 @@ export interface OrganisationT {
   orgUsers: UserT[];
   orgTasks?: TaskT[];
   categories?: string[];
+  invitedUsers?: string[];
 }
 
 export type OrganisationResponseT = Response & {

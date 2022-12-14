@@ -133,7 +133,19 @@ exports.inviteUserToOrganisation = async (
   next: NextFunction
 ) => {
   try {
-    console.log('inviting user', res.orgFound, req.body);
+    const { email } = req.body;
+    // Update user organisations
+    const updatedOrga: OrganisationT = await Organisation.findOneAndUpdate(
+      { _id: res.orgFound.id },
+      { $addToSet: { invitedUsers: email } },
+      { upsert: true }
+    );
+
+    if (!updatedOrga)
+      throw new ErrorHandler(
+        errors.notModified,
+        'User not invited to organisation'
+      );
 
     res.status(200).json({
       status: 'success',
