@@ -16,3 +16,11 @@ exports.getUserById = async (id: string) => {
 
   return user;
 };
+
+exports.getUserByEmail = async (email: string) => {
+  const user: UserT = await User.findOne({ email: email });
+
+  if (!user) throw new ErrorHandler(errors.notFound, 'No user found');
+
+  return user;
+};

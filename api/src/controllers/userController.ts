@@ -85,7 +85,7 @@ exports.updateUserInvitations = async (
 
     if (!updatedUser)
       throw new ErrorHandler(
-        errors.notFound,
+        errors.notModified,
         'User could not be updated. User not added to organisation'
       );
 

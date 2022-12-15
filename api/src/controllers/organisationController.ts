@@ -8,7 +8,6 @@ import { UserFoundResponseT, UserT } from 'usersT';
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
-// const Task = require('../models/task');
 import Organisation from '../models/organisation';
 
 exports.getAllOrganisations = async (
@@ -70,8 +69,6 @@ exports.createOrganisation = async (
     if (!newOrga)
       throw new ErrorHandler(errors.notFound, 'Organisation was not created');
 
-    // const updatedUser = await User.findById({_id: res.userFound._id})
-
     // Add user to orga then save organistion
     newOrga.orgUsers.push(res.userFound);
 
@@ -91,8 +88,6 @@ exports.createOrganisation = async (
         }
       }
     });
-
-    console.log('updated user', updatedUser);
 
     if (!updatedUser)
       throw new ErrorHandler(
@@ -160,20 +155,17 @@ exports.inviteUserToOrganisation = async (
   }
 };
 
-type JoinOrganisationResponseT = OrganisationResponseT & {
-  userFound: UserT;
-};
 // Join organisation with invite
 // 1 - Check if user invited to organisation
-// 2 - Update Orga
-//     - Add User to Orga
-//     - Remove user from Orga invitations list
-// 3 - Update User
+// 2 - Update User
 //    - Add Orga to users's organisation
 //    - Remove orga from user invitations list
+// 3 - Update Orga
+//     - Add updatedUser to Orga
+//     - Remove user from Orga invitations list
 exports.joinOrganisationWithInvite = async (
   req: Request,
-  res: JoinOrganisationResponseT,
+  res: OrganisationResponseT,
   next: NextFunction
 ) => {
   try {
@@ -184,29 +176,13 @@ exports.joinOrganisationWithInvite = async (
 
     if (!res.orgFound?.invitedUsers?.includes(email))
       throw new ErrorHandler(
-        errors.notFound,
+        errors.notModified,
         'User not invited to organisation'
       );
 
-    // Add user to orga and removes it from invite list
-    const updatedOrga = await Organisation.findOneAndUpdate(
-      {
-        _id: res.orgFound?.id
-      },
-      {
-        $addToSet: { orgUsers: res.userFound },
-        $pull: { invitedUsers: email }
-      },
-      { new: true }
-    );
-
-    if (!updatedOrga)
-      throw new ErrorHandler(
-        errors.notFound,
-        'Organisation could not be updated. User not added to organisation'
-      );
-
     // Add Orga to user orgas and remove it from user invite List
+    //    - Add Orga to users's organisation
+    //    - Remove orga from user invitations list
     const updatedUser = await User.findOneAndUpdate(
       {
         email: email
@@ -220,10 +196,31 @@ exports.joinOrganisationWithInvite = async (
 
     if (!updatedUser)
       throw new ErrorHandler(
-        errors.notFound,
+        errors.notModified,
         'User could not be updated. User not added to organisation'
       );
 
+    // Add user to orga and removes it from invite list
+    //     - Add updatedUser to Orga
+    //     - Remove user from Orga invitations list
+    const updatedOrga = await Organisation.findOneAndUpdate(
+      {
+        _id: res.orgFound?.id
+      },
+      {
+        $addToSet: { orgUsers: updatedUser },
+        $pull: { invitedUsers: email }
+      },
+      { new: true }
+    );
+
+    if (!updatedOrga)
+      throw new ErrorHandler(
+        errors.notModified,
+        'Organisation could not be updated. User not added to organisation'
+      );
+
+    // If ok send updatedUser & updatedOrga
     res.status(200).json({
       status: 'success',
       message: 'User added to organisation',

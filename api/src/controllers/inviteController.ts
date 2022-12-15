@@ -28,7 +28,7 @@ exports.sendInviteEmailToUser = async (
 
     if (res.orgFound?.invitedUsers?.includes(email))
       throw new ErrorHandler(
-        errors.notFound,
+        errors.unauthorized,
         'User already invited to organisation'
       );
 
