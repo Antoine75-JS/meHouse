@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import { ObjectId } from 'mongoose';
-import { OrganisationT } from 'organisationsT';
+import { OrganisationT, OrganisationResponseT } from 'organisationsT';
 
 export interface UserT {
   id?: ObjectId;
@@ -8,24 +8,13 @@ export interface UserT {
   password: string;
   email: string;
   organisations?: OrganisationT[];
+  invitedTo?: string[];
 }
-
-export interface UserDatabaseT {
-  _id?: ObjectId;
-  username: string;
-  password: string;
-  email: string;
-  organisations?: OrganisationT[];
-}
-
-export type UserLogginResponseT = Response & {
-  userFound: UserDatabaseT;
-};
 
 export type UserFoundResponseT = Response & {
   userFound: UserT;
 };
 
 export type UserFoundRequestT = Request & {
-  user: UserDatabaseT;
+  userFound: UserT;
 };

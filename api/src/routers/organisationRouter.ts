@@ -7,15 +7,16 @@ const {
   createOrganisation,
   deleteOrganisation,
   getOrganisationDetails,
-  inviteUserToOrganisation
+  inviteUserToOrganisation,
+  joinOrganisationWithInvite
 } = require('../controllers/organisationController');
 
-const {
-  checkIfUSerIsInvited,
-  sendInviteEmailToUser
-} = require('../controllers/inviteController');
+const { sendInviteEmailToUser } = require('../controllers/inviteController');
 
-const { findOrganisationById } = require('../selectors/organisationSelector');
+const {
+  findOrganisationById,
+  findUserByEmail
+} = require('../selectors/organisationSelector');
 const { findUserById } = require('../selectors/userSelector');
 
 router.get('/', getAllOrganisations);
@@ -24,16 +25,22 @@ router.post('/', findUserById, createOrganisation);
 router.delete('/:id', findOrganisationById, deleteOrganisation);
 
 // Invite user to orga
-// 1 - Find if orga exists
-// 2 - Check if provided email is already in the invite list
-// 3 - Send email to user
-// 4 - Add user to invite list
+// TODO
+// Create token instead of having email adress in link url
 router.post(
   '/:id/invite',
   findOrganisationById,
-  checkIfUSerIsInvited,
   sendInviteEmailToUser,
   inviteUserToOrganisation
+);
+
+// Join organisation with invite
+// TODO
+// Use token instead of email in url
+router.patch(
+  '/:id/join/:email',
+  findOrganisationById,
+  joinOrganisationWithInvite
 );
 
 module.exports = router;

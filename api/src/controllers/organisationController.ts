@@ -127,6 +127,7 @@ exports.createOrganisation = async (
   }
 };
 
+// Invite user in organisation
 exports.inviteUserToOrganisation = async (
   req: Request,
   res: OrganisationResponseT,
@@ -134,6 +135,7 @@ exports.inviteUserToOrganisation = async (
 ) => {
   try {
     const { email } = req.body;
+
     // Update user organisations
     const updatedOrga: OrganisationT = await Organisation.findOneAndUpdate(
       { _id: res.orgFound.id },
@@ -149,7 +151,84 @@ exports.inviteUserToOrganisation = async (
 
     res.status(200).json({
       status: 'success',
-      message: 'User invited'
+      message: 'User invited',
+      updatedOrga
+    });
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+type JoinOrganisationResponseT = OrganisationResponseT & {
+  userFound: UserT;
+};
+// Join organisation with invite
+// 1 - Check if user invited to organisation
+// 2 - Update Orga
+//     - Add User to Orga
+//     - Remove user from Orga invitations list
+// 3 - Update User
+//    - Add Orga to users's organisation
+//    - Remove orga from user invitations list
+exports.joinOrganisationWithInvite = async (
+  req: Request,
+  res: JoinOrganisationResponseT,
+  next: NextFunction
+) => {
+  try {
+    const { email } = req.params;
+
+    if (!email)
+      throw new ErrorHandler(errors.notFound, 'No email adress provided');
+
+    if (!res.orgFound?.invitedUsers?.includes(email))
+      throw new ErrorHandler(
+        errors.notFound,
+        'User not invited to organisation'
+      );
+
+    // Add user to orga and removes it from invite list
+    const updatedOrga = await Organisation.findOneAndUpdate(
+      {
+        _id: res.orgFound?.id
+      },
+      {
+        $addToSet: { orgUsers: res.userFound },
+        $pull: { invitedUsers: email }
+      },
+      { new: true }
+    );
+
+    if (!updatedOrga)
+      throw new ErrorHandler(
+        errors.notFound,
+        'Organisation could not be updated. User not added to organisation'
+      );
+
+    // Add Orga to user orgas and remove it from user invite List
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        email: email
+      },
+      {
+        $addToSet: { organisations: res.orgFound },
+        $pull: { invitedTo: res.orgFound?.id }
+      },
+      { new: true }
+    );
+
+    if (!updatedUser)
+      throw new ErrorHandler(
+        errors.notFound,
+        'User could not be updated. User not added to organisation'
+      );
+
+    res.status(200).json({
+      status: 'success',
+      message: 'User added to organisation',
+      updatedUser,
+      updatedOrga
     });
     next();
   } catch (error) {

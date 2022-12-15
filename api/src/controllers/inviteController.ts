@@ -7,71 +7,51 @@ const mailjet = new Mailjet({
   apiSecret: process.env.MAILJET_PRIVATE_KEY
 });
 
-import Organisation from '../models/organisation';
-
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
 import { OrganisationResponseT, OrganisationT } from 'organisationsT';
-import { UserFoundResponseT, UserT } from 'usersT';
+import { UserFoundRequestT, UserT, UserFoundResponseT } from 'usersT';
 
-exports.checkIfUSerIsInvited = async (
-  req: Request,
-  res: OrganisationResponseT,
-  next: NextFunction
-) => {
-  try {
-    const userIsInvited = await Organisation.find({
-      invitedUsers: req.body.email
-    });
-
-    console.log('userIsInvited', userIsInvited);
-
-    if (userIsInvited.length > 0)
-      throw new ErrorHandler(
-        errors.conflict,
-        'User already invited in organisation'
-      );
-
-    next();
-
-    next();
-  } catch (error: any) {
-    next(error);
-  }
-};
-
+// TODO
+// Get admin's username
 exports.sendInviteEmailToUser = async (
-  req: Request,
+  req: UserFoundRequestT,
   res: OrganisationResponseT,
   next: NextFunction
 ) => {
   try {
-    const invitedFrom = res.orgFound?.orgUsers[0]?.username;
-
     const { email } = req.body;
+
     if (!email)
       throw new ErrorHandler(errors.notFound, 'No email adress provided');
 
-    const inviteLink = `${process.env.CLIENT_URL}/organisations/${res.orgFound?.id}/join`;
+    if (res.orgFound?.invitedUsers?.includes(email))
+      throw new ErrorHandler(
+        errors.notFound,
+        'User already invited to organisation'
+      );
+
+    const orgName: string = res.orgFound?.orgName;
+    const inviteLink = `${process.env.API_URL}/organisations/${res.orgFound?.id}/join/${email}`;
 
     const data = {
       Messages: [
         {
           From: {
             Email: process.env.MAILJET_SENDER_EMAIL,
-            Name: invitedFrom
+            Name: `${orgName} admin`
           },
           To: [
             {
-              Email: req.body.email,
+              Email: email,
               Name: 'Utilisateur'
             }
           ],
           Subject: 'Invitation à MeHouse',
           TextPart: 'Vous êtes invité !',
-          HTMLPart: `<h2>${invitedFrom} vous a invité à rejoindre ${res.orgFound?.orgName} sur MeHouse.</h2><br />
-        Cliquez sur ce lien pour rejoindre le groupe : 
+          HTMLPart: `<h2>${orgName} admin vous a invité à rejoindre ${orgName} sur MeHouse.</h2><br />
+        Cliquez sur ce lien pour rejoindre le groupe :
         <br />
         <br />
         <a href='${inviteLink}'>Rejoindre</a>

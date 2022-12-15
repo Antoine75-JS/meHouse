@@ -22,6 +22,11 @@ const userSchema = new Schema<UserT>({
       type: Schema.Types.ObjectId,
       ref: 'Organisation'
     }
+  ],
+  invitedTo: [
+    {
+      type: String
+    }
   ]
 });
 

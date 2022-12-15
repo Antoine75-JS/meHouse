@@ -13,7 +13,7 @@ const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
 interface UserTokenRequestT extends Request {
-  user: UserT;
+  userFound: UserT;
 }
 
 exports.checkToken = async (
@@ -57,7 +57,7 @@ exports.checkToken = async (
           throw new ErrorHandler(errors.unauthorized, 'Token non valide');
 
         // Set up user in req.user
-        req.user = userFound;
+        req.userFound = userFound;
         next();
       } else {
         throw new ErrorHandler(errors.unauthorized, 'Token expiré');

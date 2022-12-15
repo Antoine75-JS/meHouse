@@ -5,12 +5,7 @@ import User from '../models/user';
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
-import type {
-  UserDatabaseT,
-  UserFoundResponseT,
-  UserLogginResponseT,
-  UserT
-} from '../types/usersT';
+import type { UserFoundResponseT, UserT } from '../types/usersT';
 
 exports.findUserById = async (
   req: Request,
@@ -23,10 +18,12 @@ exports.findUserById = async (
   try {
     if (!id) throw new ErrorHandler(errors.notFound, 'No id supplied');
 
-    const userFound: UserT = await User.findById(id).populate({
-      path: 'organisations',
-      model: 'Organisation'
-    });
+    const userFound: UserT = await User.findById(id)
+      .populate({
+        path: 'organisations',
+        model: 'Organisation'
+      })
+      .populate({ path: 'invitedTo' });
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
 
@@ -39,13 +36,13 @@ exports.findUserById = async (
 
 exports.findUserByEmail = async (
   req: Request,
-  res: UserLogginResponseT,
+  res: UserFoundResponseT,
   next: NextFunction
 ) => {
   const email = req.body?.email;
 
   try {
-    const userFound: UserDatabaseT = await User.findOne({ email }).populate({
+    const userFound: UserT = await User.findOne({ email }).populate({
       path: 'organisations',
       model: 'Organisation'
     });

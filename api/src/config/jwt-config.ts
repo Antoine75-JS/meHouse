@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.JWT_SECRET;
 
 import { Response } from 'express';
-import type { UserDatabaseT } from '../types/usersT';
+import type { UserT } from '../types/usersT';
 
 // Errors handling
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
@@ -13,10 +13,10 @@ interface TokenT {
 }
 
 // Create token
-const createJwtToken = (user: UserDatabaseT, _id: string = null) => {
+const createJwtToken = (user: UserT, _id: string = null) => {
   const jwtToken = jwt.sign(
     {
-      sub: _id || user._id
+      sub: _id || user.id
     },
     SECRET_KEY,
     {

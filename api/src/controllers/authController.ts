@@ -8,11 +8,11 @@ const { createJwtToken } = require('../config/jwt-config');
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
-import type { UserFoundRequestT, UserLogginResponseT } from '../types/usersT';
+import type { UserFoundRequestT, UserFoundResponseT } from '../types/usersT';
 
 exports.login = async (
   req: Request,
-  res: UserLogginResponseT,
+  res: UserFoundResponseT,
   next: NextFunction
 ) => {
   try {
@@ -40,7 +40,7 @@ exports.login = async (
       auth_token,
       user: {
         email,
-        id: res.userFound._id,
+        id: res.userFound.id,
         username: res.userFound.username,
         organisations: res.userFound.organisations
       }
@@ -59,17 +59,17 @@ exports.checkLogged = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.user) {
+    if (!req.userFound) {
       throw new ErrorHandler(errors.notFound, "Vous n'êtes pas connecté");
     } else {
-      const { username, email, _id, organisations } = req.user;
+      const { username, email, id, organisations } = req.userFound;
       res.status(200).json({
         status: 'success',
         message: 'User is logged',
         user: {
           username,
           email,
-          id: _id,
+          id,
           organisations
         }
       });
@@ -165,12 +165,12 @@ exports.logout = async (req: Request, res: Response, next: NextFunction) => {
 
 exports.deleteUser = async (
   req: Request,
-  res: UserLogginResponseT,
+  res: UserFoundResponseT,
   next: NextFunction
 ) => {
   try {
     const deletedUser = await User.findOneAndDelete({
-      _id: res.userFound?._id
+      _id: res.userFound?.id
     });
 
     if (!deletedUser)
