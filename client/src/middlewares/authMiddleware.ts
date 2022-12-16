@@ -21,6 +21,7 @@ import { startLoading, stopLoading } from '../actions/loading';
 import { openSnackbar } from '../actions/snackbar';
 
 import axiosInstance from '../services/axiosInstance';
+import { checkUserInvitations } from '../actions/organisation';
 
 const authMiddleWare: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: AuthActionTypes) => {
@@ -67,6 +68,8 @@ const authMiddleWare: Middleware =
 
             localStorage.setItem('auth_token', auth_token);
             store.dispatch(setUserLogged(user));
+            store.dispatch(checkUserInvitations(user?.id));
+
             store.dispatch(
               openSnackbar({
                 type: 'success',
@@ -99,6 +102,7 @@ const authMiddleWare: Middleware =
 
           if (response.status === 200) {
             store.dispatch(setUserLogged(response.data?.user));
+            store.dispatch(checkUserInvitations(response?.data?.user?.id));
             store.dispatch(
               openSnackbar({
                 type: 'success',

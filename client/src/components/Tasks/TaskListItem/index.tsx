@@ -40,7 +40,7 @@ const CategoryContainer: React.FC<PropsT> = ({ task }) => {
     <div className='grow w-8'>
       <DroppableContainer
         accepts={draggableItemTypes.CATEGORY}
-        helperText='Ajouter une catégorie'
+        helperText={task?.category ? 'Remplacer la catégorie' : 'Ajouter une catégorie'}
         action={addCategoryToTask({
           taskId: task?._id,
           catId: '',

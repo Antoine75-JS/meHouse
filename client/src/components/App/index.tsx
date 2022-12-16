@@ -26,7 +26,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     dispatch(checkUserLogged());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className='bg-main text-white min-h-screen h-full'>

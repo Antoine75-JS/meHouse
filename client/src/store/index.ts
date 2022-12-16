@@ -9,6 +9,7 @@ import authMiddleware from '../middlewares/authMiddleware';
 import tasksMiddleware from '../middlewares/tasksMiddleware';
 import organisationsMiddleware from '../middlewares/organisationsMiddleware';
 import categoriesMiddleware from '../middlewares/categoriesMiddleware';
+import userMiddleware from '../middlewares/userMiddleware';
 
 // Import reducers
 import reducer from '../reducers';
@@ -18,6 +19,7 @@ const middlewares = applyMiddleware(
   tasksMiddleware,
   organisationsMiddleware,
   categoriesMiddleware,
+  userMiddleware,
 );
 
 // TODO

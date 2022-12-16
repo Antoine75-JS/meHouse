@@ -34,15 +34,18 @@ exports.login = async (
         'Could not create auth_token'
       );
 
+    const { id, username, organisations, invitedTo } = res.userFound;
+
     res.status(200).json({
       status: 'success',
       message: 'User logged',
       auth_token,
       user: {
         email,
-        id: res.userFound.id,
-        username: res.userFound.username,
-        organisations: res.userFound.organisations
+        id,
+        username,
+        organisations,
+        invitedTo
       }
     });
 
@@ -62,7 +65,7 @@ exports.checkLogged = async (
     if (!req.userFound) {
       throw new ErrorHandler(errors.notFound, "Vous n'êtes pas connecté");
     } else {
-      const { username, email, id, organisations } = req.userFound;
+      const { username, email, id, organisations, invitedTo } = req.userFound;
       res.status(200).json({
         status: 'success',
         message: 'User is logged',
@@ -70,7 +73,8 @@ exports.checkLogged = async (
           username,
           email,
           id,
-          organisations
+          organisations,
+          invitedTo
         }
       });
       next();

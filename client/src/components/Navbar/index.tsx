@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, redirect, useNavigate } from 'react-router-dom';
 import { submitLogout } from '../../actions/auth';
 
+import NotificationsComponent from '../Utils/NotificationsComponent';
+
 import './styles.css';
 
 const Navbar = () => {
@@ -19,12 +21,17 @@ const Navbar = () => {
   }, [isLogged]);
 
   return (
-    <div className='flex gap-2 text-end p-4'>
-      <NavLink to='/'>Home</NavLink>
+    <div className='flex gap-2 text-end p-4 items-center'>
+      <NavLink to='/' className='grow text-start'>
+        Home
+      </NavLink>
       {isLogged ? (
-        <button type='button' className='grow text-right' onClick={handleLogout}>
-          Logout
-        </button>
+        <div className='text-right flex items-center gap-4'>
+          <NotificationsComponent />
+          <button type='button' onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       ) : (
         <>
           <NavLink to='/login'>Login</NavLink>

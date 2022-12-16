@@ -2,9 +2,9 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import SuccessIcon from './Icons/SuccessIcon';
-import ErrorIcon from './Icons/ErrorIcon';
-import WarningIcon from './Icons/WarningIcon';
+import SuccessIcon from '../Icons/SuccessIcon';
+import ErrorIcon from '../Icons/ErrorIcon';
+import WarningIcon from '../Icons/WarningIcon';
 import { closeSnackbar } from '../../../actions/snackbar';
 
 const Snackbar: React.FC<ISnackbar> = () => {

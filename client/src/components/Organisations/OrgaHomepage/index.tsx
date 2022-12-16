@@ -40,7 +40,7 @@ const OrganisationHomepage: React.FC = () => {
           <div>
             {/* MEMBERS */}
             <div>
-              <div className='font-bold my-2'>Members :</div>
+              <div className='font-bold my-2'>Membres :</div>
               <div className='flex gap-2 items-center'>
                 {organisation?.orgUsers?.map((user: IUser, i) => (
                   // eslint-disable-next-line react/no-array-index-key
