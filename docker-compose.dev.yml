@@ -18,6 +18,18 @@ services:
       - NODE_ENV=development
     command: npm run dev
 
+  # API
+  notifications:
+    build:
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./notifications-service:/notifications
+      - /notifications-service/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+
   # CLIENT
   client:
     build:

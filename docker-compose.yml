@@ -17,7 +17,7 @@ services:
       - mongodb
 
   # API
-  notifications-service:
+  notifications:
     restart: always
     build:
       context: ./notifications-service
