@@ -100,6 +100,14 @@ const authMiddleWare: Middleware =
             `${process.env.REACT_APP_API_URL}/auth/checkauthtoken`,
           );
 
+          const notifications: AxiosResponse = await axios.get(
+            `${process.env.REACT_APP_API_NOTIFICATIONS_URL}`,
+          );
+
+          if (notifications.status === 200) {
+            console.log('Connected to notifications server');
+          }
+
           if (response.status === 200) {
             store.dispatch(setUserLogged(response.data?.user));
             store.dispatch(checkUserInvitations(response?.data?.user?.id));
