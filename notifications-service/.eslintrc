@@ -11,7 +11,7 @@
   "parser": "@typescript-eslint/parser",
   "overrides": [],
   "parserOptions": {
-    "project": "./api/tsconfig.json",
+    "project": "./notifications-service/tsconfig.json",
     "ecmaVersion": "latest",
     "sourceType": "module"
   },

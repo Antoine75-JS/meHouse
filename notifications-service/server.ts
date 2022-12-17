@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const mongoose = require('mongoose');
 
 const cors = require('cors');
@@ -18,12 +18,10 @@ const loopUntilConnected = () => {
   let cpt = 1;
   mongoose
     .connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(
-      () =>
-        console.log(
-          `Connected to mongo database as ${process.env.MONGO_ROLE} on try number ${cpt}`
-        )
-      // eslint-disable-next-line function-paren-newline
+    .then(() =>
+      console.log(
+        `Connected to mongo database as ${process.env.MONGO_ROLE} on try number ${cpt}`
+      )
     )
     .catch((err: object) => {
       console.log(err);
