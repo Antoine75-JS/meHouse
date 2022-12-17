@@ -16,6 +16,16 @@ services:
     depends_on:
       - mongodb
 
+  # API
+  notifications-service:
+    restart: always
+    build:
+      context: ./notifications-service
+    env_file:
+      - ./notifications-service/.env
+    depends_on:
+      - mongodb
+
   # CLIENT REACT
   client:
     restart: always
