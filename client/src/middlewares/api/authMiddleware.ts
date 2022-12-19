@@ -15,13 +15,13 @@ import {
   logoutUser,
   SUBMIT_SIGNUP,
   submitLogin,
-} from '../actions/auth';
-import { startLoading, stopLoading } from '../actions/loading';
+} from '../../actions/auth';
+import { startLoading, stopLoading } from '../../actions/loading';
 
-import { openSnackbar } from '../actions/snackbar';
+import { openSnackbar } from '../../actions/snackbar';
 
-import axiosInstance from '../services/axiosInstance';
-import { checkUserInvitations } from '../actions/organisation';
+import axiosInstance from '../../services/axiosInstance';
+import { checkUserInvitations } from '../../actions/organisation';
 
 const authMiddleWare: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: AuthActionTypes) => {

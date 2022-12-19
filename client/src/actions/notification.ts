@@ -1,13 +1,13 @@
 import { INotification } from '../types/notification';
 
-export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+export const CREATE_INVITE_NOTIFICATION = 'CREATE_INVITE_NOTIFICATION';
 
 export type NotificationActionType = {
-  type: typeof ADD_NOTIFICATION;
+  type: typeof CREATE_INVITE_NOTIFICATION;
   payload: INotification;
 };
 
-export const addNotification = (payload: INotification): NotificationActionType => ({
-  type: ADD_NOTIFICATION,
+export const createInviteNotification = (payload: INotification): NotificationActionType => ({
+  type: CREATE_INVITE_NOTIFICATION,
   payload,
 });

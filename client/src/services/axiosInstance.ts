@@ -11,6 +11,15 @@ const axiosInstance = axios.create({
   },
 });
 
+// Axios instance
+const axiosNotificationInstance = axios.create({
+  baseURL: `${process.env.REACT_APP_API_NOTIFICATIONS_URL}`,
+  withCredentials: true,
+  headers: {
+    Authorization: `Bearer ${tokenAuth}`,
+  },
+});
+
 // axiosInstance.interceptors.request.use(
 //   (config) => {
 //     console.log('intercepting request', config);

@@ -4,22 +4,28 @@ import { configureStore, applyMiddleware } from '@reduxjs/toolkit';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-// Import middlewares
-import authMiddleware from '../middlewares/authMiddleware';
-import tasksMiddleware from '../middlewares/tasksMiddleware';
-import organisationsMiddleware from '../middlewares/organisationsMiddleware';
-import categoriesMiddleware from '../middlewares/categoriesMiddleware';
-import userMiddleware from '../middlewares/userMiddleware';
+// API middlewares
+import authMiddleware from '../middlewares/api/authMiddleware';
+import tasksMiddleware from '../middlewares/api/tasksMiddleware';
+import organisationsMiddleware from '../middlewares/api/organisationsMiddleware';
+import categoriesMiddleware from '../middlewares/api/categoriesMiddleware';
+import userMiddleware from '../middlewares/api/userMiddleware';
+
+// NOTIFICATIONS middlewares
+import invitationNotifMiddleware from '../middlewares/notifications/invitationNotifMiddleware';
 
 // Import reducers
 import reducer from '../reducers';
 
 const middlewares = applyMiddleware(
+  // API
   authMiddleware,
   tasksMiddleware,
   organisationsMiddleware,
   categoriesMiddleware,
   userMiddleware,
+  // NOTIFICATIONS SERVICE
+  invitationNotifMiddleware,
 );
 
 // TODO

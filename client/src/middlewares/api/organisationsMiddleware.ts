@@ -4,21 +4,21 @@ import { AnyAction, Middleware } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 
 // Axios instance
-import axiosInstance from '../services/axiosInstance';
+import axiosInstance from '../../services/axiosInstance';
 
 // Components
-import { openSnackbar } from '../actions/snackbar';
+import { openSnackbar } from '../../actions/snackbar';
 
 // Actions
-import { startLoading, stopLoading } from '../actions/loading';
+import { startLoading, stopLoading } from '../../actions/loading';
 import {
   OrganisationsActionTypes,
   CREATE_NEW_ORGANISATION,
   GET_ORGANISATION_DETAILS,
   setOrganisationDetails,
   INVITE_USER_TO_ORGANISATION,
-} from '../actions/organisation';
-import { checkUserLogged } from '../actions/auth';
+} from '../../actions/organisation';
+import { checkUserLogged } from '../../actions/auth';
 
 // TODO
 // Handle redirection when creating new task

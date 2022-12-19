@@ -1,4 +1,4 @@
-import { ADD_NOTIFICATION, NotificationActionType } from '../actions/notification';
+import { CREATE_INVITE_NOTIFICATION, NotificationActionType } from '../actions/notification';
 import { INotificationList } from '../types/notification';
 
 const initialState: INotificationList = {
@@ -8,7 +8,7 @@ const initialState: INotificationList = {
 // eslint-disable-next-line @typescript-eslint/default-param-last
 const reducer = (state: INotificationList = initialState, action: NotificationActionType) => {
   switch (action.type) {
-    case ADD_NOTIFICATION:
+    case CREATE_INVITE_NOTIFICATION:
       return { ...state, notifications: action.payload };
 
     default:

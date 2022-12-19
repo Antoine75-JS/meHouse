@@ -4,14 +4,14 @@ import { AnyAction, Middleware } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 
 // Axios instance
-import axiosInstance from '../services/axiosInstance';
-import useAxiosInstance from '../services/useAxiosInstance';
+import axiosInstance from '../../services/axiosInstance';
+import useAxiosInstance from '../../services/useAxiosInstance';
 
 // Component
-import { openSnackbar } from '../actions/snackbar';
+import { openSnackbar } from '../../actions/snackbar';
 
 // Actions
-import { startLoading, stopLoading } from '../actions/loading';
+import { startLoading, stopLoading } from '../../actions/loading';
 import {
   GET_TASKS_FROM_ORGANISATION,
   CREATE_NEW_TASK,
@@ -21,8 +21,8 @@ import {
   getTasksFromOrganisation,
   REPEAT_TASK,
   EDIT_TASK,
-} from '../actions/tasks';
-import { getOrganisationDetails } from '../actions/organisation';
+} from '../../actions/tasks';
+import { getOrganisationDetails } from '../../actions/organisation';
 
 // TODO
 // Handle redirection when creating new task
