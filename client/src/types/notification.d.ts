@@ -1,11 +1,14 @@
-import { AnyAction } from '@reduxjs/toolkit';
-
 type NOTIFICATIONS = 'INVITATION' | 'EXPIRATION' | 'MESSAGE';
 
 interface INotification {
-  type?: NOTIFICATIONS;
-  message?: string;
-  action?: AnyAction;
+  _id: ObjectId;
+  orgaId: ObjectId;
+  actionUrl?: string;
+  content: string;
+  receiverId: ObjectId;
+  senderId: ObjectId;
+  type: NOTIFICATIONS;
+  isRead: boolean;
 }
 
 type INotificationList = {

@@ -20,16 +20,15 @@ const userMiddleware: Middleware =
     switch (action.type) {
       case CHECK_USER_INVITATIONS: {
         try {
-          console.log('checking user invites', action.payload);
           store.dispatch(startLoading());
           const response: AxiosResponse = await axiosInstance.patch(
             `${process.env.REACT_APP_API_URL}/users/${action.payload}`,
           );
 
           if (response.status === 200) {
-            console.log('response', response);
+            // console.log('response', response);
             // TODO
-            // SET USER NOTIFICATIONS
+            // CREATE NOTIFICATIONS
             // Handle 204 => return 204 from api
           }
 

@@ -19,7 +19,6 @@ const invitationNotifMiddleware: Middleware =
     switch (action.type) {
       case GET_USER_NOTIFICATIONS: {
         try {
-          console.log('user id', action.payload);
           store.dispatch(startLoading());
 
           const response: AxiosResponse = await axiosNotificationInstance.get(
@@ -28,7 +27,6 @@ const invitationNotifMiddleware: Middleware =
 
           if (response.status === 200) {
             store.dispatch(setUserNotifications(response.data.userNotifications));
-            console.log('user notifications', response);
             // TODO
             // setUserNotifications
           }

@@ -15,7 +15,6 @@ const Homepage: React.FC = () => {
 
   useEffect(() => {
     if (isLogged) {
-      console.log('dispatching getUserNOtifs');
       dispatch(getUserNotifications(id));
     }
   }, [dispatch, id, isLogged]);

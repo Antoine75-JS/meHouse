@@ -1,5 +1,3 @@
-import { INotificationList } from '../types/notification';
-
 export const SUBMIT_LOGIN = 'SUBMIT_LOGIN';
 export const SUBMIT_LOGOUT = 'SUBMIT_LOGOUT';
 export const SET_USER_LOGGED = 'SET_USER_LOGGED';

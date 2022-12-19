@@ -28,7 +28,6 @@ const reducer = (state: IUser = initialState, action: AuthActionTypes) => {
       };
     }
     case SET_USER_NOTIFICATIONS: {
-      console.log('setting nofifs', action.payload);
       return {
         ...state,
         notifications: action.payload,

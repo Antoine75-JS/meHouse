@@ -1,5 +1,4 @@
 import { CREATE_INVITE_NOTIFICATION, NotificationActionType } from '../actions/notification';
-import { INotificationList } from '../types/notification';
 
 const initialState: INotificationList = {
   notifications: [],

@@ -20,7 +20,6 @@ const OrgasList: React.FC = () => {
   const organisations = useSelector((state: IState) => state.user.organisations);
 
   const memoedOrgas = useMemo(() => {
-    console.log('organisations changed', organisations);
     return organisations;
   }, [organisations]);
 

@@ -1,5 +1,3 @@
-import { INotification } from '../types/notification';
-
 export const GET_USER_NOTIFICATIONS = 'GET_USER_NOTIFICATIONS';
 export const CREATE_INVITE_NOTIFICATION = 'CREATE_INVITE_NOTIFICATION';
 

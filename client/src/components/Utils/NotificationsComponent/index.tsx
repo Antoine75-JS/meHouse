@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -21,12 +23,16 @@ const NotificationsComponent: React.FC = () => {
       </button>
       {notificationsOpen && (
         <div className='absolute right-4 top-16 flex flex-col gap-2'>
-          <div className='relative rounded-xl border-2 border-gray-400 bg-slate-700 bg-opacity-90 w-80 text-start p-4'>
-            Notification
-          </div>
-          <div className='relative rounded-xl border-2 border-gray-400 bg-slate-700 bg-opacity-90 w-80 text-start p-4'>
-            Notification
-          </div>
+          {userNofitications &&
+            userNofitications.length > 0 &&
+            userNofitications.map((notification: INotification) => (
+              <div
+                key={notification?._id}
+                className='relative rounded-xl border-2 border-gray-400 bg-slate-700 bg-opacity-90 w-80 text-start p-4'
+              >
+                {notification?.content}
+              </div>
+            ))}
         </div>
       )}
     </div>
