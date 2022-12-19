@@ -2,8 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { OrganisationResponseT, OrganisationT } from 'organisationsT';
 import Organisation from '../models/organisation';
 import Category from '../models/categorie';
-import { CategoryResponseT, CategoryT } from 'categoriesT';
+import { CategoriesT, CategoryResponseT, CategoryT } from 'categoriesT';
 import Task from '../models/task';
+import { TaskT } from 'tasksT';
 
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
@@ -14,7 +15,7 @@ exports.getAllCategories = async (
   next: NextFunction
 ) => {
   try {
-    const categoriesFound = await Category.find();
+    const categoriesFound: CategoryT[] = await Category.find();
 
     console.log(categoriesFound);
 
@@ -106,7 +107,7 @@ exports.updateCategory = async (
   next: NextFunction
 ) => {
   try {
-    const updatedCategory = await Category.findOneAndUpdate(
+    const updatedCategory: CategoryT = await Category.findOneAndUpdate(
       {
         _id: res.catFound?._id
       },
@@ -139,7 +140,7 @@ exports.deleteCategory = async (
 ) => {
   try {
     // 1 - Update orga to remove category
-    const updatedOrga = await Organisation.findOneAndUpdate(
+    const updatedOrga: OrganisationT = await Organisation.findOneAndUpdate(
       {
         _id: res.catFound.orgaId
       },

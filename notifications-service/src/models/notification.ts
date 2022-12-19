@@ -10,7 +10,7 @@ const notificationSchema = new Schema<NotificationT>(
       type: Schema.Types.ObjectId,
       required: true
     },
-    url: {
+    actionUrl: {
       type: String
     },
     content: {
@@ -28,6 +28,11 @@ const notificationSchema = new Schema<NotificationT>(
     type: {
       type: String,
       required: true
+    },
+    isRead: {
+      type: Boolean,
+      required: true,
+      default: false
     }
   },
   { timestamps: true }
