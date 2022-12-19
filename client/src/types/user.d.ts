@@ -4,4 +4,5 @@ interface IUser {
   email: string;
   id: string;
   organisations?: [];
+  notifications?: [];
 }

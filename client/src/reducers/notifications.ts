@@ -5,8 +5,7 @@ const initialState: INotificationList = {
   notifications: [],
 };
 
-// eslint-disable-next-line @typescript-eslint/default-param-last
-const reducer = (state: INotificationList = initialState, action: NotificationActionType) => {
+const reducer = (action: NotificationActionType, state: INotificationList = initialState) => {
   switch (action.type) {
     case CREATE_INVITE_NOTIFICATION:
       return { ...state, notifications: action.payload };

@@ -1,4 +1,9 @@
-import { AuthActionTypes, LOGOUT_USER, SET_USER_LOGGED } from '../actions/auth';
+import {
+  AuthActionTypes,
+  LOGOUT_USER,
+  SET_USER_LOGGED,
+  SET_USER_NOTIFICATIONS,
+} from '../actions/auth';
 
 const initialState: IUser = {
   isLogged: false,
@@ -6,6 +11,7 @@ const initialState: IUser = {
   email: '',
   id: '',
   organisations: [],
+  notifications: [],
 };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
@@ -19,6 +25,13 @@ const reducer = (state: IUser = initialState, action: AuthActionTypes) => {
         username: action.payload.username,
         email: action.payload.email,
         organisations: action.payload.organisations,
+      };
+    }
+    case SET_USER_NOTIFICATIONS: {
+      console.log('setting nofifs', action.payload);
+      return {
+        ...state,
+        notifications: action.payload,
       };
     }
     case LOGOUT_USER: {

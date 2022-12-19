@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import BellIcon from '../Icons/BellIcon';
 
 const NotificationsComponent: React.FC = () => {
+  const userNofitications = useSelector((state: IState) => state.user.notifications);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   const handleOpenNotifications = () => {
@@ -12,7 +14,9 @@ const NotificationsComponent: React.FC = () => {
   return (
     <div>
       <button type='button' onClick={handleOpenNotifications}>
-        <div className='w-2 h-2 rounded-full bg-red-700 z-10 absolute' />
+        {userNofitications && userNofitications.length > 0 && (
+          <div className='w-2 h-2 rounded-full bg-red-700 z-10 absolute' />
+        )}
         <BellIcon />
       </button>
       {notificationsOpen && (

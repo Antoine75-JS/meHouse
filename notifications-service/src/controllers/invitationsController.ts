@@ -30,6 +30,31 @@ exports.getAllNotifications = async (
   }
 };
 
+exports.getUserNotifications = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userNotifications: NotificationT[] = await Notification.find({
+      receiverId: req.params.id
+    });
+
+    if (!userNotifications || userNotifications?.length < 1)
+      throw new ErrorHandler(errors.notFound, 'No notifications for user');
+
+    res.status(200).json({
+      status: 'success',
+      message: 'User notifications',
+      userNotifications
+    });
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Create new notification
 exports.createInvitationNotif = async (
   req: Request,
