@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loading from '../Utils/Loading';
@@ -8,8 +8,8 @@ import { getUserNotifications } from '../../actions/notification';
 const OrgasList = lazy(() => import('../Organisations/OrgasList'));
 
 const Homepage: React.FC = () => {
-  const isLogged = useSelector((state: IState) => state.user.isLogged);
-  const id = useSelector((state: IState) => state.user.id);
+  const user = useSelector((state: IState) => state.user);
+  const { isLogged, id, username } = user;
 
   const dispatch = useDispatch();
 
@@ -20,14 +20,25 @@ const Homepage: React.FC = () => {
   }, [dispatch, id, isLogged]);
 
   return (
-    <div className='lg flex flex-col items-center justify-center'>
-      <h2 className='text-3xl font-bold underline mb-8'>Homepage</h2>
-      {isLogged && (
-        <Suspense fallback={<Loading />}>
-          <OrgasList />
-        </Suspense>
+    <div className='page'>
+      {isLogged ? (
+        <>
+          <h1 className='mb-8'>Welcome {username}</h1>
+          <Suspense fallback={<Loading />}>
+            <OrgasList />
+          </Suspense>
+        </>
+      ) : (
+        <>
+          <h2>Welcome to</h2>
+          <h1 className='mb-8'>meHouse !</h1>
+        </>
       )}
-      {isLogged && <Link to='/orga/new'>Créer un groupe</Link>}
+      {isLogged && (
+        <Link to='/orga/new' className='button-link'>
+          Créer un groupe
+        </Link>
+      )}
     </div>
   );
 };

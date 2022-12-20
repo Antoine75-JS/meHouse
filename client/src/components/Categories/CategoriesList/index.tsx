@@ -57,7 +57,7 @@ const CategoriesList: React.FC<Props> = ({ categories }) => {
           </DraggableItem>
         ))}
       <button
-        className='ml-4 h-8 w-8 rounded-full bg-slate-400 font-white text-center pb-0.5'
+        className='button-add'
         type='button'
         style={{ rotate: `${isNewCategoryFormOpen ? '45deg' : '0deg'}` }}
         onClick={handleAddcategory}

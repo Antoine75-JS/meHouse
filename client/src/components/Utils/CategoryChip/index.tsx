@@ -7,10 +7,7 @@ interface Props {
 
 const CategoryChip: React.FC<Props> = ({ catName, style }) => {
   return (
-    <div
-      style={style}
-      className='ml-4 max-w-fit py-2 px-4 bg-slate-500 text-white rounded-full text-xs align-text-top font-semibold'
-    >
+    <div style={style} className='chip'>
       {catName}
     </div>
   );

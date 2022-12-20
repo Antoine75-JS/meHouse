@@ -84,7 +84,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
 
   return (
     <div
-      className='flex w-600 mb-4 border-2 p-4 rounded-3xl items-center'
+      className='card'
       style={
         task?.isDone
           ? {
@@ -151,7 +151,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
                   <button
                     type='button'
                     onClick={() => handleTaskDone(false)}
-                    className='flex w-full items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
+                    className='button hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
                   >
                     Cancel undone <CheckCircleIcon className='h-6 w-6' />
                   </button>
@@ -159,7 +159,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
                   <button
                     type='button'
                     onClick={() => handleTaskDone(true)}
-                    className='flex w-full items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
+                    className='button hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
                   >
                     Mark as done ! <CheckCircleIcon className='h-6 w-6' />
                   </button>
@@ -167,7 +167,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
                 <button
                   type='button'
                   onClick={() => handleRepeatTask(task?._id)}
-                  className='flex w-full items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
+                  className='button hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
                 >
                   Repeat <ArrowPathRoundedSquareIcon className='h-6 w-6' />
                 </button>
@@ -184,7 +184,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
                 <button
                   type='button'
                   onClick={() => handleDeleteTask(task?._id)}
-                  className='flex w-full items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-red-700'
+                  className='button hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-red-700'
                 >
                   Delete <TrashIcon className='h-5 w-5' />
                 </button>

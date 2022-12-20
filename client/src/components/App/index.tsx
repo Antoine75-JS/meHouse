@@ -29,7 +29,7 @@ const App: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className='bg-main text-white min-h-screen h-full'>
+    <div className='min-h-screen h-full'>
       <header>
         <Navbar />
       </header>

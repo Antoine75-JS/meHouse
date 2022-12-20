@@ -9,8 +9,8 @@ interface ItemProps {
 
 const OrgasListItem: React.FC<ItemProps> = ({ orga }) => {
   return (
-    <Link to={`/orga/${orga._id}`} className='w-600 mb-4 border p-4 rounded-xl flex' key={orga._id}>
-      <div className='grow'>{orga.orgName}</div>
+    <Link to={`/orga/${orga._id}`} className='card' key={orga._id}>
+      <div className='grow font-bold'>{orga.orgName}</div>
       <div>{'>'}</div>
     </Link>
   );
@@ -25,10 +25,12 @@ const OrgasList: React.FC = () => {
 
   return (
     <>
-      <h2 className='font-bold mb-4'>Organisations :</h2>
-      {memoedOrgas &&
-        memoedOrgas?.length > 0 &&
-        memoedOrgas?.map((orga: IOrganisation) => <OrgasListItem key={orga?._id} orga={orga} />)}
+      <h2 className='font-bold mb-4'>Vos groupes :</h2>
+      <div className='mb-8'>
+        {memoedOrgas &&
+          memoedOrgas?.length > 0 &&
+          memoedOrgas?.map((orga: IOrganisation) => <OrgasListItem key={orga?._id} orga={orga} />)}
+      </div>
     </>
   );
 };

@@ -33,7 +33,7 @@ const OrganisationHomepage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className='page'>
       {organisation && (
         <div className='p-4 flex flex-col gap-4'>
           <h2 className='text-4xl font-bold pb-4'>{organisation?.orgName} :</h2>
@@ -49,7 +49,7 @@ const OrganisationHomepage: React.FC = () => {
                   </div>
                 ))}
                 <button
-                  className='ml-4 h-8 w-8 rounded-full bg-slate-400 font-white text-center pb-0.5'
+                  className='button-add'
                   type='button'
                   style={{ rotate: `${isInviteUserFormOpen ? '45deg' : '0deg'}` }}
                   onClick={handleInviteUser}
@@ -74,10 +74,7 @@ const OrganisationHomepage: React.FC = () => {
           ) : (
             <p className='text-center'>Pas de tâches pour le moment</p>
           )}
-          <Link
-            to={`/task/new/${organisation?._id}`}
-            className='self-center border w-32 px-4 py-2 text-center rounded-full'
-          >
+          <Link to={`/task/new/${organisation?._id}`} className='button-link'>
             New task
           </Link>
         </div>
