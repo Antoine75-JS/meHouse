@@ -17,7 +17,7 @@ const NotificationsComponent: React.FC = () => {
     <div>
       <button type='button' onClick={handleOpenNotifications}>
         {userNofitications && userNofitications.length > 0 && (
-          <div className='w-2 h-2 rounded-full bg-red-700 z-10 absolute' />
+          <div className='w-2 h-2 rounded-full bg-greenMain z-10 absolute' />
         )}
         <BellIcon />
       </button>

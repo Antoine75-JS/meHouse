@@ -71,14 +71,14 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className='flex-col flex justify-center items-center pt-24'>
+    <div className='page sm:pt-24'>
       {isLogged && <Navigate to='/' />}
-      Se connecter
+      <h1>Se connecter</h1>
       <form
         onSubmit={handleSubmit(handleLogin)}
-        className='flex flex-col justify-center items-center gap-4'
+        className='flex flex-col justify-center items-center gap-4 mw-600 w-full p-4'
       >
-        <div className='w-600'>
+        <div className='w-full'>
           <InputField
             errors={errors.email}
             label='email'

@@ -22,16 +22,18 @@ const Navbar = () => {
 
   return (
     <div className='flex gap-2 text-end p-4 items-center'>
-      <NavLink to='/' className='grow text-start'>
-        Home
-      </NavLink>
       {isLogged ? (
-        <div className='text-right flex items-center gap-4'>
-          <NotificationsComponent />
-          <button type='button' onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
+        <>
+          <NavLink to='/' className='grow text-start'>
+            Home
+          </NavLink>
+          <div className='text-right flex items-center gap-4'>
+            <NotificationsComponent />
+            <button type='button' onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        </>
       ) : (
         <>
           <NavLink to='/login'>Login</NavLink>

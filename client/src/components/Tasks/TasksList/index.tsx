@@ -17,7 +17,7 @@ interface Props {
 const TasksList: React.FC<Props> = ({ orgTasks }) => {
   return (
     <div>
-      <div className='font-bold my-2 mb-4'>Tâches en cours :</div>
+      <div className='font-bold my-2 mb-4 text-secondary'>Tâches en cours :</div>
       <DroppableContainer accepts={draggableItemTypes.TASK_DONE} helperText='Add to list'>
         <div>
           {orgTasks &&
@@ -38,7 +38,7 @@ const TasksList: React.FC<Props> = ({ orgTasks }) => {
         </div>
       </DroppableContainer>
       <div>
-        <div className='font-bold my-2 mb-4'>Tâches terminées :</div>
+        <div className='font-bold my-2 mb-4 text-secondary'>Tâches terminées :</div>
         <DroppableContainer accepts={draggableItemTypes.TASK_ACTIVE} helperText='Set as done !'>
           <div>
             {orgTasks &&

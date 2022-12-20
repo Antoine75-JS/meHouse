@@ -47,9 +47,9 @@ const NewCategoryForm: React.FC<Props> = ({ orgaId }) => {
   return (
     <form
       onSubmit={handleSubmit(handleCreateNewTask)}
-      className='flex justify-start items-center gap-4 m-4'
+      className='flex flex-col sm:flex-row justify-start items-center sm:gap-4 sm:m-4 mt-4'
     >
-      <div className='w-600'>
+      <div className='w-full'>
         <label
           htmlFor='catName'
           className='block mb-4 text-sm font-medium text-gray-900 dark:text-white'

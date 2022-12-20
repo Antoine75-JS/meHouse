@@ -36,6 +36,7 @@ code {
   }
 
   h1 {
+    color: theme('colors.greenMain');
     font-size: theme('fontSize.4xl');
   }
 
@@ -53,13 +54,15 @@ code {
   }
   .card {
     border: theme('borderWidth.2');
-    border-radius: theme('borderRadius.xl');
+    border-radius: theme('borderRadius.full');
     border-color: theme('colors.white');
     border-style: solid;
     display: flex;
     align-items: center;
-    padding: theme('spacing.4');
-    width: 600px;
+    /* padding: theme('spacing.4'); */
+    padding: 1rem 1rem 1rem 1.5rem;
+    max-width: 600px;
+    width: 90vmin;
     margin-bottom: theme('margin.4');
     transition: 300 ease-in-out;
   }
@@ -84,18 +87,37 @@ code {
     align-self: center;
     text-align: center;
     border-radius: theme('borderRadius.full');
-    border: theme('borderWidth.DEFAULT');
-    border-color: theme('colors.white');
-    border-style: solid;
+    background-color: theme('colors.greenMain');
+    color: theme('colors.main');
+    font-size: small;
+  }
+
+  .button-dropdown {
+    /* ml-4 inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-full hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-400 dark:hover:bg-gray-300 dark:focus:ring-gray-100 */
+
+    display: inline-flex;
+    align-items: center;
+    padding: theme('width.2');
+    font-size: theme('fontSize.sm');
+    text-align: center;
+    background-color: theme('colors.greenMain');
+    border-radius: theme('borderRadius.full');
+  }
+
+  .button-dropdown:hover {
+    background-color: theme('colors.gray.400');
+  }
+
+  .button-dropdown:focus {
+    border: 2px solid #10dd99;
   }
 
   .button-add {
     /* ml-4 h-8 w-8 rounded-full bg-slate-400 font-white text-center pb-0.5 */
-    margin-left: theme('width.4');
     height: theme('width.8');
     width: theme('width.8');
     border-radius: theme('borderRadius.full');
-    background-color: theme('colors.slate.400');
+    background-color: theme('colors.greenMain');
     text-align: center;
     padding-bottom: theme('width.[0.5]');
     transition: 300 ease-in-out;
@@ -103,22 +125,23 @@ code {
 
   .button-add:hover {
     transform: scale(1.05);
-    background-color: theme('colors.slate.300');
   }
 
   .button:hover,
   .button-link:hover {
-    background-color: theme('backgroundColor.gray.400');
-    border-color: theme('backgroundColor.gray.400');
+    background-color: theme('backgroundColor.gray.300');
+    border-color: theme('backgroundColor.gray.300');
+    color: theme('colors.main');
   }
 
   .chip {
     /* ml-4 max-w-fit py-2 px-4 bg-slate-500 text-white rounded-full text-xs align-text-top font-semibold */
-    margin-left: theme('width.4');
+    /* margin-left: theme('width.4'); */
     max-width: fit-content;
     padding: 0.5rem 1rem;
-    background-color: theme('colors.slate.500');
-    color: white;
+    /* background-color: theme('colors.secondary'); */
+    background-color: theme('colors.gray.500');
+    /* color: theme('colors.main'); */
     font-size: theme('fontSize.xs');
     font-weight: theme('fontWeight.semibold');
     border-radius: theme('borderRadius.full');

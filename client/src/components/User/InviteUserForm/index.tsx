@@ -44,17 +44,17 @@ const InviteUserForm: React.FC<Props> = ({ orgaId, setIsInviteUserFormOpen }) =>
   return (
     <form
       onSubmit={handleSubmit(handleCreateNewTask)}
-      className='flex justify-start items-center gap-4 m-4'
+      className='flex flex-col sm:flex-row justify-start items-center sm:gap-4 sm:m-4 mt-4'
     >
-      <div className='w-600'>
+      <div className='w-full'>
         <label
-          htmlFor='catName'
-          className='block mb-4 text-sm font-medium text-gray-900 dark:text-white'
+          htmlFor='email'
+          className='block sm:mb-4 text-sm font-medium text-gray-900 dark:text-white'
         >
           Adresse mail pour l'invitation :
           <input
             type='text'
-            id='category'
+            id='email'
             // Find how to improve register
             {...register('email')}
             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-2'

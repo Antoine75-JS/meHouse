@@ -22,10 +22,10 @@ const TaskPage: React.FC = () => {
   useEffect(() => {}, [details]);
 
   return (
-    <div>
+    <div className='page'>
       {details && (
         <div>
-          <h2>{details.taskName}</h2>
+          <h1>{details.taskName}</h1>
           <div>
             Créée le : <span>{dayjs(details?.creationDate).format('DD/MM/YYYY')}</span>
           </div>

@@ -37,7 +37,7 @@ interface PropsT {
 
 const CategoryContainer: React.FC<PropsT> = ({ task }) => {
   return (
-    <div className='grow w-8'>
+    <div className='grow mw-8 whitespace-nowrap'>
       <DroppableContainer
         accepts={draggableItemTypes.CATEGORY}
         helperText={task?.category ? 'Remplacer la catégorie' : 'Ajouter une catégorie'}
@@ -97,11 +97,13 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
       <div className='grow'>
         {task && (
           <div className='flex gap-2 items-center'>
-            <Link className='font-bold' to={`/task/${task._id}`} state={{ task }}>
+            <Link className='font-bold text-secondary' to={`/task/${task._id}`} state={{ task }}>
               {task.taskName}
             </Link>
             {/* Categories */}
-            <CategoryContainer task={task} />
+            <div className='min-[450px]:block hidden'>
+              <CategoryContainer task={task} />
+            </div>
           </div>
         )}
       </div>
@@ -123,7 +125,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
         <button
           id='dropdownMenuIconButton'
           onClick={handleOpenDropdown}
-          className='ml-4 inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-full hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-500'
+          className='button-dropdown ml-4'
           type='button'
         >
           <svg
@@ -153,15 +155,15 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
                     onClick={() => handleTaskDone(false)}
                     className='button hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
                   >
-                    Cancel undone <CheckCircleIcon className='h-6 w-6' />
+                    Cancel undone <CheckCircleIcon className='h-6 w-6 text-greenMain' />
                   </button>
                 ) : (
                   <button
                     type='button'
                     onClick={() => handleTaskDone(true)}
-                    className='button hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
+                    className='button text-greenMain hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
                   >
-                    Mark as done ! <CheckCircleIcon className='h-6 w-6' />
+                    Mark as done ! <CheckCircleIcon className='h-6 w-6 ' />
                   </button>
                 )}
                 <button

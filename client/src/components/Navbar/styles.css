@@ -1,3 +1,5 @@
 .active {
   text-decoration: underline;
+  text-decoration-color: theme('colors.greenMain');
+  text-decoration-thickness: 4px;
 }

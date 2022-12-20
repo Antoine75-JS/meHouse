@@ -109,14 +109,14 @@ const SignupPage: React.FC = () => {
   };
 
   return (
-    <div className='flex-col flex justify-center items-center pt-24'>
+    <div className='page sm:pt-24'>
       {isLogged && <Navigate to='/' />}
-      Vous inscrire
+      <h1>Vous inscrire</h1>
       <form
         onSubmit={handleSubmit(handleSignup)}
-        className='flex flex-col justify-center items-center gap-4'
+        className='flex flex-col justify-center items-center gap-4 w-full p-4'
       >
-        <div className='w-600'>
+        <div className='w-full'>
           <InputField
             errors={errors.username}
             label="Nom d'utilisateur"

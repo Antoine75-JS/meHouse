@@ -47,14 +47,14 @@ const NewTaskForm = () => {
   };
 
   return (
-    <div className='flex-col flex justify-center items-center'>
+    <div className='page'>
       {!isLogged && <Navigate to='/' />}
       Nouvelle tâche
       <form
         onSubmit={handleSubmit(handleSubmitNewTask)}
-        className='flex flex-col justify-center items-center gap-4'
+        className='flex flex-col justify-center items-center gap-4 mw-600 w-full p-4'
       >
-        <div className='w-600'>
+        <div className='w-full'>
           {/* TASK NAME */}
           <label
             htmlFor='taskName'

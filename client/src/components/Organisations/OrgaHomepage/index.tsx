@@ -32,21 +32,22 @@ const OrganisationHomepage: React.FC = () => {
     setIsInviteUserFormOpen(!isInviteUserFormOpen);
   };
 
+  // TODO
+  // Refacto form for invite user + add category
+  // FormComponent Util
   return (
     <div className='page'>
       {organisation && (
         <div className='p-4 flex flex-col gap-4'>
-          <h2 className='text-4xl font-bold pb-4'>{organisation?.orgName} :</h2>
+          <h1 className='text-4xl font-bold pb-4'>{organisation?.orgName} :</h1>
           <div>
             {/* MEMBERS */}
             <div>
-              <div className='font-bold my-2'>Membres :</div>
-              <div className='flex gap-2 items-center'>
+              <div className='font-bold my-2 text-secondary '>Membres :</div>
+              <div className='flex gap-4 items-center ml-4'>
                 {organisation?.orgUsers?.map((user: IUser, i) => (
                   // eslint-disable-next-line react/no-array-index-key
-                  <div className='pl-4' key={i}>
-                    {user?.username}
-                  </div>
+                  <div key={i}>{user?.username}</div>
                 ))}
                 <button
                   className='button-add'
