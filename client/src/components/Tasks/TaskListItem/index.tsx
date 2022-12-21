@@ -177,6 +177,7 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
               <li>
                 <Link
                   to={`/task/${task._id}/edit`}
+                  state={{ task }}
                   className='flex items-center justify-between py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
                 >
                   Edit <PencilIcon className='h-5 w-5' />

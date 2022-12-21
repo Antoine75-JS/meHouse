@@ -5,6 +5,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
 import DatePicker from 'react-datepicker';
 
 import { createNewTask } from '../../../actions/tasks';
@@ -13,9 +16,16 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 interface FormInputs {
   taskName: string;
-  taskRepeat: boolean;
+  repeat: boolean;
   repeatFrequency: number;
 }
+
+const newTaskSchema = yup.object().shape({
+  taskName: yup.string().required('Merci de renseigner un nom pour la tâche'),
+  repeat: yup.boolean(),
+  repeatFrequency: yup.number(),
+  expireDate: yup.date(),
+});
 
 const NewTaskForm = () => {
   const [expire, setExpire] = useState<Date>();
@@ -29,8 +39,10 @@ const NewTaskForm = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormInputs>();
-  const watchRepeat = watch('taskRepeat');
+  } = useForm<FormInputs>({
+    resolver: yupResolver(newTaskSchema),
+  });
+  const watchRepeat = watch('repeat');
   // const watchExpire = watch('');
 
   // TODO
@@ -38,11 +50,13 @@ const NewTaskForm = () => {
   // yup validation
   // Handle errors on form
   const handleSubmitNewTask: SubmitHandler<FormInputs> = (formData: FormInputs) => {
+    console.log('form data', formData);
     const data = {
       ...formData,
       expireDate: expire,
       orgaId: id,
     };
+    // console.log('new task data', data);
     dispatch(createNewTask(data));
   };
 
@@ -74,16 +88,13 @@ const NewTaskForm = () => {
           {/* REPEAT */}
           <div className='flex content-center gap-4 mb-4 '>
             <span className='text-sm font-medium text-gray-900 dark:text-gray-300'>Repeat :</span>
-            <label
-              className='inline-flex relative items-center cursor-pointer'
-              htmlFor='taskRepeat'
-            >
+            <label className='inline-flex relative items-center cursor-pointer' htmlFor='repeat'>
               <input
                 type='checkbox'
                 value=''
                 className='sr-only peer'
-                id='taskRepeat'
-                {...register('taskRepeat')}
+                id='repeat'
+                {...register('repeat')}
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600" />
             </label>
@@ -101,7 +112,6 @@ const NewTaskForm = () => {
                 // Find how to improve register
                 {...register('repeatFrequency')}
                 className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-2'
-                placeholder='7'
                 required
               />
             </label>

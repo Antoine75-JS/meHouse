@@ -19,6 +19,9 @@ import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
+// TODO
+// Check on real mobile device with a list longer than device screen
+// => Not sure user can scroll
 root.render(
   <React.StrictMode>
     <Provider store={store}>

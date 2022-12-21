@@ -10,7 +10,7 @@ interface Props {
 }
 
 const DraggableItem: React.FC<Props> = ({ type, id, children, action }) => {
-  const [, drag] = useDrag(() => ({
+  const [collected, drag, dragPreview] = useDrag(() => ({
     type: type,
     item: {
       type: type,
@@ -22,9 +22,17 @@ const DraggableItem: React.FC<Props> = ({ type, id, children, action }) => {
     }),
   }));
   return (
-    <span ref={drag} className='hover:cursor-grab active:cursor-grabbing'>
-      {children}
-    </span>
+    <div>
+      {collected.isDragging ? (
+        <span ref={dragPreview} className='hover:cursor-grab active:cursor-grabbing opacity-50'>
+          {children}
+        </span>
+      ) : (
+        <span ref={drag} className='hover:cursor-grab active:cursor-grabbing'>
+          {children}
+        </span>
+      )}
+    </div>
   );
 };
 

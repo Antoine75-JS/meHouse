@@ -12,6 +12,7 @@ exports.findOrganisationById = async (
   res: OrganisationResponseT,
   next: NextFunction
 ) => {
+  console.log('getting orga selector', req.params?.id, req.body);
   const id = req.params?.id || req.body.orgaId;
 
   try {

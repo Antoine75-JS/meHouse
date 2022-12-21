@@ -11,6 +11,7 @@ interface Itask {
   isDone: boolean;
   repeatFrequency: number;
   category: ICategory;
+  orgaId: string;
 }
 
 interface INewTaskPayload {

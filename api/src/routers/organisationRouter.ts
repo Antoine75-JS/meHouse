@@ -13,10 +13,8 @@ const {
 
 const { sendInviteEmailToUser } = require('../controllers/inviteController');
 
-const {
-  findOrganisationById,
-  findUserByEmail
-} = require('../selectors/organisationSelector');
+const { findOrganisationById } = require('../selectors/organisationSelector');
+
 const { findUserById } = require('../selectors/userSelector');
 
 router.get('/', getAllOrganisations);

@@ -11,7 +11,7 @@ import Navbar from '../Navbar';
 // LAZY
 const OrganisationHomepage = lazy(() => import('../Organisations/OrgaHomepage'));
 const LoginPage = lazy(() => import('../LoginPage'));
-const TaskEditPage = lazy(() => import('../Tasks/EditTaskForm'));
+const EditTaskForm = lazy(() => import('../Tasks/EditTaskForm'));
 const TaskPage = lazy(() => import('../Tasks/TaskPage'));
 const NewTaskForm = lazy(() => import('../Tasks/NewTaskForm'));
 const Homepage = lazy(() => import('../Homepage'));
@@ -28,6 +28,8 @@ const App: React.FC = () => {
     dispatch(checkUserLogged());
   }, [dispatch]);
 
+  // TODO
+  // Might improve Routes components suspense
   return (
     <div className='min-h-screen h-full'>
       <header>
@@ -51,7 +53,7 @@ const App: React.FC = () => {
                 path=':id/edit'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <TaskEditPage />
+                    <EditTaskForm />
                   </Suspense>
                 }
               />

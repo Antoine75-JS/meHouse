@@ -3,6 +3,8 @@ import { Dispatch } from 'react';
 import { AnyAction, Middleware } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 
+import { redirect, useNavigate } from 'react-router-dom';
+
 // Axios instance
 import axiosInstance from '../../services/axiosInstance';
 import useAxiosInstance from '../../services/useAxiosInstance';
@@ -104,6 +106,7 @@ const tasksMiddleware: Middleware =
             const { message, status, updatedTask } = response.data;
             store.dispatch(getOrganisationDetails(updatedTask?.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
+            console.log('updatedTask', response);
           }
 
           next(action);
