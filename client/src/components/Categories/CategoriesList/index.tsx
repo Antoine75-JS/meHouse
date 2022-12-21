@@ -30,7 +30,8 @@ const CategoryItem: React.FC<CategoryProps> = ({ category }) => {
       <CategoryChip
         catName={category?.catName}
         style={{
-          border: `${category?._id === selectedCategory ? '2px solid #10dd99' : 'none'}`,
+          background: `${category?._id === selectedCategory ? '#10dd99' : '#6b7280'}`,
+          color: `${category?._id === selectedCategory ? '#1f2937' : 'white'}`,
           boxSizing: 'content-box',
         }}
       />

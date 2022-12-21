@@ -59,7 +59,6 @@ code {
     border-style: solid;
     display: flex;
     align-items: center;
-    /* padding: theme('spacing.4'); */
     padding: 1rem 1rem 1rem 1.5rem;
     max-width: 600px;
     width: 90vmin;
@@ -136,12 +135,9 @@ code {
 
   .chip {
     /* ml-4 max-w-fit py-2 px-4 bg-slate-500 text-white rounded-full text-xs align-text-top font-semibold */
-    /* margin-left: theme('width.4'); */
     max-width: fit-content;
     padding: 0.5rem 1rem;
-    /* background-color: theme('colors.secondary'); */
     background-color: theme('colors.gray.500');
-    /* color: theme('colors.main'); */
     font-size: theme('fontSize.xs');
     font-weight: theme('fontWeight.semibold');
     border-radius: theme('borderRadius.full');
