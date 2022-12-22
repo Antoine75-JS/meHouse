@@ -50,13 +50,11 @@ const NewTaskForm = () => {
   // yup validation
   // Handle errors on form
   const handleSubmitNewTask: SubmitHandler<FormInputs> = (formData: FormInputs) => {
-    console.log('form data', formData);
     const data = {
       ...formData,
       expireDate: expire,
       orgaId: id,
     };
-    // console.log('new task data', data);
     dispatch(createNewTask(data));
   };
 

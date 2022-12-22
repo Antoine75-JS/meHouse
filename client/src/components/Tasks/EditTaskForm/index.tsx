@@ -3,8 +3,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, useLocation, useParams } from 'react-router-dom';
-import dayjs from 'dayjs';
+import { Navigate, useLocation } from 'react-router-dom';
+
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import DatePicker from 'react-datepicker';
 
@@ -19,6 +21,13 @@ interface FormInputs {
   repeatFrequency: number;
 }
 
+const editTaskSchema = yup.object().shape({
+  taskName: yup.string().required('Merci de renseigner un nom pour la tâche'),
+  repeat: yup.boolean(),
+  repeatFrequency: yup.number(),
+  expireDate: yup.date(),
+});
+
 const EditTaskForm: React.FC = () => {
   const [expireDate, setExpire] = useState<Date>();
   const isLogged = useSelector((state: IState) => state.user.isLogged);
@@ -27,16 +36,14 @@ const EditTaskForm: React.FC = () => {
   const location = useLocation();
   const { task } = location.state;
 
-  useEffect(() => {
-    console.log('task edit details', task);
-  }, [task]);
-
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormInputs>();
+  } = useForm<FormInputs>({
+    resolver: yupResolver(editTaskSchema),
+  });
 
   const watchRepeat = watch('taskRepeat');
 
@@ -52,8 +59,6 @@ const EditTaskForm: React.FC = () => {
     }
   }, [details]);
 
-  const { id } = useParams();
-
   // TODO
   // Handle redirect when task created
   // yup validation
@@ -61,11 +66,6 @@ const EditTaskForm: React.FC = () => {
   const handleSubmitEditedTask: SubmitHandler<FormInputs> = (formData: FormInputs) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _id, creationDate, repeat, isDone, category, orgaId } = details;
-
-    const serializedDate = dayjs(expireDate);
-
-    console.log(expireDate);
-    console.log(serializedDate);
 
     const data = {
       ...formData,
@@ -77,7 +77,6 @@ const EditTaskForm: React.FC = () => {
       isDone,
       category,
     };
-    console.log('data from edit form', data);
     dispatch(editTask(data));
   };
 
