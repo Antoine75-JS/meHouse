@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^8.5.9",
+    "amqplib": "^0.10.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

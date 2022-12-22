@@ -6,3 +6,5 @@
 **/mongodb/
 **/ignored-actions.yml
 .vscode
+
+**/rabbitmq/

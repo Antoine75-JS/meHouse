@@ -6,15 +6,31 @@ services:
     restart: always
     image: nginx
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: mehouse-rabbit
+    volumes:
+      - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
+      - ./rabbitmq/logs:/var/log/rabbitmq/log
+      # - ./rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
+      # - ./rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    ports:
+      - 5672:5672
+      - 15672:15672
+    depends_on:
+      - nginx
+
   # API
   api:
     restart: always
     build:
       context: ./api
+    # environment:
+    #   - RABBIT_HOSTNAME=rabbitmq
     env_file:
       - ./api/.env
     depends_on:
-      - mongodb
+      - rabbitmq
 
   # API
   notifications:
@@ -24,15 +40,19 @@ services:
     env_file:
       - ./notifications-service/.env
     depends_on:
-      - mongodb
+      - api
 
   # CLIENT REACT
   client:
     restart: always
     build:
       context: ./client
+    environment:
+      - RABBIT_HOSTNAME=rabbitmq
     env_file:
       - ./client/.env
+    depends_on:
+      - api
 
   # DATABASE
   mongodb:
