@@ -1,5 +1,6 @@
 import express from 'express';
 const mongoose = require('mongoose');
+import createMQConsumer from './src/config/rabbit-config';
 
 const cors = require('cors');
 require('dotenv').config();
@@ -7,11 +8,18 @@ require('dotenv').config();
 const routers = require('./src/routers');
 
 const app = express();
+
+const consumer = createMQConsumer(
+  process.env.RABBIT_HOSTNAME,
+  process.env.RABBIT_QUEUE_NAME
+);
+
+consumer();
+
 app.use(express.json());
 
 // Mongo database
 const dbUrl = `${process.env.MONGO_IP}://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.DB_DOCKER_SERVICE_NAME}:${process.env.MONGO_PORT}/${process.env.DB_NAME}?authSource=${process.env.MONGO_ROLE}`;
-console.log('dbUrl', dbUrl);
 
 // Tries to connect, waits 3 secs if error then retries
 const loopUntilConnected = () => {

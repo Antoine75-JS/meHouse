@@ -47,7 +47,7 @@ exports.findUserByEmail = async (
       model: 'Organisation'
     });
 
-    console.log('logged user :', userFound);
+    // console.log('logged user :', userFound);
 
     if (!userFound) throw new ErrorHandler(errors.notFound, 'No user found');
 

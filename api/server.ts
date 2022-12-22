@@ -21,7 +21,7 @@ const app = express();
 
 // Mongo database
 const dbUrl = `${process.env.DB_DOCKER_SERVICE_NAME}://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_IP}:${process.env.MONGO_PORT}/${process.env.DB_NAME}?authSource=${process.env.MONGO_ROLE}`;
-console.log('dbUrl', dbUrl);
+// console.log('dbUrl', dbUrl);
 
 // Tries to connect, waits 3 secs if error then retries
 const loopUntilConnected = () => {
