@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loading from '../Utils/Loading';
 
-import { getUserNotifications } from '../../actions/notification';
-
 const OrgasList = lazy(() => import('../Organisations/OrgasList'));
 
 const Homepage: React.FC = () => {
@@ -15,7 +13,7 @@ const Homepage: React.FC = () => {
 
   useEffect(() => {
     if (isLogged) {
-      dispatch(getUserNotifications(id));
+      // dispatch(getUserNotifications(id));
     }
   }, [dispatch, id, isLogged]);
 

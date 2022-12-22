@@ -36,6 +36,7 @@ exports.getUserNotifications = async (
   next: NextFunction
 ) => {
   try {
+    console.log(req.body);
     const userNotifications: NotificationT[] = await Notification.find({
       receiverId: req.params.id
     });

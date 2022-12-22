@@ -1,6 +1,6 @@
 import express from 'express';
 const mongoose = require('mongoose');
-const amqp = require('amqplib/callback_api');
+import createMQConsumer from './src/config/rabbit-config';
 
 const cors = require('cors');
 require('dotenv').config();
@@ -8,6 +8,14 @@ require('dotenv').config();
 const routers = require('./src/routers');
 
 const app = express();
+
+const consumer = createMQConsumer(
+  process.env.RABBIT_HOSTNAME,
+  process.env.RABBIT_QUEUE_NAME
+);
+
+consumer();
+
 app.use(express.json());
 
 // Mongo database
@@ -52,51 +60,6 @@ app.use(cors(options));
 app.enable('trust proxy');
 
 app.use('/notifications', routers);
-
-const connectRabbit = async () => {
-  await amqp.connect(
-    process.env.RABBIT_HOSTNAME,
-    function (
-      error0: any,
-      connection: {
-        createChannel: (arg0: (error1: any, channel: any) => void) => void;
-      }
-    ) {
-      if (error0) {
-        throw error0;
-      }
-      connection.createChannel(function (error1, channel) {
-        if (error1) {
-          throw error1;
-        }
-
-        channel.assertQueue(process.env.RABBIT_QUEUE_NAME, {
-          durable: false
-        });
-
-        console.log(
-          ' [*] Waiting for messages in %s. To exit press CTRL+C',
-          process.env.RABBIT_QUEUE_NAME
-        );
-
-        channel.consume(
-          process.env.RABBIT_QUEUE_NAME,
-          function (msg: { content: { toString: () => any } }) {
-            console.log(' [x] Received %s', msg.content.toString());
-          },
-          {
-            noAck: true
-          }
-        );
-      });
-    }
-  );
-};
-
-setTimeout(() => {
-  console.log('connecting rabbit notifications consumer');
-  connectRabbit();
-}, 6000);
 
 const fallbackPort = 3405;
 app.listen(process.env.NOTIFICATIONS_PORT || fallbackPort, () => {
