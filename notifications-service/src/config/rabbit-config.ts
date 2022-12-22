@@ -35,10 +35,8 @@ const createMQConsumer = (amqpURl: string = '', queueName: string = '') => {
                 case 'LOGIN':
                   console.log('Consuming LOGIN action', parsed.data);
                   break;
-                case 'CHECK_LOGIN':
+                case 'CHECK_LOGGED':
                   console.log('Consuming CHECK_LOGIN action', parsed.data);
-                  getUserNotifications(parsed.data);
-
                   break;
                 case 'LOGOUT':
                   console.log('Consuming LOGIN action', parsed.data);
