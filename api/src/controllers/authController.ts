@@ -42,6 +42,14 @@ exports.login = async (
 
     const { id, username, organisations, invitedTo } = res.userFound;
 
+    // If ok send rabbit message to notifications
+    const rabbitMessage = {
+      action: 'LOGIN',
+      data: { username, email, id, organisations, invitedTo }
+    };
+
+    producer(JSON.stringify(rabbitMessage));
+
     res.status(200).json({
       status: 'success',
       message: 'User logged',

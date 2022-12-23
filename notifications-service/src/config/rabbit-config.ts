@@ -1,18 +1,15 @@
 import amqp, { Message } from 'amqplib/callback_api';
-
-const {
-  getUserNotifications
-} = require('../controllers/invitationsController');
+import processMessage from '../services/consumeMessage';
 
 const createMQConsumer = (amqpURl: string = '', queueName: string = '') => {
   console.log('Connecting to RabbitMQ...');
   return () => {
-    amqp.connect(amqpURl, (errConn, conn) => {
+    amqp.connect(amqpURl, async (errConn, conn) => {
       if (errConn) {
         throw errConn;
       }
 
-      conn.createChannel((errChan, chan) => {
+      conn.createChannel(async (errChan, chan) => {
         if (errChan) {
           throw errChan;
         }
@@ -21,32 +18,17 @@ const createMQConsumer = (amqpURl: string = '', queueName: string = '') => {
         chan.assertQueue(queueName, { durable: false });
         chan.consume(
           queueName,
-          (msg: Message | null) => {
+          async (msg: Message | null) => {
             if (msg) {
-              const parsed = JSON.parse(msg.content.toString());
-              console.log('action : ', parsed.action, 'message', msg);
-              switch (parsed.action) {
-                case 'GET_USER_NOTIFICATIONS':
-                  console.log(
-                    'Consuming GET_USER_NOTIFICATIONS action',
-                    parsed.data
-                  );
-                  break;
-                case 'LOGIN':
-                  console.log('Consuming LOGIN action', parsed.data);
-                  break;
-                case 'CHECK_LOGGED':
-                  console.log('Consuming CHECK_LOGIN action', parsed.data);
-                  break;
-                case 'LOGOUT':
-                  console.log('Consuming LOGIN action', parsed.data);
-                  break;
-                default:
-                  break;
-              }
+              const content = msg.content;
+              const parsed = JSON.parse(content.toString());
+
+              await processMessage(parsed);
+
+              chan.ack(msg);
             }
           },
-          { noAck: true }
+          { noAck: false }
         );
       });
     });
