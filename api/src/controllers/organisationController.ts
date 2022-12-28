@@ -152,6 +152,21 @@ exports.inviteUserToOrganisation = async (
         'User not invited to organisation'
       );
 
+    // If ok send rabbit message to notifications
+    const rabbitMessage = {
+      action: 'CREATE_NOTIFICATION',
+      data: {
+        orgaId: updatedOrga?.id,
+        senderId: updatedOrga?.orgAdmin,
+        receiverEmail: email,
+        type: 'INVITATION',
+        content: `Vous êtes invité à rejoindre ${updatedOrga?.orgName}`,
+        actionUrl: `${process.env.CLIENT_URL}/orga/${updatedOrga?.id}/join`
+      }
+    };
+
+    producer(JSON.stringify(rabbitMessage));
+
     res.status(200).json({
       status: 'success',
       message: 'User invited',

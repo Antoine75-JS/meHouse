@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -26,6 +26,8 @@ const inviteUserSchema = yup.object().shape({
 const InviteUserForm: React.FC<Props> = ({ orgaId, setIsInviteUserFormOpen }) => {
   const dispatch = useDispatch();
 
+  const inputRef = useRef();
+
   const {
     register,
     handleSubmit,
@@ -35,6 +37,8 @@ const InviteUserForm: React.FC<Props> = ({ orgaId, setIsInviteUserFormOpen }) =>
     resolver: yupResolver(inviteUserSchema),
   });
 
+  // TODO
+  // Empty input when submited
   const handleCreateNewTask: SubmitHandler<FormInputs> = (data: FormInputs) => {
     const payload = { orgaId, ...data };
     console.log(payload);

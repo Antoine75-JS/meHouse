@@ -17,8 +17,8 @@ const notificationSchema = new Schema<NotificationT>(
       type: String,
       required: true
     },
-    receiverId: {
-      type: Schema.Types.ObjectId,
+    receiverEmail: {
+      type: String,
       required: true
     },
     senderId: {

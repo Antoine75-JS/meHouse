@@ -12,6 +12,7 @@ const initialState: IUser = {
   id: '',
   organisations: [],
   notifications: [],
+  invitedTo: [],
 };
 
 // eslint-disable-next-line @typescript-eslint/default-param-last
@@ -25,6 +26,7 @@ const reducer = (state: IUser = initialState, action: AuthActionTypes) => {
         username: action.payload.username,
         email: action.payload.email,
         organisations: action.payload.organisations,
+        invitedTo: action.payload.invitedTo,
       };
     }
     case SET_USER_NOTIFICATIONS: {

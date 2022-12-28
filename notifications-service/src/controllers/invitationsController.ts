@@ -36,7 +36,7 @@ exports.getUserNotifications = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body);
+    console.log('getting user notifications', req.body);
     const userNotifications: NotificationT[] = await Notification.find({
       receiverId: req.params.id
     });
@@ -57,14 +57,10 @@ exports.getUserNotifications = async (
 };
 
 // Create new notification
-exports.createInvitationNotif = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+exports.createInvitationNotif = async (payload: any) => {
   try {
-    console.log('body', req.body);
-    const newInviteNotification = new Notification(req.body);
+    console.log('body', payload);
+    const newInviteNotification = new Notification(payload);
 
     console.log('newInviteNotif', newInviteNotification);
     if (!newInviteNotification)
@@ -78,14 +74,42 @@ exports.createInvitationNotif = async (
       throw new ErrorHandler(errors.notModified, 'Notification not created');
     });
 
-    res.status(201).json({
-      status: 'success',
-      message: 'Notification created',
-      savedNotif
-    });
-
-    next();
+    return savedNotif;
   } catch (error) {
-    next(error);
+    console.log('error creating notification', error);
   }
 };
+
+// Create new notification
+// exports.createInvitationNotif = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     console.log('body', req.body);
+//     const newInviteNotification = new Notification(req.body);
+
+//     console.log('newInviteNotif', newInviteNotification);
+//     if (!newInviteNotification)
+//       throw new ErrorHandler(
+//         errors.notModified,
+//         'Invitation notif not created'
+//       );
+
+//     const savedNotif = await newInviteNotification.save().catch((err: any) => {
+//       console.log('error when adding category to Orga', err);
+//       throw new ErrorHandler(errors.notModified, 'Notification not created');
+//     });
+
+//     res.status(201).json({
+//       status: 'success',
+//       message: 'Notification created',
+//       savedNotif
+//     });
+
+//     next();
+//   } catch (error) {
+//     next(error);
+//   }
+// };

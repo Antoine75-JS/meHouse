@@ -9,10 +9,10 @@ export interface NotificationsList {
 export interface NotificationT {
   _id: ObjectId;
   orgaId: ObjectId;
-  actionUrl?: string;
-  content: string;
-  receiverId: ObjectId;
   senderId: ObjectId;
+  receiverEmail: string;
   type: NotificationsTypes;
+  content: string;
+  actionUrl?: string;
   isRead: boolean;
 }
