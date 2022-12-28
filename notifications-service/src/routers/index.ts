@@ -18,7 +18,7 @@ router.get('/', (_, res: Response) => {
 });
 
 // Get user notifications
-router.get('/:id', getUserNotifications);
+router.get('/:email', getUserNotifications);
 
 router.use('/invitations', invitationsRouter);
 

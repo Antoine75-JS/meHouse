@@ -36,10 +36,12 @@ exports.getUserNotifications = async (
   next: NextFunction
 ) => {
   try {
-    console.log('getting user notifications', req.body);
+    console.log('getting user notifications', req.params);
     const userNotifications: NotificationT[] = await Notification.find({
-      receiverId: req.params.id
+      receiverEmail: req.params.email
     });
+
+    console.log('notifs found', userNotifications);
 
     if (!userNotifications || userNotifications?.length < 1)
       throw new ErrorHandler(errors.notFound, 'No notifications for user');
