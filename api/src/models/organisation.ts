@@ -8,6 +8,10 @@ const organisationSchema = new Schema<OrganisationT>({
     type: String,
     required: [true, 'Please enter a name for your organisation']
   },
+  orgAdmin: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   categories: [
     {
       type: Schema.Types.ObjectId,

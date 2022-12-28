@@ -7,6 +7,7 @@ import type { TaskT } from './tasksT';
 export interface OrganisationT {
   id?: ObjectId;
   orgName: string;
+  orgAdmin: UserT;
   orgUsers: UserT[];
   orgTasks?: TaskT[];
   categories?: string[];
