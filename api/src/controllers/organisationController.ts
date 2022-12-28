@@ -63,9 +63,16 @@ exports.createOrganisation = async (
   next: NextFunction
 ) => {
   try {
-    console.log('USer for organisation', res.userFound);
+    console.log('User for organisation', res.userFound);
 
-    const newOrga = new Organisation(req.body);
+    const payload = {
+      orgAdmin: res.userFound?.id,
+      ...req.body
+    };
+
+    console.log('payload', payload);
+
+    const newOrga = new Organisation(payload);
 
     if (!newOrga)
       throw new ErrorHandler(errors.notFound, 'Organisation was not created');

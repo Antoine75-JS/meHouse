@@ -47,7 +47,7 @@ const DroppableContainer: React.FC<DroppableContainerPropsT> = ({
   );
 
   return (
-    <div ref={drop} style={{ opacity: isOver ? 0.5 : 1 }}>
+    <div ref={drop} style={{ opacity: isOver ? 0.5 : 1, minWidth: '100px' }}>
       {!isOver ? (
         children
       ) : (

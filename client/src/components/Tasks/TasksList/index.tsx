@@ -19,7 +19,7 @@ const TasksList: React.FC<Props> = ({ orgTasks }) => {
     <div>
       <div className='font-bold my-2 mb-4 text-secondary'>Tâches en cours :</div>
       <DroppableContainer accepts={draggableItemTypes.TASK_DONE} helperText='Add to list'>
-        <div>
+        <div style={{ minHeight: '20px' }}>
           {orgTasks &&
             orgTasks
               .filter((task) => !task.isDone)
@@ -40,7 +40,7 @@ const TasksList: React.FC<Props> = ({ orgTasks }) => {
       <div>
         <div className='font-bold my-2 mb-4 text-secondary'>Tâches terminées :</div>
         <DroppableContainer accepts={draggableItemTypes.TASK_ACTIVE} helperText='Set as done !'>
-          <div>
+          <div style={{ minHeight: '20px' }}>
             {orgTasks &&
               orgTasks
                 .filter((task) => task.isDone)

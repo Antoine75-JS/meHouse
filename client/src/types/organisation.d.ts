@@ -1,6 +1,7 @@
 interface IOrganisation {
   _id: string;
   orgName: string;
+  orgAdmin: string;
   orgUsers: IUser[];
   categories?: ICategory[];
   orgTasks: ITask[];

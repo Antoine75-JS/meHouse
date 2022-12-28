@@ -97,7 +97,11 @@ const TaskListItem: React.FC<PropsT> = ({ task }) => {
       <div className='grow'>
         {task && (
           <div className='flex gap-2 items-center'>
-            <Link className='font-bold text-secondary' to={`/task/${task._id}`} state={{ task }}>
+            <Link
+              className='font-bold text-secondary mr-2'
+              to={`/task/${task._id}`}
+              state={{ task }}
+            >
               {task.taskName}
             </Link>
             {/* Categories */}

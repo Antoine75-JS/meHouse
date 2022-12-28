@@ -12,7 +12,7 @@ import NewCategoryForm from '../NewCategoryForm';
 const DraggableItem = lazy(() => import('../../Utils/DraggableItem'));
 
 interface Props {
-  categories: ICategory[];
+  categories?: ICategory[];
 }
 
 interface CategoryProps {

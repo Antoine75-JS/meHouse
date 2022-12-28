@@ -10,6 +10,8 @@ const organisationSchema = new Schema<OrganisationT>({
   },
   orgAdmin: {
     type: Schema.Types.ObjectId,
+    required: true,
+    unique: true,
     ref: 'User'
   },
   categories: [

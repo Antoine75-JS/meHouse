@@ -103,7 +103,6 @@ const SignupPage: React.FC = () => {
     }
     // prettier-ignore
     else {
-      console.log('data', data);
       dispatch(submitSignup(data));
     }
   };

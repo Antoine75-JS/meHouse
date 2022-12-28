@@ -34,6 +34,9 @@ const userMiddleware: Middleware =
 
           next(action);
         } catch (error) {
+          // If no notification, returns
+          if (axios.isAxiosError(error) && error.response?.status === 404) return;
+          // Else handles error
           if (axios.isAxiosError(error)) {
             const { message, status } = error?.response?.data || undefined;
             store.dispatch(openSnackbar({ type: status, message: message }));

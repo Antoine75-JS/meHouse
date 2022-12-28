@@ -66,9 +66,7 @@ const OrganisationHomepage: React.FC = () => {
               )}
             </div>
             {/* CATEGORIES */}
-            {organisation?.categories && organisation?.categories?.length > 0 && (
-              <CategoriesList categories={organisation?.categories} />
-            )}
+            <CategoriesList categories={organisation?.categories} />
           </div>
           {filteredTasks?.length > 0 ? (
             <TasksList orgTasks={filteredTasks} />
