@@ -5,6 +5,16 @@ const processMessage = async (content: any) => {
     case 'GET_USER_NOTIFICATIONS':
       console.log('Consuming GET_USER_NOTIFICATIONS action', content.data);
       break;
+    case 'CREATE_NOTIFICATION':
+      console.log('Consuming CREATE_NOTIFICATION action', content.data);
+      break;
+    case 'DELETE_NOTIFICATION':
+      console.log('Consuming DELETE_NOTIFICATION action', content.data);
+      break;
+    case 'SET_NOTIFICATION_READ':
+      console.log('Consuming SET_NOTIFICATION_READ action', content.data);
+      break;
+    // Usefull ?
     case 'LOGIN':
       console.log('Consuming LOGIN action', content.data);
       break;

@@ -9,6 +9,7 @@ const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
 
 import Organisation from '../models/organisation';
+import producer from '../config/rabbit-config';
 
 exports.getAllOrganisations = async (
   req: Request,
@@ -219,6 +220,9 @@ exports.joinOrganisationWithInvite = async (
         errors.notModified,
         'Organisation could not be updated. User not added to organisation'
       );
+
+    // TODO
+    // Message broker => Delete invite notification
 
     // If ok send updatedUser & updatedOrga
     res.status(200).json({

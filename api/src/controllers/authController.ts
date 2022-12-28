@@ -2,17 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 import Organisation from '../models/organisation';
 import User from '../models/user';
 const bcrypt = require('bcryptjs');
-import createQMChannel from '../config/rabbit-config';
+import producer from '../config/rabbit-config';
 
 const { createJwtToken } = require('../config/jwt-config');
 
 const { ErrorHandler } = require('../middlewares/errorMiddleware');
 const { errors } = require('../utils/errors');
-
-const producer = createQMChannel(
-  process.env.RABBIT_HOSTNAME,
-  process.env.RABBIT_QUEUE_NAME
-);
 
 import type { UserFoundRequestT, UserFoundResponseT } from '../types/usersT';
 

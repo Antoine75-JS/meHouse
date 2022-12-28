@@ -25,4 +25,9 @@ const createQMChannel = (amqpUrl: string, queueName: string) => {
   };
 };
 
-export default createQMChannel;
+const producer = createQMChannel(
+  process.env.RABBIT_HOSTNAME,
+  process.env.RABBIT_QUEUE_NAME
+);
+
+export default producer;
