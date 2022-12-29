@@ -63,26 +63,13 @@ exports.createOrganisation = async (
   next: NextFunction
 ) => {
   try {
-    console.log(
-      'User for organisation',
-      res.userFound,
-      'id is',
-      res.userFound?.id,
-      'body',
-      req.body
-    );
-
     const payload = {
       orgAdmin: res.userFound?.id,
       orgName: req.body?.orgName
       // orgUsers: [res.userFound]
     };
 
-    console.log('payload', payload);
-
     const newOrga = new Organisation(payload);
-
-    console.log('new Orga', newOrga);
 
     if (!newOrga)
       throw new ErrorHandler(errors.notFound, 'Organisation was not created');
@@ -94,8 +81,6 @@ exports.createOrganisation = async (
       console.log('error when adding user to Orga', err);
       throw new ErrorHandler(errors.notModified, 'Organisation not created');
     });
-
-    console.log('saved orga :', savedOrga);
 
     // Update user organisations
     const updatedUser = await User.findOneAndUpdate(
@@ -117,9 +102,7 @@ exports.createOrganisation = async (
         'User not updated, organisation not created'
       );
 
-    console.log('updated user', updatedUser);
-
-    // // Save orga and user
+    // Save orga and user
     const savedUser: UserT = await updatedUser.save().catch((err: any) => {
       console.log('error when adding user to Orga', err);
       throw new ErrorHandler(

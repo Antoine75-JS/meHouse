@@ -89,18 +89,25 @@ exports.createInvitationNotif = async (payload: any) => {
 // Delete notification
 exports.deleteNotification = async (payload: any) => {
   try {
-    const deletedNotification = await Notification.findOneAndDelete({
-      _id: payload.id
-    });
+    const deletedNotification = await Notification.findOneAndDelete(
+      {
+        _id: payload.id
+      }
+      // function (err: any, docs: NotificationT) {
+      //   if (err) {
+      //     console.log(err);
+      //   } else {
+      //     console.log(docs);
+      //   }
+      // }
+    );
 
     if (!deletedNotification)
       throw new ErrorHandler(
         errors.notModified,
         'Notification was not deleted'
       );
-
-    return deletedNotification;
   } catch (error) {
-    console.log('error while deleting notification');
+    console.log('error while deleting notification', error);
   }
 };

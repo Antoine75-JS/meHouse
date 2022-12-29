@@ -30,7 +30,6 @@ const organisationsMiddleware: Middleware =
     switch (action.type) {
       case GET_ORGANISATION_DETAILS: {
         try {
-          console.log('getting orga details');
           store.dispatch(startLoading());
 
           const response: AxiosResponse = await axiosInstance.get(
@@ -87,8 +86,6 @@ const organisationsMiddleware: Middleware =
       case INVITE_USER_TO_ORGANISATION: {
         try {
           store.dispatch(startLoading());
-
-          console.log('inviting user action', action);
 
           const response: AxiosResponse = await axiosInstance.post(
             `${process.env.REACT_APP_API_URL}/organisations/${action?.payload?.orgaId}/invite`,
