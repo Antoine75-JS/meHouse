@@ -12,6 +12,7 @@ import { openSnackbar } from '../../actions/snackbar';
 // Actions
 import { startLoading, stopLoading } from '../../actions/loading';
 import { CHECK_USER_INVITATIONS, OrganisationsActionTypes } from '../../actions/organisation';
+import { setUserNotifications } from '../../actions/auth';
 
 // TODO
 // Handle redirection when creating new task
@@ -26,9 +27,9 @@ const userMiddleware: Middleware =
           );
 
           if (response.status === 200) {
-            // console.log('response', response);
             // TODO
             // CREATE NOTIFICATIONS
+            // store.dispatch(setUserNotifications())
             // Handle 204 => return 204 from api
           }
 

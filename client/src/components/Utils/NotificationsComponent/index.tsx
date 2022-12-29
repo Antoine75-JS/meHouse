@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
 import BellIcon from '../Icons/BellIcon';
 
@@ -9,9 +10,15 @@ const NotificationsComponent: React.FC = () => {
   const userNofitications = useSelector((state: IState) => state.user.notifications);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
+  const location = useLocation();
+
   const handleOpenNotifications = () => {
     setNotificationsOpen(!notificationsOpen);
   };
+
+  useEffect(() => {
+    setNotificationsOpen(false);
+  }, [location]);
 
   return (
     <div>
@@ -26,12 +33,13 @@ const NotificationsComponent: React.FC = () => {
           {userNofitications &&
             userNofitications.length > 0 &&
             userNofitications.map((notification: INotification) => (
-              <div
+              <Link
+                to={notification?.actionUrl || ''}
                 key={notification?._id}
                 className='relative rounded-xl border-2 border-gray-400 bg-slate-700 bg-opacity-90 w-80 text-start p-4'
               >
                 {notification?.content}
-              </div>
+              </Link>
             ))}
         </div>
       )}

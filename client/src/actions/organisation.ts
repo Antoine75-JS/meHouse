@@ -3,6 +3,7 @@ export const SET_ORGANISATION_DETAILS = 'SET_ORGANISATION_DETAILS';
 export const GET_ORGANISATION_DETAILS = 'GET_ORGANISATION_DETAILS';
 export const INVITE_USER_TO_ORGANISATION = 'INVITE_USER_TO_ORGANISATION';
 export const CHECK_USER_INVITATIONS = 'CHECK_USER_INVITATIONS';
+export const JOIN_ORGANISATION_WITH_INVITE = 'JOIN_ORGANISATION_WITH_INVITE';
 
 export type OrganisationsActionTypes =
   | {
@@ -22,6 +23,10 @@ export type OrganisationsActionTypes =
       payload: IInviteUserActionPayload;
     }
   | {
+      type: typeof JOIN_ORGANISATION_WITH_INVITE;
+      payload: IJoinOrganisationPayload;
+    }
+  | {
       type: typeof CHECK_USER_INVITATIONS;
       payload: string;
     };
@@ -35,6 +40,13 @@ export const createNewOrganisation = (
 
 export const getOrganisationDetails = (payload: string): OrganisationsActionTypes => ({
   type: GET_ORGANISATION_DETAILS,
+  payload,
+});
+
+export const joinOrganisationWithInvite = (
+  payload: IJoinOrganisationPayload,
+): OrganisationsActionTypes => ({
+  type: JOIN_ORGANISATION_WITH_INVITE,
   payload,
 });
 

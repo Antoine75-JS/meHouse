@@ -161,7 +161,7 @@ exports.inviteUserToOrganisation = async (
         receiverEmail: email,
         type: 'INVITATION',
         content: `Vous êtes invité à rejoindre ${updatedOrga?.orgName}`,
-        actionUrl: `${process.env.CLIENT_URL}/orga/${updatedOrga?.id}/join`
+        actionUrl: `/orga/${updatedOrga?.id}/join`
       }
     };
 
@@ -193,6 +193,7 @@ exports.joinOrganisationWithInvite = async (
 ) => {
   try {
     const { email } = req.params;
+    const { notificationId } = req.body;
 
     if (!email)
       throw new ErrorHandler(errors.notFound, 'No email adress provided');
@@ -243,8 +244,15 @@ exports.joinOrganisationWithInvite = async (
         'Organisation could not be updated. User not added to organisation'
       );
 
-    // TODO
-    // Message broker => Delete invite notification
+    // If ok send rabbit message to notifications
+    const rabbitMessage = {
+      action: 'DELETE_NOTIFICATION',
+      data: {
+        id: notificationId
+      }
+    };
+
+    producer(JSON.stringify(rabbitMessage));
 
     // If ok send updatedUser & updatedOrga
     res.status(200).json({

@@ -80,6 +80,8 @@ const authMiddleWare: Middleware =
 
           next(action);
         } catch (error) {
+          if (axios.isAxiosError(error) && error.response?.status === 404) return;
+
           if (axios.isAxiosError(error)) {
             const { message, status } = error?.response?.data || undefined;
             store.dispatch(openSnackbar({ type: status, message: message }));
@@ -119,6 +121,8 @@ const authMiddleWare: Middleware =
             );
           }
         } catch (error) {
+          if (axios.isAxiosError(error) && error.response?.status === 404) return;
+
           if (axios.isAxiosError(error)) {
             const { message, status } = error?.response?.data || undefined;
             store.dispatch(openSnackbar({ type: status, message: message }));

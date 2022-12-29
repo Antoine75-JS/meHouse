@@ -16,3 +16,9 @@ interface IInviteUserActionPayload {
   email: string;
   orgaId: string;
 }
+
+interface IJoinOrganisationPayload {
+  email: string;
+  orgaId: string;
+  notificationId: string;
+}

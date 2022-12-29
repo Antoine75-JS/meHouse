@@ -7,6 +7,7 @@ import Loading from '../Utils/Loading';
 import { checkUserLogged } from '../../actions/auth';
 import Snackbar from '../Utils/Snackbar';
 import Navbar from '../Navbar';
+import JoinOrganisationComponent from '../Organisations/JoinOrgaComponent';
 
 // LAZY
 const OrganisationHomepage = lazy(() => import('../Organisations/OrgaHomepage'));
@@ -40,6 +41,7 @@ const App: React.FC = () => {
       <Routes>
         {isLogged && (
           <>
+            {/* TASKS ROUTES */}
             <Route path='/task'>
               <Route
                 path=':id'
@@ -66,12 +68,21 @@ const App: React.FC = () => {
                 }
               />
             </Route>
+            {/* ORGANISATIONS ROUTES */}
             <Route path='/orga'>
               <Route
                 path=':id'
                 element={
                   <Suspense fallback={<Loading />}>
                     <OrganisationHomepage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path=':id/join'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <JoinOrganisationComponent />
                   </Suspense>
                 }
               />
@@ -86,6 +97,7 @@ const App: React.FC = () => {
             </Route>
           </>
         )}
+        {/* HP + LOGIN + SIGNUP + 404 ROUTES */}
         <Route
           path='/'
           element={
