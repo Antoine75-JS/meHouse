@@ -63,22 +63,39 @@ exports.createOrganisation = async (
   next: NextFunction
 ) => {
   try {
-    console.log('User for organisation', res.userFound);
+    console.log(
+      'User for organisation',
+      res.userFound,
+      'id is',
+      res.userFound?.id,
+      'body',
+      req.body
+    );
 
     const payload = {
       orgAdmin: res.userFound?.id,
-      ...req.body
+      orgName: req.body?.orgName
+      // orgUsers: [res.userFound]
     };
 
     console.log('payload', payload);
 
     const newOrga = new Organisation(payload);
 
+    console.log('new Orga', newOrga);
+
     if (!newOrga)
       throw new ErrorHandler(errors.notFound, 'Organisation was not created');
 
     // Add user to orga then save organistion
     newOrga.orgUsers.push(res.userFound);
+
+    const savedOrga: OrganisationT = await newOrga.save().catch((err) => {
+      console.log('error when adding user to Orga', err);
+      throw new ErrorHandler(errors.notModified, 'Organisation not created');
+    });
+
+    console.log('saved orga :', savedOrga);
 
     // Update user organisations
     const updatedUser = await User.findOneAndUpdate(
@@ -90,10 +107,7 @@ exports.createOrganisation = async (
       model: 'Organisation',
       populate: {
         path: 'orgTasks orgUsers categories',
-        select: '-__v -password',
-        options: {
-          _recursed: true
-        }
+        select: '-__v -password'
       }
     });
 
@@ -103,6 +117,8 @@ exports.createOrganisation = async (
         'User not updated, organisation not created'
       );
 
+    console.log('updated user', updatedUser);
+
     // // Save orga and user
     const savedUser: UserT = await updatedUser.save().catch((err: any) => {
       console.log('error when adding user to Orga', err);
@@ -110,11 +126,6 @@ exports.createOrganisation = async (
         errors.notModified,
         'Could not save user, organisation not created'
       );
-    });
-
-    const savedOrga: OrganisationT = await newOrga.save().catch((err) => {
-      console.log('error when adding user to Orga', err);
-      throw new ErrorHandler(errors.notModified, 'Organisation not created');
     });
 
     res.status(201).json({
@@ -194,6 +205,16 @@ exports.joinOrganisationWithInvite = async (
   try {
     const { email } = req.params;
     const { notificationId } = req.body;
+
+    console.log(
+      'join orga with invite',
+      'params',
+      req.params,
+      'body',
+      req.body,
+      'orgaFound',
+      res.orgFound
+    );
 
     if (!email)
       throw new ErrorHandler(errors.notFound, 'No email adress provided');

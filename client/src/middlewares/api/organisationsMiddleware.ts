@@ -116,11 +116,15 @@ const organisationsMiddleware: Middleware =
       case JOIN_ORGANISATION_WITH_INVITE: {
         try {
           store.dispatch(startLoading());
-          axiosInstance.patch(
+          const response: AxiosResponse = await axiosInstance.patch(
             `${process.env.REACT_APP_API_URL}/organisations/${action?.payload?.orgaId}/join/${action?.payload?.email}`,
             action.payload,
           );
-          console.log(action.payload);
+
+          if (response.status === 200) {
+            const { message, status } = response.data;
+            store.dispatch(openSnackbar({ type: status, message: message }));
+          }
         } catch (error) {
           if (axios.isAxiosError(error)) {
             const { message, status } = error?.response?.data || undefined;

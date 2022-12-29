@@ -33,7 +33,7 @@ exports.sendInviteEmailToUser = async (
       );
 
     const orgName: string = res.orgFound?.orgName;
-    const inviteLink = `${process.env.API_URL}/organisations/${res.orgFound?.id}/join/${email}`;
+    const inviteLink = `${process.env.CLIENT_URL}/organisations/${res.orgFound?.id}/join/${email}`;
 
     const data = {
       Messages: [

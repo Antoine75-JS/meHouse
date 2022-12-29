@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { Document } from 'mongoose';
-import { NotificationsList, NotificationT } from '../types/notification';
+
+import {
+  NotificationFoundResponseT,
+  NotificationsList,
+  NotificationT
+} from '../types/notification';
 
 import Notification from '../models/notification';
 
@@ -82,36 +86,21 @@ exports.createInvitationNotif = async (payload: any) => {
   }
 };
 
-// Create new notification
-// exports.createInvitationNotif = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     console.log('body', req.body);
-//     const newInviteNotification = new Notification(req.body);
+// Delete notification
+exports.deleteNotification = async (payload: any) => {
+  try {
+    const deletedNotification = await Notification.findOneAndDelete({
+      _id: payload.id
+    });
 
-//     console.log('newInviteNotif', newInviteNotification);
-//     if (!newInviteNotification)
-//       throw new ErrorHandler(
-//         errors.notModified,
-//         'Invitation notif not created'
-//       );
+    if (!deletedNotification)
+      throw new ErrorHandler(
+        errors.notModified,
+        'Notification was not deleted'
+      );
 
-//     const savedNotif = await newInviteNotification.save().catch((err: any) => {
-//       console.log('error when adding category to Orga', err);
-//       throw new ErrorHandler(errors.notModified, 'Notification not created');
-//     });
-
-//     res.status(201).json({
-//       status: 'success',
-//       message: 'Notification created',
-//       savedNotif
-//     });
-
-//     next();
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+    return deletedNotification;
+  } catch (error) {
+    console.log('error while deleting notification');
+  }
+};
