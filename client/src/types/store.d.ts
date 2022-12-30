@@ -5,4 +5,5 @@ interface IState {
   user: IUser;
   organisation: IOrganisation;
   categories: ICategoryState;
+  redirect: IRedirect;
 }

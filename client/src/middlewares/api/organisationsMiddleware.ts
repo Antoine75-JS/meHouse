@@ -22,6 +22,7 @@ import {
   INVITE_USER_TO_ORGANISATION,
   JOIN_ORGANISATION_WITH_INVITE,
 } from '../../actions/organisation';
+import { redirectTo } from '../../actions/redirect';
 
 // TODO
 // Handle redirection when creating new task
@@ -62,12 +63,15 @@ const organisationsMiddleware: Middleware =
           );
 
           if (response.status === 201) {
-            const { message, status } = response.data;
+            const { message, status, savedOrga } = response.data;
+            console.log('new orga', response);
 
             // TODO
             // Redirect user
             store.dispatch(checkUserLogged());
             store.dispatch(openSnackbar({ type: status, message: message }));
+            // eslint-disable-next-line no-underscore-dangle
+            store.dispatch(redirectTo(`/orga/${savedOrga._id}`));
           }
 
           next(action);
@@ -119,8 +123,10 @@ const organisationsMiddleware: Middleware =
           );
 
           if (response.status === 200) {
-            const { message, status } = response.data;
+            const { message, status, updatedOrga } = response.data;
             store.dispatch(openSnackbar({ type: status, message: message }));
+            // eslint-disable-next-line no-underscore-dangle
+            store.dispatch(redirectTo(`/orga/${updatedOrga._id}`));
           }
         } catch (error) {
           if (axios.isAxiosError(error)) {

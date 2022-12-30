@@ -6,6 +6,7 @@ import userReducer from './user';
 import snackbarReducer from './snackbar';
 import organisationReducer from './organisations';
 import categoriesReducer from './categories';
+import redirectReducer from './redirect';
 
 const rootReducer = combineReducers({
   loading: loadingReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   snackbar: snackbarReducer,
   organisation: organisationReducer,
   categories: categoriesReducer,
+  redirect: redirectReducer,
 });
 
 export default rootReducer;

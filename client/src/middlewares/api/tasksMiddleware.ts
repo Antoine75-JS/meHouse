@@ -25,6 +25,7 @@ import {
   EDIT_TASK,
 } from '../../actions/tasks';
 import { getOrganisationDetails } from '../../actions/organisation';
+import { redirectTo } from '../../actions/redirect';
 
 // TODO
 // Handle redirection when creating new task
@@ -74,6 +75,7 @@ const tasksMiddleware: Middleware =
             const { message, status, savedTask } = response.data;
             store.dispatch(getTasksFromOrganisation(savedTask.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
+            store.dispatch(redirectTo(`/orga/${savedTask.orgaId}`));
           }
 
           next(action);

@@ -12,7 +12,7 @@ import { openSnackbar } from '../../actions/snackbar';
 // Actions
 import { startLoading, stopLoading } from '../../actions/loading';
 import { CREATE_INVITE_NOTIFICATION, GET_USER_NOTIFICATIONS } from '../../actions/notification';
-import { setUserNotifications } from '../../actions/auth';
+import { resetUserNotifications, setUserNotifications } from '../../actions/auth';
 
 const invitationNotifMiddleware: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action) => {
@@ -34,7 +34,11 @@ const invitationNotifMiddleware: Middleware =
 
           next(action);
         } catch (error) {
-          if (axios.isAxiosError(error) && error.response?.status === 404) return;
+          if (axios.isAxiosError(error) && error.response?.status === 404) {
+            console.log('no notif');
+            store.dispatch(resetUserNotifications());
+            return;
+          }
 
           if (axios.isAxiosError(error)) {
             const { message, status } = error?.response?.data || undefined;

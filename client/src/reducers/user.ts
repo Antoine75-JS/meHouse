@@ -3,6 +3,7 @@ import {
   LOGOUT_USER,
   SET_USER_LOGGED,
   SET_USER_NOTIFICATIONS,
+  RESET_USER_NOTIFICATIONS,
 } from '../actions/auth';
 
 const initialState: IUser = {
@@ -33,6 +34,12 @@ const reducer = (state: IUser = initialState, action: AuthActionTypes) => {
       return {
         ...state,
         notifications: action.payload,
+      };
+    }
+    case RESET_USER_NOTIFICATIONS: {
+      return {
+        ...state,
+        notifications: [],
       };
     }
     case LOGOUT_USER: {
