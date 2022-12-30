@@ -102,6 +102,8 @@ const authMiddleWare: Middleware =
             `${process.env.REACT_APP_API_URL}/auth/checkauthtoken`,
           );
 
+          // TODO
+          // REMOVE THIS FOR PROD
           const notifications: AxiosResponse = await axios.get(
             `${process.env.REACT_APP_API_NOTIFICATIONS_URL}`,
           );

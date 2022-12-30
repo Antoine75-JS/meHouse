@@ -24,8 +24,6 @@ import {
 } from '../../actions/organisation';
 import { redirectTo } from '../../actions/redirect';
 
-// TODO
-// Handle redirection when creating new task
 const organisationsMiddleware: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: OrganisationsActionTypes) => {
     switch (action.type) {
@@ -64,10 +62,6 @@ const organisationsMiddleware: Middleware =
 
           if (response.status === 201) {
             const { message, status, savedOrga } = response.data;
-            console.log('new orga', response);
-
-            // TODO
-            // Redirect user
             store.dispatch(checkUserLogged());
             store.dispatch(openSnackbar({ type: status, message: message }));
             // eslint-disable-next-line no-underscore-dangle

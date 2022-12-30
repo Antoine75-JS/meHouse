@@ -30,21 +30,17 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  // Check user logged + notifs when location changes
   useEffect(() => {
     dispatch(checkUserLogged());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(getUserNotifications(userEmail));
   }, [location, dispatch, userEmail]);
 
   // Dispatch redirect action or reset url
   if (redirectUrl === location.pathname) {
-    console.log('reseting url');
     dispatch(resetRedirectUrl());
     // eslint-disable-next-line brace-style
   } else if (isLogged && redirectUrl && redirectUrl !== location.pathname) {
-    console.log('redirecting');
     return <Navigate to={redirectUrl} />;
   }
 

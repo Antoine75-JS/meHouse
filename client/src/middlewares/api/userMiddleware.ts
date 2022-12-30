@@ -12,10 +12,7 @@ import { openSnackbar } from '../../actions/snackbar';
 // Actions
 import { startLoading, stopLoading } from '../../actions/loading';
 import { CHECK_USER_INVITATIONS, OrganisationsActionTypes } from '../../actions/organisation';
-import { setUserNotifications } from '../../actions/auth';
 
-// TODO
-// Handle redirection when creating new task
 const userMiddleware: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: OrganisationsActionTypes) => {
     switch (action.type) {
@@ -28,9 +25,7 @@ const userMiddleware: Middleware =
 
           if (response.status === 200) {
             // TODO
-            // CREATE NOTIFICATIONS
-            // store.dispatch(setUserNotifications())
-            // Handle 204 => return 204 from api
+            // Not sure if we need this anymore
           }
 
           next(action);

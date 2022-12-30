@@ -46,7 +46,6 @@ const NewTaskForm = () => {
   // const watchExpire = watch('');
 
   // TODO
-  // Handle redirect when task created
   // yup validation
   // Handle errors on form
   const handleSubmitNewTask: SubmitHandler<FormInputs> = (formData: FormInputs) => {

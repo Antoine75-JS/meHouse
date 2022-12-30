@@ -32,9 +32,6 @@ const OrganisationHomepage: React.FC = () => {
     setIsInviteUserFormOpen(!isInviteUserFormOpen);
   };
 
-  // TODO
-  // Refacto form for invite user + add category
-  // FormComponent Util
   return (
     <div className='page'>
       {organisation && (
