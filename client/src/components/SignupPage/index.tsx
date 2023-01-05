@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import React, { InputHTMLAttributes } from 'react';
-import { useForm, SubmitHandler, UseFormRegister, FieldError } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
@@ -10,22 +10,17 @@ import * as yup from 'yup';
 import { submitSignup } from '../../actions/auth';
 import { openSnackbar } from '../../actions/snackbar';
 
+// Components
+import InputTextField from '../Inputs/InputTextField';
+
+import InputPasswordField from '../Inputs/InputPasswordField';
+
 // Ts
 interface FormInputs {
   username: string;
   email: string;
   repeat_password: string;
   password: string;
-}
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  errors?: FieldError;
-  type: 'email' | 'password' | 'text';
-  required: boolean;
-  placeholder: string;
-  registerLabel: 'email' | 'password' | 'repeat_password' | 'username';
-  register: UseFormRegister<FormInputs>;
 }
 
 // Yup schema validation
@@ -55,29 +50,11 @@ const signupSchema = yup.object().shape({
     ),
 });
 
-const InputField: React.FC<InputProps> = (props: InputProps) => {
-  const { label, type, required, placeholder, registerLabel, register, errors } = props;
-
-  return (
-    <label htmlFor={label} className='block mb-4 text-sm font-medium text-gray-900 dark:text-white'>
-      {label}
-      <input
-        type={type}
-        id={label}
-        // Find how to improve register
-        {...register(registerLabel)}
-        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-2'
-        placeholder={placeholder}
-        required={required}
-      />
-      {errors && <p className='mt-2 font-thin text-red-600'>{errors.message}</p>}
-    </label>
-  );
-};
-
 // TODO
 // Handle showPassword to check password
 const SignupPage: React.FC = () => {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const isLogged = useSelector((state: IState) => state.user.isLogged);
 
   const dispatch = useDispatch();
@@ -116,7 +93,7 @@ const SignupPage: React.FC = () => {
         className='flex flex-col justify-center items-center gap-4 w-full p-4'
       >
         <div className='w-full'>
-          <InputField
+          <InputTextField
             errors={errors.username}
             label="Nom d'utilisateur"
             registerLabel='username'
@@ -125,7 +102,7 @@ const SignupPage: React.FC = () => {
             required
             register={register}
           />
-          <InputField
+          <InputTextField
             errors={errors.email}
             label='Adresse email'
             registerLabel='email'
@@ -134,23 +111,27 @@ const SignupPage: React.FC = () => {
             required
             register={register}
           />
-          <InputField
+          <InputPasswordField
             errors={errors.password}
             label='Mot de passe'
             registerLabel='password'
-            type='password'
+            type={!showPassword ? 'password' : 'text'}
             required
             register={register}
             placeholder=''
+            showPassword={showPassword}
+            setShowPassword={setShowPassword}
           />
-          <InputField
+          <InputPasswordField
             errors={errors.repeat_password}
             label='Répétez le mot de passe'
             registerLabel='repeat_password'
-            type='password'
+            type={!showPassword ? 'password' : 'text'}
             required
             register={register}
             placeholder=''
+            showPassword={showPassword}
+            setShowPassword={setShowPassword}
           />
           {errors && <p>{}</p>}
         </div>
