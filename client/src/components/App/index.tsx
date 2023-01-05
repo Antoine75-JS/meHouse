@@ -31,6 +31,8 @@ const App: React.FC = () => {
   const location = useLocation();
 
   // Check user logged + notifs when location changes
+  // TODO
+  // Redirect on not logged
   useEffect(() => {
     dispatch(checkUserLogged());
     dispatch(getUserNotifications(userEmail));

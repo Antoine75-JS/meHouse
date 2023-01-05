@@ -12,8 +12,6 @@ interface Props {
   orgTasks: Itask[];
 }
 
-// TODO
-// Placeholder when no task
 const TasksList: React.FC<Props> = ({ orgTasks }) => {
   return (
     <div>
