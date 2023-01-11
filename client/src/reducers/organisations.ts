@@ -3,6 +3,7 @@ import { OrganisationsActionTypes, SET_ORGANISATION_DETAILS } from '../actions/o
 
 const initialState: IOrganisation = {
   _id: '',
+  orgAdmin: '',
   orgName: '',
   orgUsers: [],
   categories: [],
@@ -13,13 +14,16 @@ const initialState: IOrganisation = {
 const reducer = (state: IOrganisation = initialState, action: OrganisationsActionTypes) => {
   switch (action.type) {
     case SET_ORGANISATION_DETAILS:
+      // eslint-disable-next-line no-case-declarations, @typescript-eslint/naming-convention
+      const { _id, orgAdmin, orgName, orgUsers, categories, orgTasks } = action.payload;
       return {
         ...state,
-        _id: action.payload._id,
-        orgName: action.payload.orgName,
-        orgUsers: action.payload.orgUsers,
-        categories: action.payload.categories,
-        orgTasks: action.payload.orgTasks,
+        _id,
+        orgAdmin,
+        orgName,
+        orgUsers,
+        categories,
+        orgTasks,
       };
 
     default:

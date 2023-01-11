@@ -50,8 +50,6 @@ const InputField: React.FC<InputProps> = (props: InputProps) => {
   );
 };
 
-// TODO
-// setup yup validation
 const LoginPage: React.FC = () => {
   const isLogged = useSelector((state: IState) => state.user.isLogged);
 

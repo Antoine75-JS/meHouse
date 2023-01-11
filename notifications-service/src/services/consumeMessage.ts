@@ -1,3 +1,8 @@
+const {
+  createInvitationNotif,
+  deleteNotification
+} = require('../controllers/invitationsController');
+
 const processMessage = async (content: any) => {
   if (!content) return;
 
@@ -7,9 +12,11 @@ const processMessage = async (content: any) => {
       break;
     case 'CREATE_NOTIFICATION':
       console.log('Consuming CREATE_NOTIFICATION action', content.data);
+      createInvitationNotif(content.data);
       break;
     case 'DELETE_NOTIFICATION':
       console.log('Consuming DELETE_NOTIFICATION action', content.data);
+      deleteNotification(content.data);
       break;
     case 'SET_NOTIFICATION_READ':
       console.log('Consuming SET_NOTIFICATION_READ action', content.data);

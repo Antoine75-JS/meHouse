@@ -13,8 +13,6 @@ import { openSnackbar } from '../../actions/snackbar';
 import { startLoading, stopLoading } from '../../actions/loading';
 import { CHECK_USER_INVITATIONS, OrganisationsActionTypes } from '../../actions/organisation';
 
-// TODO
-// Handle redirection when creating new task
 const userMiddleware: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: OrganisationsActionTypes) => {
     switch (action.type) {
@@ -26,14 +24,15 @@ const userMiddleware: Middleware =
           );
 
           if (response.status === 200) {
-            // console.log('response', response);
             // TODO
-            // CREATE NOTIFICATIONS
-            // Handle 204 => return 204 from api
+            // Not sure if we need this anymore
           }
 
           next(action);
         } catch (error) {
+          // If no notification, returns
+          if (axios.isAxiosError(error) && error.response?.status === 404) return;
+          // Else handles error
           if (axios.isAxiosError(error)) {
             const { message, status } = error?.response?.data || undefined;
             store.dispatch(openSnackbar({ type: status, message: message }));

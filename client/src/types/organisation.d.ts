@@ -1,6 +1,7 @@
 interface IOrganisation {
   _id: string;
   orgName: string;
+  orgAdmin: string;
   orgUsers: IUser[];
   categories?: ICategory[];
   orgTasks: ITask[];
@@ -14,4 +15,10 @@ interface INewOrganisationPayload {
 interface IInviteUserActionPayload {
   email: string;
   orgaId: string;
+}
+
+interface IJoinOrganisationPayload {
+  email: string;
+  orgaId: string;
+  notificationId: string;
 }

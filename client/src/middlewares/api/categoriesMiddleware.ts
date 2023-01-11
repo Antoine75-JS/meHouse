@@ -18,9 +18,7 @@ import {
 } from '../../actions/category';
 import { getOrganisationDetails } from '../../actions/organisation';
 
-// TODO
-// Handle redirection when creating new task
-const tasksMiddleware: Middleware =
+const categoriesMiddleware: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: CategoryActionTypes) => {
     switch (action.type) {
       case CREATE_NEW_CATEGORY: {
@@ -64,7 +62,6 @@ const tasksMiddleware: Middleware =
           if (response.status === 200) {
             const { message, status, updatedTask } = response.data;
             // eslint-disable-next-line no-underscore-dangle
-            console.log(updatedTask);
             store.dispatch(getOrganisationDetails(updatedTask?.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
           }
@@ -87,4 +84,4 @@ const tasksMiddleware: Middleware =
     }
   };
 
-export default tasksMiddleware;
+export default categoriesMiddleware;

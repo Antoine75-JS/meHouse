@@ -80,6 +80,8 @@ const authMiddleWare: Middleware =
 
           next(action);
         } catch (error) {
+          if (axios.isAxiosError(error) && error.response?.status === 404) return;
+
           if (axios.isAxiosError(error)) {
             const { message, status } = error?.response?.data || undefined;
             store.dispatch(openSnackbar({ type: status, message: message }));
@@ -100,6 +102,8 @@ const authMiddleWare: Middleware =
             `${process.env.REACT_APP_API_URL}/auth/checkauthtoken`,
           );
 
+          // TODO
+          // REMOVE THIS FOR PROD
           const notifications: AxiosResponse = await axios.get(
             `${process.env.REACT_APP_API_NOTIFICATIONS_URL}`,
           );
@@ -119,6 +123,8 @@ const authMiddleWare: Middleware =
             );
           }
         } catch (error) {
+          if (axios.isAxiosError(error) && error.response?.status === 404) return;
+
           if (axios.isAxiosError(error)) {
             const { message, status } = error?.response?.data || undefined;
             store.dispatch(openSnackbar({ type: status, message: message }));

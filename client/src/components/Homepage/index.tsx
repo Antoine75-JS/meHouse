@@ -1,19 +1,20 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getUserNotifications } from '../../actions/notification';
 import Loading from '../Utils/Loading';
 
 const OrgasList = lazy(() => import('../Organisations/OrgasList'));
 
 const Homepage: React.FC = () => {
   const user = useSelector((state: IState) => state.user);
-  const { isLogged, id, username } = user;
+  const { isLogged, id, username, email } = user;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (isLogged) {
-      // dispatch(getUserNotifications(id));
+      dispatch(getUserNotifications(email));
     }
   }, [dispatch, id, isLogged]);
 

@@ -12,15 +12,13 @@ interface Props {
   orgTasks: Itask[];
 }
 
-// TODO
-// Placeholder when no task
 const TasksList: React.FC<Props> = ({ orgTasks }) => {
   return (
     <div>
       <div className='font-bold my-2 mb-4 text-secondary'>Tâches en cours :</div>
       <DroppableContainer accepts={draggableItemTypes.TASK_DONE} helperText='Add to list'>
-        <div>
-          {orgTasks &&
+        <div style={{ minHeight: '20px' }}>
+          {orgTasks && orgTasks.filter((task) => !task.isDone).length > 0 ? (
             orgTasks
               .filter((task) => !task.isDone)
               .map((task) => (
@@ -34,14 +32,17 @@ const TasksList: React.FC<Props> = ({ orgTasks }) => {
                     <TaskListItem task={task} />
                   </DraggableItem>
                 </Suspense>
-              ))}
+              ))
+          ) : (
+            <p className='text-center mb-4'>Rien pour le moment</p>
+          )}
         </div>
       </DroppableContainer>
       <div>
         <div className='font-bold my-2 mb-4 text-secondary'>Tâches terminées :</div>
         <DroppableContainer accepts={draggableItemTypes.TASK_ACTIVE} helperText='Set as done !'>
-          <div>
-            {orgTasks &&
+          <div style={{ minHeight: '20px' }}>
+            {orgTasks && orgTasks?.filter((task) => task.isDone).length > 0 ? (
               orgTasks
                 .filter((task) => task.isDone)
                 .map((task) => (
@@ -55,7 +56,10 @@ const TasksList: React.FC<Props> = ({ orgTasks }) => {
                       <TaskListItem task={task} />
                     </DraggableItem>
                   </Suspense>
-                ))}
+                ))
+            ) : (
+              <p className='text-center mb-4'>Rien pour le moment</p>
+            )}
           </div>
         </DroppableContainer>
       </div>

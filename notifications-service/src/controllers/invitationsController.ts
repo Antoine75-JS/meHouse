@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { Document } from 'mongoose';
-import { NotificationsList, NotificationT } from '../types/notification';
+
+import {
+  NotificationFoundResponseT,
+  NotificationsList,
+  NotificationT
+} from '../types/notification';
 
 import Notification from '../models/notification';
 
@@ -36,10 +40,12 @@ exports.getUserNotifications = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body);
+    console.log('getting user notifications', req.params);
     const userNotifications: NotificationT[] = await Notification.find({
-      receiverId: req.params.id
+      receiverEmail: req.params.email
     });
+
+    console.log('notifs found', userNotifications);
 
     if (!userNotifications || userNotifications?.length < 1)
       throw new ErrorHandler(errors.notFound, 'No notifications for user');
@@ -57,14 +63,10 @@ exports.getUserNotifications = async (
 };
 
 // Create new notification
-exports.createInvitationNotif = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+exports.createInvitationNotif = async (payload: any) => {
   try {
-    console.log('body', req.body);
-    const newInviteNotification = new Notification(req.body);
+    console.log('body', payload);
+    const newInviteNotification = new Notification(payload);
 
     console.log('newInviteNotif', newInviteNotification);
     if (!newInviteNotification)
@@ -78,14 +80,34 @@ exports.createInvitationNotif = async (
       throw new ErrorHandler(errors.notModified, 'Notification not created');
     });
 
-    res.status(201).json({
-      status: 'success',
-      message: 'Notification created',
-      savedNotif
-    });
-
-    next();
+    return savedNotif;
   } catch (error) {
-    next(error);
+    console.log('error creating notification', error);
+  }
+};
+
+// Delete notification
+exports.deleteNotification = async (payload: any) => {
+  try {
+    const deletedNotification = await Notification.findOneAndDelete(
+      {
+        _id: payload.id
+      }
+      // function (err: any, docs: NotificationT) {
+      //   if (err) {
+      //     console.log(err);
+      //   } else {
+      //     console.log(docs);
+      //   }
+      // }
+    );
+
+    if (!deletedNotification)
+      throw new ErrorHandler(
+        errors.notModified,
+        'Notification was not deleted'
+      );
+  } catch (error) {
+    console.log('error while deleting notification', error);
   }
 };

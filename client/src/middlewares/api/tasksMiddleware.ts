@@ -3,11 +3,8 @@ import { Dispatch } from 'react';
 import { AnyAction, Middleware } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
 
-import { redirect, useNavigate } from 'react-router-dom';
-
 // Axios instance
 import axiosInstance from '../../services/axiosInstance';
-import useAxiosInstance from '../../services/useAxiosInstance';
 
 // Component
 import { openSnackbar } from '../../actions/snackbar';
@@ -25,6 +22,7 @@ import {
   EDIT_TASK,
 } from '../../actions/tasks';
 import { getOrganisationDetails } from '../../actions/organisation';
+import { redirectTo } from '../../actions/redirect';
 
 // TODO
 // Handle redirection when creating new task
@@ -74,6 +72,7 @@ const tasksMiddleware: Middleware =
             const { message, status, savedTask } = response.data;
             store.dispatch(getTasksFromOrganisation(savedTask.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
+            store.dispatch(redirectTo(`/orga/${savedTask.orgaId}`));
           }
 
           next(action);
@@ -106,7 +105,6 @@ const tasksMiddleware: Middleware =
             const { message, status, updatedTask } = response.data;
             store.dispatch(getOrganisationDetails(updatedTask?.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
-            console.log('updatedTask', response);
           }
 
           next(action);

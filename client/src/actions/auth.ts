@@ -5,6 +5,7 @@ export const CHECK_USER_LOGGED = 'CHECK_USER_LOGGED';
 export const LOGOUT_USER = 'LOGOUT_USER';
 export const SUBMIT_SIGNUP = 'SUBMIT_SIGNUP';
 export const SET_USER_NOTIFICATIONS = 'SET_USER_NOTIFICATIONS';
+export const RESET_USER_NOTIFICATIONS = 'RESET_USER_NOTIFICATIONS';
 
 export type AuthActionTypes =
   | { type: typeof SUBMIT_SIGNUP; payload: ISubmitSignupFormFields }
@@ -16,7 +17,8 @@ export type AuthActionTypes =
   | { type: typeof SET_USER_LOGGED; payload: IUser }
   | { type: typeof CHECK_USER_LOGGED }
   | { type: typeof SUBMIT_LOGOUT }
-  | { type: typeof LOGOUT_USER };
+  | { type: typeof LOGOUT_USER }
+  | { type: typeof RESET_USER_NOTIFICATIONS };
 
 export const submitLogin = (payload: ISubmitLoginFormFields): AuthActionTypes => ({
   type: SUBMIT_LOGIN,
@@ -48,4 +50,8 @@ export const submitSignup = (payload: ISubmitSignupFormFields): AuthActionTypes 
 export const setUserNotifications = (payload: INotificationList): AuthActionTypes => ({
   type: SET_USER_NOTIFICATIONS,
   payload,
+});
+
+export const resetUserNotifications = (): AuthActionTypes => ({
+  type: RESET_USER_NOTIFICATIONS,
 });

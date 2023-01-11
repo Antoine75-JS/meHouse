@@ -1,0 +1,5 @@
+FROM nginx:1.21.5-alpine
+
+ADD /build.d/ /etc/nginx/conf.d/
+
+EXPOSE 80

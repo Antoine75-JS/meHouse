@@ -60,7 +60,6 @@ const EditTaskForm: React.FC = () => {
   }, [details]);
 
   // TODO
-  // Handle redirect when task created
   // yup validation
   // Handle errors on form
   const handleSubmitEditedTask: SubmitHandler<FormInputs> = (formData: FormInputs) => {

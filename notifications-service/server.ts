@@ -51,6 +51,7 @@ const options = {
     }
   },
   credentials: true,
+  accessControlAllowCredentials: true,
   allowedHeaders: 'Content-Type, Authorization, X-Requested-With',
   methods: 'GET,HEAD,POST,PATCH,DELETE,OPTIONS'
 };
