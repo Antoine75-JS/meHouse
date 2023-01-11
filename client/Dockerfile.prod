@@ -1,0 +1,39 @@
+# pull official base image
+FROM node:18-alpine as build
+
+# set working directory
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+RUN rm -rf node_modules/
+
+# add app
+COPY package*.json ./
+
+# install app dependencies
+RUN npm ci --production
+
+# ADD SOURCE FILES
+COPY . .
+
+# RUN chown -R node.node /app/node_modules
+
+# start app
+CMD ["npm", "run", "build"]
+
+
+FROM nginx:1.21.5-alpine
+# Set working directory to nginx resources directory
+WORKDIR /usr/share/nginx/html
+# Removes default conf file => TESTS FOR 404 ERROR
+RUN rm -rf ./*
+# Copies static resources from builder stage to workdir
+COPY --from=build /app/build .
+# Copy default conf files to handle 404 
+COPY --from=build /app/conf.d/default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+# Containers run nginx with global directives and daemon off
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

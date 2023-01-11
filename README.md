@@ -7,6 +7,7 @@ Webapp to manage your daily tasks
 _Webapp running on docker_
 
 - **Client** => React 18 App
+- **API + Notifications** => Express servers
 - **Nginx (via docker container)** as proxy
 - **Docker** as orchestrator
 
@@ -47,7 +48,7 @@ _Node app with express server_
 
 ```
 npm ci
-npm start
+npm run dev
 ```
 
 **On local** url : [localhost:3001/api](localhost:3001/api)
@@ -67,7 +68,7 @@ _Microservice for handling notifications_
 
 ```
 npm ci
-npm start
+npm run dev
 ```
 
 **On local** url : [localhost:3002](localhost:3002)
