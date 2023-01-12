@@ -104,7 +104,6 @@ const authMiddleWare: Middleware =
             `${process.env.REACT_APP_API_URL}/auth/checkauthtoken`,
           );
 
-          // TODO
           // REMOVE THIS FOR PROD
           const notifications: AxiosResponse = await axios.get(
             `${process.env.REACT_APP_API_NOTIFICATIONS_URL}`,
@@ -117,16 +116,9 @@ const authMiddleWare: Middleware =
           if (response.status === 200) {
             store.dispatch(setUserLogged(response.data?.user));
             store.dispatch(checkUserInvitations(response?.data?.user?.id));
-            store.dispatch(
-              openSnackbar({
-                type: 'success',
-                message: `Welcome back ${response.data?.user?.username}`,
-              }),
-            );
           }
         } catch (error) {
           if (axios.isAxiosError(error) && error.response?.status === 401) {
-            console.log('no logged user');
             store.dispatch(submitLogout());
           }
 

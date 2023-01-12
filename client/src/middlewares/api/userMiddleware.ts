@@ -24,8 +24,8 @@ const userMiddleware: Middleware =
           );
 
           if (response.status === 200) {
-            // TODO
             // Not sure if we need this anymore
+            next(action);
           }
 
           next(action);

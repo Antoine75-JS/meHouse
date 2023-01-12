@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable brace-style */
 import { Dispatch } from 'react';
 import { AnyAction, Middleware } from '@reduxjs/toolkit';
@@ -24,8 +25,6 @@ import {
 import { getOrganisationDetails } from '../../actions/organisation';
 import { redirectTo } from '../../actions/redirect';
 
-// TODO
-// Handle redirection when creating new task
 const tasksMiddleware: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: TasksActionTypes) => {
     switch (action.type) {
@@ -103,8 +102,10 @@ const tasksMiddleware: Middleware =
 
           if (response.status === 200) {
             const { message, status, updatedTask } = response.data;
+            console.log(response);
             store.dispatch(getOrganisationDetails(updatedTask?.orgaId));
             store.dispatch(openSnackbar({ type: status, message: message }));
+            store.dispatch(redirectTo(`/orga/${updatedTask?.orgaId}`));
           }
 
           next(action);

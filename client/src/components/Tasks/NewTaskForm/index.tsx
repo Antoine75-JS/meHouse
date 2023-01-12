@@ -43,11 +43,7 @@ const NewTaskForm = () => {
     resolver: yupResolver(newTaskSchema),
   });
   const watchRepeat = watch('repeat');
-  // const watchExpire = watch('');
 
-  // TODO
-  // yup validation
-  // Handle errors on form
   const handleSubmitNewTask: SubmitHandler<FormInputs> = (formData: FormInputs) => {
     const data = {
       ...formData,
@@ -127,7 +123,7 @@ const NewTaskForm = () => {
             </>
           )}
         </div>
-        {/* {errors && <span>This field is required</span>} */}
+        {errors && <span>This field is required</span>}
         <button
           type='submit'
           className='text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800'

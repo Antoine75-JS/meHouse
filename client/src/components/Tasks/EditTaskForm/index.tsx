@@ -59,9 +59,6 @@ const EditTaskForm: React.FC = () => {
     }
   }, [details]);
 
-  // TODO
-  // yup validation
-  // Handle errors on form
   const handleSubmitEditedTask: SubmitHandler<FormInputs> = (formData: FormInputs) => {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { _id, creationDate, repeat, isDone, category, orgaId } = details;

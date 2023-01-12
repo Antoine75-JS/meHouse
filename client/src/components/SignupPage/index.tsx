@@ -50,8 +50,6 @@ const signupSchema = yup.object().shape({
     ),
 });
 
-// TODO
-// Handle showPassword to check password
 const SignupPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
