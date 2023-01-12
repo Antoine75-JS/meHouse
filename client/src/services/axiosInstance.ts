@@ -1,34 +1,29 @@
 import axios, { AxiosResponse } from 'axios';
 
-const tokenAuth = localStorage.getItem('auth_token');
-
 // Axios instance
 const axiosInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
   withCredentials: true,
-  headers: {
-    Authorization: `Bearer ${tokenAuth}`,
-  },
 });
 
 // Axios instance
 const axiosNotificationInstance = axios.create({
   baseURL: `${process.env.REACT_APP_API_NOTIFICATIONS_URL}`,
   withCredentials: true,
-  headers: {
-    Authorization: `Bearer ${tokenAuth}`,
-  },
 });
 
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     console.log('intercepting request', config);
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const tokenAuth = localStorage.getItem('auth_token');
+    const authorization = `Bearer ${tokenAuth}`;
 
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   },
-// );
+    if (config.headers) config.headers.authorization = authorization;
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 export default axiosInstance;

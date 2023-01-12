@@ -15,6 +15,7 @@ import {
   logoutUser,
   SUBMIT_SIGNUP,
   submitLogin,
+  submitLogout,
 } from '../../actions/auth';
 import { startLoading, stopLoading } from '../../actions/loading';
 
@@ -22,6 +23,7 @@ import { openSnackbar } from '../../actions/snackbar';
 
 import axiosInstance from '../../services/axiosInstance';
 import { checkUserInvitations } from '../../actions/organisation';
+import { redirectTo } from '../../actions/redirect';
 
 const authMiddleWare: Middleware =
   (store) => (next: Dispatch<AnyAction>) => async (action: AuthActionTypes) => {
@@ -123,7 +125,10 @@ const authMiddleWare: Middleware =
             );
           }
         } catch (error) {
-          if (axios.isAxiosError(error) && error.response?.status === 404) return;
+          if (axios.isAxiosError(error) && error.response?.status === 401) {
+            console.log('no logged user');
+            store.dispatch(submitLogout());
+          }
 
           if (axios.isAxiosError(error)) {
             const { message, status } = error?.response?.data || undefined;
@@ -152,6 +157,7 @@ const authMiddleWare: Middleware =
           if (response.status === 200) {
             store.dispatch(logoutUser());
             store.dispatch(openSnackbar({ type: 'success', message: response.data.message }));
+            store.dispatch(redirectTo(`/login`));
           }
         } catch (error) {
           if (axios.isAxiosError(error)) {

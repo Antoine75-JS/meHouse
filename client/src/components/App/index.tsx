@@ -31,9 +31,8 @@ const App: React.FC = () => {
   const location = useLocation();
 
   // Check user logged + notifs when location changes
-  // TODO
-  // Redirect on not logged
   useEffect(() => {
+    console.log('checking user log');
     dispatch(checkUserLogged());
     dispatch(getUserNotifications(userEmail));
   }, [location, dispatch, userEmail]);
@@ -46,7 +45,6 @@ const App: React.FC = () => {
     return <Navigate to={redirectUrl} />;
   }
 
-  // TODO
   // Might improve Routes components suspense
   return (
     <div className='min-h-screen h-full'>
